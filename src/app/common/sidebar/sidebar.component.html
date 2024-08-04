@@ -30,7 +30,15 @@
                     <span class="sub-title text-body">
                         MAIN
                     </span>
-                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                    <a routerLink="/crm" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            dashboard
+                        </i>
+                        <span class="title">
+                            Dashboard
+                        </span>
+                    </a>
+                    <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 <i class="material-symbols-outlined">
@@ -41,7 +49,7 @@
                                 </span>
                                 <span class="daxa-badge">
                                     5
-                                </span>
+                                </span> 
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <ul class="sidebar-sub-menu">
@@ -71,7 +79,61 @@
                                 </a>
                             </li>
                         </ul>
-                    </mat-expansion-panel>
+                    </mat-expansion-panel> -->
+                    
+                    <span class="sub-title text-body">
+                        ADMIN APP
+                    </span>
+                    <a routerLink="/raw-paper" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            ballot
+                        </i>
+                        <span class="title">
+                            Raw Paper
+                        </span>
+                    </a>
+                    <a routerLink="/raw-core" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            ballot
+                        </i>
+                        <span class="title">
+                            Raw Core
+                        </span>
+                    </a>
+                    <a routerLink="/raw-ink" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            ballot
+                        </i>
+                        <span class="title">
+                            Raw Ink
+                        </span>
+                    </a>
+                    <a routerLink="/raw-label" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            ballot
+                        </i>
+                        <span class="title">
+                            Raw Label
+                        </span>
+                    </a>
+                    <a routerLink="/raw-box" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            ballot
+                        </i>
+                        <span class="title">
+                            Raw Box
+                        </span>
+                    </a>
+                    <a routerLink="/raw-cardboard" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            ballot
+                        </i>
+                        <span class="title">
+                            Raw Cardboard
+                        </span>
+                    </a>
+
+
                     <span class="sub-title text-body">
                         APPS
                     </span>

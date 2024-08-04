@@ -13,16 +13,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { CustomizerSettingsService } from '../../../customizer-settings/customizer-settings.service';
+import { CustomizerSettingsService } from '../../customizer-settings/customizer-settings.service';
 
 @Component({
-    selector: 'app-raw-label:not(p)',
+    selector: 'app-raw-label',
     standalone: true,
     imports: [MatCardModule, MatMenuModule, MatButtonModule, RouterLink, MatTableModule, NgIf, MatCheckboxModule, MatTooltipModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule],
-    templateUrl: './to-do-list.component.html',
-    styleUrl: './to-do-list.component.scss'
+    templateUrl: './salary-tracker.component.html',
+    styleUrl: './salary-tracker.component.scss'
 })
-export class ToDoListComponent {
+export class SalaryTrackerComponent {
 
     displayedColumns: string[] = ['select', 'taskID', 'taskName', 'assignedTo', 'dueDate', 'priority', 'status', 'action'];
     dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
@@ -184,6 +184,60 @@ const ELEMENT_DATA: PeriodicElement[] = [
             // pending: 'Pending',
             // completed: 'Completed',
             notStarted: 'Not Started',
+        },
+        action: {
+            view: 'visibility',
+            edit: 'edit',
+            delete: 'delete'
+        }
+    },
+    {
+        taskID: '#421',
+        taskName: 'Public beta release',
+        assignedTo: 'James Andy',
+        dueDate: '09 Nov, 2024',
+        priority: 'High',
+        status: {
+            inProgress: 'In Progress',
+            // pending: 'Pending',
+            // completed: 'Completed',
+            // notStarted: 'Not Started',
+        },
+        action: {
+            view: 'visibility',
+            edit: 'edit',
+            delete: 'delete'
+        }
+    },
+    {
+        taskID: '#624',
+        taskName: 'Fix platform errors',
+        assignedTo: 'Alina Smith',
+        dueDate: '08 Nov, 2024',
+        priority: 'Medium',
+        status: {
+            // inProgress: 'In Progress',
+            // pending: 'Pending',
+            completed: 'Completed',
+            // notStarted: 'Not Started',
+        },
+        action: {
+            view: 'visibility',
+            edit: 'edit',
+            delete: 'delete'
+        }
+    },
+    {
+        taskID: '#513',
+        taskName: 'Launch our mobile app',
+        assignedTo: 'David Warner',
+        dueDate: '07 Nov, 2024',
+        priority: 'Low',
+        status: {
+            // inProgress: 'In Progress',
+            pending: 'Pending',
+            // completed: 'Completed',
+            // notStarted: 'Not Started',
         },
         action: {
             view: 'visibility',

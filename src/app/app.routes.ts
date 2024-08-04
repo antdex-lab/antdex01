@@ -195,9 +195,30 @@ import { EProductsGridComponent } from './pages/ecommerce-page/e-products-grid/e
 import { EcommercePageComponent } from './pages/ecommerce-page/ecommerce-page.component';
 import { TeamMembersComponent } from './pages/users-page/team-members/team-members.component';
 
+// Admin App Routes
+import { RawPaperComponent } from './admin-app/raw-paper/raw-paper.component';
+import { RawCoreComponent } from './admin-app/raw-core/raw-core.component';
+import { RawInkComponent } from './admin-app/raw-ink/raw-ink.component';
+import { RawLabelComponent } from './admin-app/raw-label/raw-label.component';
+import { RawBoxComponent } from './admin-app/raw-box/raw-box.component';
+import { RawCardBoardComponent } from './admin-app/raw-card-board/raw-card-board.component';
+
+// Salary Tracker Routes
+import { SalaryTrackerComponent } from './salary-tracker/salary-tracker/salary-tracker.component';
+
 export const routes: Routes = [
-    {path: '', component: EcommerceComponent},
+    {path: '', component: CrmComponent},
     {path: 'crm', component: CrmComponent},
+    {path: 'raw-paper', component: RawPaperComponent},
+    {path: 'raw-core', component: RawCoreComponent},
+    {path: 'raw-ink', component: RawInkComponent},
+    {path: 'raw-label', component: RawLabelComponent},
+    {path: 'raw-box', component: RawBoxComponent},
+    {path: 'raw-cardboard', component: RawCardBoardComponent},
+
+    {path: 'salary-tracker', component: SalaryTrackerComponent},
+
+    
     {path: 'project-management', component: ProjectManagementComponent},
     {path: 'lms', component: LmsComponent},
     {path: 'help-desk', component: HelpDeskComponent},

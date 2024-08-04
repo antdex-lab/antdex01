@@ -15,7 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { CustomizerSettingsService } from '../../../../customizer-settings/customizer-settings.service';
 
 @Component({
-    selector: 'app-to-do-list',
+    selector: 'app-raw-label',
     standalone: true,
     imports: [MatCardModule, MatMenuModule, MatButtonModule, RouterLink, MatTableModule, NgIf, MatCheckboxModule, MatTooltipModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatNativeDateModule],
     templateUrl: './to-do-list.component.html',
