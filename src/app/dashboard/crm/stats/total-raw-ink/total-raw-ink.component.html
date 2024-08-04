@@ -4,16 +4,16 @@
     [class.rtl-enabled]="themeService.isRTLEnabled()"
 >
     <h5>
-        Active Users
+        Total Raw Ink
     </h5>
     <div class="number lh-1 fw-medium">
-        94,817
+        200 Kg
     </div>
-    <span class="daxa-up-down-badge position-relative">
+    <!-- <span class="daxa-up-down-badge down position-relative">
         <i class="material-symbols-outlined">
-            trending_up
+            trending_down
         </i>
-        8.75%
+        1.25%
     </span>
     <div class="chart">
         <apx-chart
@@ -21,6 +21,7 @@
             [chart]="chartOptions.chart!"
             [xaxis]="chartOptions.xaxis!"
             [stroke]="chartOptions.stroke!"
+            [tooltip]="chartOptions.tooltip!"
             [dataLabels]="chartOptions.dataLabels!"
             [colors]="chartOptions.colors!"
             [yaxis]="chartOptions.yaxis!"
@@ -29,7 +30,7 @@
             [legend]="chartOptions.legend!"
         ></apx-chart>
         <div class="title d-block text-body">
-            This Month
+            Last Week
         </div>
-    </div>
+    </div> -->
 </div>

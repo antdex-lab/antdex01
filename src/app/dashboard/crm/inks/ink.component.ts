@@ -27,13 +27,13 @@ export type ChartOptions = {
 };
 
 @Component({
-    selector: 'app-most-leads',
+    selector: 'app-ink',
     standalone: true,
     imports: [MatCardModule, MatMenuModule, MatButtonModule, RouterLink, NgApexchartsModule],
-    templateUrl: './most-leads.component.html',
-    styleUrl: './most-leads.component.scss'
+    templateUrl: './ink.component.html',
+    styleUrl: './ink.component.scss'
 })
-export class MostLeadsComponent {
+export class InkComponent {
 
     @ViewChild("chart") chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;

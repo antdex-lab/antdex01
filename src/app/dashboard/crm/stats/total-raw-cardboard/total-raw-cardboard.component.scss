@@ -1,4 +1,6 @@
 .stat-item {
+ 
+
     h5 {
         margin-bottom: 10px;
     }
@@ -18,12 +20,20 @@
         .title {
             font-size: 14px;
             margin: {
-                top: -23px;
+                top: -5px;
                 right: 10px;
             };
         }
     }
+    &.component-dark-theme {
+        border-color: rgba(255, 255, 255, 0.09);
+    }
     &.rtl-enabled {
+        border: {
+            right-width: 0;
+            left-width: 1px;
+            left-style: solid;
+        };
         .chart {
             left: 15px;
             right: auto;
@@ -31,8 +41,8 @@
     
             .title {
                 margin: {
-                    right: 0;
                     left: 10px;
+                    right: 0;
                 };
             }
         }
@@ -43,8 +53,11 @@
 @media only screen and (max-width : 767px) {
 
     .stat-item {
-        padding: 15px 15px 0;
-
+        padding: 15px;
+        border: {
+            right-width: 0;
+            bottom: 1px solid #dae0ec;
+        };
         h5 {
             margin-bottom: 7px;
         }
@@ -60,12 +73,12 @@
             position: relative;
             transform: translateY(0);
             margin: {
-                top: 0;
+                top: 15px;
                 bottom: -30px;
             };
             .title {
                 left: 0;
-                top: 15px;
+                top: 5px;
                 position: absolute;
                 margin: {
                     top: 0;
@@ -73,7 +86,13 @@
                 };
             }
         }
+        &.component-dark-theme {
+            border-color: rgba(255, 255, 255, 0.09);
+        }
         &.rtl-enabled {
+            border: {
+                left-width: 0;
+            };
             .chart {
                 left: 0;
                 right: auto;
@@ -100,10 +119,10 @@
 
     .stat-item {
         .chart {
-            margin-top: -10px;
+            margin-top: -14px;
         
             .title {
-                margin-top: -30px;
+                margin-top: -10px;
             }
         }
     }

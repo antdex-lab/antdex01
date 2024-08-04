@@ -10,7 +10,8 @@ import {
     ApexYAxis,
     ApexLegend,
     NgApexchartsModule,
-    ApexGrid
+    ApexGrid,
+    ApexTooltip
 } from "ng-apexcharts";
 
 import { series } from "./data";
@@ -25,19 +26,20 @@ export type ChartOptions = {
     dataLabels: ApexDataLabels;
     grid: ApexGrid;
     yaxis: ApexYAxis;
+    tooltip: ApexTooltip;
     labels: string[];
     colors: string[];
     legend: ApexLegend;
 };
 
 @Component({
-    selector: 'app-active-users',
+    selector: 'app-total-raw-ink',
     standalone: true,
     imports: [NgApexchartsModule, RouterLink],
-    templateUrl: './active-users.component.html',
-    styleUrl: './active-users.component.scss'
+    templateUrl: './total-raw-ink.component.html',
+    styleUrl: './total-raw-ink.component.scss'
 })
-export class ActiveUsersComponent {
+export class TotalRawInkComponent {
 
     @ViewChild("chart") chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;
@@ -51,7 +53,7 @@ export class ActiveUsersComponent {
         this.chartOptions = {
             series: [
                 {
-                    name: "Active Users",
+                    name: "Lead Conversation",
                     data: series.users
                 }
             ],
@@ -66,13 +68,13 @@ export class ActiveUsersComponent {
                 }
             },
             colors: [
-                "#0f79f1"
+                "#796df6"
             ],
             dataLabels: {
                 enabled: false
             },
             stroke: {
-                curve: "smooth",
+                curve: "stepline",
                 width: 2
             },
             labels: series.dates,
@@ -113,6 +115,13 @@ export class ActiveUsersComponent {
                 show: false,
                 strokeDashArray: 5,
                 borderColor: "#e0e0e0"
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return val + "%";
+                    }
+                }
             }
         };
         this.themeService.isToggled$.subscribe(isToggled => {

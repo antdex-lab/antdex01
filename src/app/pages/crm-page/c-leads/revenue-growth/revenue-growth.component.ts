@@ -30,7 +30,7 @@ export type ChartOptions = {
 };
 
 @Component({
-    selector: 'app-revenue-growth:not(p)',
+    selector: 'app-total-raw-box:not(p)',
     standalone: true,
     imports: [NgApexchartsModule, RouterLink],
     templateUrl: './revenue-growth.component.html',

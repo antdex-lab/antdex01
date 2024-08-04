@@ -8,8 +8,7 @@ import { NewTicketsCreatedComponent } from '../dashboard/help-desk/new-tickets-c
 import { FirstResponseTimeComponent } from '../dashboard/help-desk/first-response-time/first-response-time.component';
 import { AveResolutionTimeComponent } from '../dashboard/help-desk/ave-resolution-time/ave-resolution-time.component';
 import { CustomerSatisfactionComponent } from '../dashboard/help-desk/customer-satisfaction/customer-satisfaction.component';
-import { MostLeadsComponent } from '../dashboard/crm/most-leads/most-leads.component';
-import { CountryStatsComponent } from '../dashboard/crm/country-stats/country-stats.component';
+import { PaperRollsComponent } from '../dashboard/crm/paper-rolls/paper-rolls.component';
 import { TasksStatsComponent } from '../dashboard/crm/tasks-stats/tasks-stats.component';
 import { EarningReportsComponent } from '../dashboard/crm/earning-reports/earning-reports.component';
 import { StatsComponent } from '../dashboard/crm/stats/stats.component';
@@ -41,7 +40,7 @@ import { SalesOverviewComponent } from '../dashboard/ecommerce/sales-overview/sa
 @Component({
     selector: 'app-widgets',
     standalone: true,
-    imports: [RouterLink, TicketsOpenComponent, TicketsInProgressComponent, TicketsResolvedComponent, TicketsClosedComponent, NewTicketsCreatedComponent, FirstResponseTimeComponent, AveResolutionTimeComponent, CustomerSatisfactionComponent, MostLeadsComponent, CountryStatsComponent, TasksStatsComponent, EarningReportsComponent, StatsComponent, WorkingScheduleComponent, ProjectsAnalysisComponent, ChatProjectsUserComponent, ToDoListComponent, WelcomeComponent, ActiveCoursesComponent, EnrolledStudentsComponent, CompletionStatusComponent, TimeSpendingsComponent, AverageEnrollmentRateComponent, TodaysCourseComponent, SlaMonitoringComponent, TicketsSolvedAndCleatedComponent, PerformanceOfAgentsComponent, TicketsByChannelComponent, TicketsByTypeComponent, RecentCustomerRatingComponent, ProjectsOverviewComponent, ProjectsRoadmapComponent, TotalSalesComponent, TotalOrdersComponent, TotalCustomersComponent, TotalRevenueComponent, SalesOverviewComponent],
+    imports: [RouterLink, TicketsOpenComponent, TicketsInProgressComponent, TicketsResolvedComponent, TicketsClosedComponent, NewTicketsCreatedComponent, FirstResponseTimeComponent, AveResolutionTimeComponent, CustomerSatisfactionComponent, PaperRollsComponent, TasksStatsComponent, EarningReportsComponent, StatsComponent, WorkingScheduleComponent, ProjectsAnalysisComponent, ChatProjectsUserComponent, ToDoListComponent, WelcomeComponent, ActiveCoursesComponent, EnrolledStudentsComponent, CompletionStatusComponent, TimeSpendingsComponent, AverageEnrollmentRateComponent, TodaysCourseComponent, SlaMonitoringComponent, TicketsSolvedAndCleatedComponent, PerformanceOfAgentsComponent, TicketsByChannelComponent, TicketsByTypeComponent, RecentCustomerRatingComponent, ProjectsOverviewComponent, ProjectsRoadmapComponent, TotalSalesComponent, TotalOrdersComponent, TotalCustomersComponent, TotalRevenueComponent, SalesOverviewComponent],
     templateUrl: './widgets.component.html',
     styleUrl: './widgets.component.scss'
 })

@@ -1,45 +1,41 @@
 import { Component, ViewChild } from '@angular/core';
-
-import {
-    ChartComponent,
-    ApexAxisChartSeries,
-    ApexChart,
-    ApexXAxis,
-    ApexDataLabels,
-    ApexStroke,
-    ApexYAxis,
-    ApexLegend,
-    NgApexchartsModule,
-    ApexGrid,
-    ApexTooltip
-} from "ng-apexcharts";
-
-import { series } from "./data";
 import { RouterLink } from '@angular/router';
 import { CustomizerSettingsService } from '../../../../customizer-settings/customizer-settings.service';
+import {
+    ApexChart,
+    ApexAxisChartSeries,
+    ChartComponent,
+    ApexDataLabels,
+    ApexPlotOptions,
+    ApexYAxis,
+    ApexTooltip,
+    ApexLegend,
+    ApexGrid,
+    ApexXAxis,
+    NgApexchartsModule
+} from "ng-apexcharts";
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
     chart: ApexChart;
-    xaxis: ApexXAxis;
-    stroke: ApexStroke;
     dataLabels: ApexDataLabels;
-    grid: ApexGrid;
+    plotOptions: ApexPlotOptions;
     yaxis: ApexYAxis;
-    tooltip: ApexTooltip;
-    labels: string[];
+    xaxis: ApexXAxis;
+    grid: ApexGrid;
     colors: string[];
+    tooltip: ApexTooltip;
     legend: ApexLegend;
 };
 
 @Component({
-    selector: 'app-lead-conversation',
+    selector: 'app-total-raw-core',
     standalone: true,
     imports: [NgApexchartsModule, RouterLink],
-    templateUrl: './lead-conversation.component.html',
-    styleUrl: './lead-conversation.component.scss'
+    templateUrl: './total-raw-core.component.html',
+    styleUrl: './total-raw-core.component.scss'
 })
-export class LeadConversationComponent {
+export class TotalRawCoreComponent {
 
     @ViewChild("chart") chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;
@@ -53,35 +49,49 @@ export class LeadConversationComponent {
         this.chartOptions = {
             series: [
                 {
-                    name: "Lead Conversation",
-                    data: series.users
+                    name: "Revenue Growth",
+                    data: [211, 222, 100, 288, 166, 211, 300]
                 }
             ],
             chart: {
-                type: "area",
-                height: 100,
-                zoom: {
-                    enabled: false
-                },
+                height: 120,
+                type: "bar",
                 toolbar: {
                     show: false
                 }
             },
             colors: [
-                "#796df6"
+                "#00cae3"
             ],
+            plotOptions: {
+                bar: {
+                    columnWidth: "45%",
+                    distributed: true
+                }
+            },
             dataLabels: {
                 enabled: false
             },
-            stroke: {
-                curve: "stepline",
-                width: 2
+            legend: {
+                show: false
             },
-            labels: series.dates,
+            grid: {
+                show: false,
+                strokeDashArray: 5,
+                borderColor: "#e0e0e0"
+            },
             xaxis: {
-                type: "datetime",
+                categories: [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul"
+                ],
                 axisBorder: {
-                    show: false,
+                    show: true,
                     color: '#e0e0e0'
                 },
                 axisTicks: {
@@ -94,9 +104,6 @@ export class LeadConversationComponent {
                         colors: "#919aa3",
                         fontSize: "14px"
                     }
-                },
-                tooltip: {
-                    enabled: false
                 }
             },
             yaxis: {
@@ -108,25 +115,19 @@ export class LeadConversationComponent {
                     }
                 }
             },
-            legend: {
-                show: false
-            },
-            grid: {
-                show: false,
-                strokeDashArray: 5,
-                borderColor: "#e0e0e0"
-            },
             tooltip: {
                 y: {
                     formatter: function(val) {
-                        return val + "%";
+                        return "$" + val;
                     }
                 }
             }
         };
-        this.themeService.isToggled$.subscribe(isToggled => {
-            this.isToggled = isToggled;
-        });
+    }
+
+    // RTL Mode
+    toggleRTLEnabledTheme() {
+        this.themeService.toggleRTLEnabledTheme();
     }
 
 }

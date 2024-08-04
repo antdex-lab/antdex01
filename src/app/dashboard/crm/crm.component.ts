@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { StatsComponent } from './stats/stats.component';
-import { MostLeadsComponent } from './most-leads/most-leads.component';
-import { CountryStatsComponent } from './country-stats/country-stats.component';
+
+import { PaperRollsComponent } from './paper-rolls/paper-rolls.component';
+import { CoreComponent } from './cores/core.component';
+import { InkComponent } from './inks/ink.component';
+import { LabelsComponent } from './labels/labels.component';
+import { BoxComponent } from './boxs/box.component';
+import { CardboardComponent } from './cardboards/cardboard.component';
+
 import { EarningReportsComponent } from './earning-reports/earning-reports.component';
 import { TasksStatsComponent } from './tasks-stats/tasks-stats.component';
 import { TopCustomersComponent } from './top-customers/top-customers.component';
@@ -14,8 +20,24 @@ import { RouterLink } from '@angular/router';
 @Component({
     selector: 'app-crm',
     standalone: true,
-    imports: [StatsComponent, MostLeadsComponent, CountryStatsComponent, EarningReportsComponent, TasksStatsComponent, TopCustomersComponent, RecentLeadsComponent, ToDoListComponent, ClientPaymentStatusComponent, TotalLeadsComponent, RouterLink],
+    imports: [
+        StatsComponent,
+        PaperRollsComponent,
+        CoreComponent,
+        InkComponent,
+        LabelsComponent,
+        BoxComponent,
+        CardboardComponent,
+        EarningReportsComponent,
+        TasksStatsComponent,
+        TopCustomersComponent,
+        RecentLeadsComponent,
+        ToDoListComponent,
+        ClientPaymentStatusComponent,
+        TotalLeadsComponent,
+        RouterLink,
+    ],
     templateUrl: './crm.component.html',
-    styleUrl: './crm.component.scss'
+    styleUrl: './crm.component.scss',
 })
 export class CrmComponent {}
