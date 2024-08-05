@@ -195,6 +195,8 @@ import { EProductsGridComponent } from './pages/ecommerce-page/e-products-grid/e
 import { EcommercePageComponent } from './pages/ecommerce-page/ecommerce-page.component';
 import { TeamMembersComponent } from './pages/users-page/team-members/team-members.component';
 
+import { AuthGuard } from './auth.guard';
+
 // Admin App Routes
 import { RawPaperComponent } from './admin-app/raw-paper/raw-paper.component';
 import { RawCoreComponent } from './admin-app/raw-core/raw-core.component';
@@ -207,16 +209,16 @@ import { RawCardBoardComponent } from './admin-app/raw-card-board/raw-card-board
 import { SalaryTrackerComponent } from './salary-tracker/salary-tracker/salary-tracker.component';
 
 export const routes: Routes = [
-    {path: '', component: CrmComponent},
-    {path: 'crm', component: CrmComponent},
-    {path: 'raw-paper', component: RawPaperComponent},
-    {path: 'raw-core', component: RawCoreComponent},
-    {path: 'raw-ink', component: RawInkComponent},
-    {path: 'raw-label', component: RawLabelComponent},
-    {path: 'raw-box', component: RawBoxComponent},
-    {path: 'raw-cardboard', component: RawCardBoardComponent},
+    {path: '', component: CrmComponent, canActivate: [AuthGuard]},
+    {path: 'crm', component: CrmComponent, canActivate: [AuthGuard]},
+    {path: 'raw-paper', component: RawPaperComponent, canActivate: [AuthGuard]},
+    {path: 'raw-core', component: RawCoreComponent, canActivate: [AuthGuard]},
+    {path: 'raw-ink', component: RawInkComponent, canActivate: [AuthGuard]},
+    {path: 'raw-label', component: RawLabelComponent, canActivate: [AuthGuard]},
+    {path: 'raw-box', component: RawBoxComponent, canActivate: [AuthGuard]},
+    {path: 'raw-cardboard', component: RawCardBoardComponent, canActivate: [AuthGuard]},
 
-    {path: 'salary-tracker', component: SalaryTrackerComponent},
+    {path: 'salary-tracker', component: SalaryTrackerComponent, canActivate: [AuthGuard]},
 
     
     {path: 'project-management', component: ProjectManagementComponent},

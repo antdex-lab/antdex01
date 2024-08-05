@@ -1359,7 +1359,7 @@
                             </ul>
                         </mat-accordion>
                     </mat-expansion-panel>
-                    <a routerLink="/authentication/logout" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a (click)="onLogout()" routerLink="/authentication/logout" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
                             logout
                         </i>
