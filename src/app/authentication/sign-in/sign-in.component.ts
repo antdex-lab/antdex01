@@ -100,16 +100,19 @@ export class SignInComponent {
 
     if (this.authForm.valid) {
       if (this.authService.login(username, password)) {
+        if(localStorage.getItem('isAuthenticatedAdmin') === 'true'){
+          // return true;
+          this.router.navigate(['/crm']);
+        } else if(localStorage.getItem('isAuthenticatedUser1') === 'true'){
+          // return true;
+          this.router.navigate(['/to-do-list']);
+        }
         // Successful login
-        this.router.navigate(['/crm']);
       } else {
         // Invalid credentials
-        localStorage.setItem('isAuthenticatedForUser', 'true');
-        this.router.navigate(['/to-do-list']);
-        // this.error = 'Username or password is incorrect';
+        this.error = 'Username or password is incorrect';
       }
     } else {
-      this.router.navigate(['/to-do-list']);
       console.log('Form is invalid. Please check the fields.');
     }
   }

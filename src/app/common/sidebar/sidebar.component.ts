@@ -58,10 +58,12 @@ export class SidebarComponent {
     }
 
     checkAuthenticationForLogin() {
-        if(localStorage.getItem('isAuthenticated') === 'true'){
+        if(localStorage.getItem('isAuthenticatedAdmin') === 'true'){
             this.isAdminLogin = true;
-        }else{
+        }else if(localStorage.getItem('isAuthenticatedUser1') === 'true'){
             this.isAdminLogin = false;
+        }else{
+            this.isAdminLogin = false;   
         }
         console.log("isAdminLogin", this.isAdminLogin);
         // return localStorage.getItem('isAuthenticated') === 'true';
