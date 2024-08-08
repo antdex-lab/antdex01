@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
@@ -13,17 +13,12 @@ import { NgIf } from '@angular/common';
     standalone: true,
     imports: [NgScrollbarModule, MatExpansionModule, RouterLinkActive, RouterModule, RouterLink, NgClass, NgIf],
     templateUrl: './sidebar.component.html',
-    styleUrl: './sidebar.component.scss'
+    styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
 
-    // isSidebarToggled
     isSidebarToggled = false;
-
-    //isAdmin
     isAdminLogin: boolean = false;
-
-    // isToggled
     isToggled = false;
 
     constructor(
@@ -34,39 +29,25 @@ export class SidebarComponent {
         this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
             this.isSidebarToggled = isSidebarToggled;
         });
+
         this.themeService.isToggled$.subscribe(isToggled => {
             this.isToggled = isToggled;
         });
     }
 
     ngOnInit(): void {
-        //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-        //Add 'implements OnInit' to the class.
-        this.checkAuthenticationForLogin();
+        this.authService.isAuthenticatedAdmin$.subscribe(isAdmin => {
+            this.isAdminLogin = isAdmin;
+        });
+
+        this.authService.checkAuthenticationForLogin();
     }
 
-    // Burger Menu Toggle
     toggle() {
         this.toggleService.toggle();
     }
 
-    // Mat Expansion
-    panelOpenState = false;
-
-    onLogout(){
+    onLogout() {
         this.authService.logout();
     }
-
-    checkAuthenticationForLogin() {
-        if(localStorage.getItem('isAuthenticatedAdmin') === 'true'){
-            this.isAdminLogin = true;
-        }else if(localStorage.getItem('isAuthenticatedUser1') === 'true'){
-            this.isAdminLogin = false;
-        }else{
-            this.isAdminLogin = false;   
-        }
-        console.log("isAdminLogin", this.isAdminLogin);
-        // return localStorage.getItem('isAuthenticated') === 'true';
-    }
-
 }
