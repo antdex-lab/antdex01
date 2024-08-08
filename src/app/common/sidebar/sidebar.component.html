@@ -27,125 +27,129 @@
         <div class="sidebar-inner">
             <div class="sidebar-menu">
                 <mat-accordion>
-                    <span class="sub-title text-body">
-                        MAIN
-                    </span>
-                    <a routerLink="/crm" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            dashboard
-                        </i>
-                        <span class="title">
-                            Dashboard
-                        </span>
-                    </a>
-                    <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                <i class="material-symbols-outlined">
-                                    dashboard
-                                </i>
-                                <span class="title">
-                                    Dashboard
-                                </span>
-                                <span class="daxa-badge">
-                                    5
-                                </span> 
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <ul class="sidebar-sub-menu">
-                            <li class="sidemenu-item">
-                                <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    E-Commerce
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/crm" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    CRM
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/project-management" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Project Management
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/lms" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    LMS
-                                </a>
-                            </li>
-                            <li class="sidemenu-item">
-                                <a routerLink="/help-desk" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    Help Desk <span class="daxa-badge">Hot</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </mat-expansion-panel> -->
-                    
-                    <span class="sub-title text-body">
-                        ADMIN APP
-                    </span>
-                    <a routerLink="/raw-paper" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            ballot
-                        </i>
-                        <span class="title">
-                            Raw Paper
-                        </span>
-                    </a>
-                    <a routerLink="/raw-core" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            ballot
-                        </i>
-                        <span class="title">
-                            Raw Core
-                        </span>
-                    </a>
-                    <a routerLink="/raw-ink" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            ballot
-                        </i>
-                        <span class="title">
-                            Raw Ink
-                        </span>
-                    </a>
-                    <a routerLink="/raw-label" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            ballot
-                        </i>
-                        <span class="title">
-                            Raw Label
-                        </span>
-                    </a>
-                    <a routerLink="/raw-box" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            ballot
-                        </i>
-                        <span class="title">
-                            Raw Box
-                        </span>
-                    </a>
-                    <a routerLink="/raw-cardboard" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            ballot
-                        </i>
-                        <span class="title">
-                            Raw Cardboard
-                        </span>
-                    </a>
+                    <div *ngIf="isAdminLogin">
 
 
-
-                    <span class="sub-title text-body">
-                        Salary Tracker APP
-                    </span>
-                    <a routerLink="/salary-tracker" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            ballot
-                        </i>
-                        <span class="title">
-                            Salary Tracker
+                        <span class="sub-title text-body">
+                            MAIN
                         </span>
-                    </a>
+                        <a routerLink="/crm" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <i class="material-symbols-outlined">
+                                dashboard
+                            </i>
+                            <span class="title">
+                                Dashboard
+                            </span>
+                        </a>
+                        <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <i class="material-symbols-outlined">
+                                        dashboard
+                                    </i>
+                                    <span class="title">
+                                        Dashboard
+                                    </span>
+                                    <span class="daxa-badge">
+                                        5
+                                    </span> 
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <ul class="sidebar-sub-menu">
+                                <li class="sidemenu-item">
+                                    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        E-Commerce
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/crm" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        CRM
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/project-management" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        Project Management
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/lms" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        LMS
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/help-desk" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        Help Desk <span class="daxa-badge">Hot</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </mat-expansion-panel> -->
+                        
+                        <span class="sub-title text-body">
+                            ADMIN APP
+                        </span>
+                        <a routerLink="/raw-paper" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <i class="material-symbols-outlined">
+                                ballot
+                            </i>
+                            <span class="title">
+                                Raw Paper
+                            </span>
+                        </a>
+                        <a routerLink="/raw-core" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <i class="material-symbols-outlined">
+                                ballot
+                            </i>
+                            <span class="title">
+                                Raw Core
+                            </span>
+                        </a>
+                        <a routerLink="/raw-ink" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <i class="material-symbols-outlined">
+                                ballot
+                            </i>
+                            <span class="title">
+                                Raw Ink
+                            </span>
+                        </a>
+                        <a routerLink="/raw-label" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <i class="material-symbols-outlined">
+                                ballot
+                            </i>
+                            <span class="title">
+                                Raw Label
+                            </span>
+                        </a>
+                        <a routerLink="/raw-box" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <i class="material-symbols-outlined">
+                                ballot
+                            </i>
+                            <span class="title">
+                                Raw Box
+                            </span>
+                        </a>
+                        <a routerLink="/raw-cardboard" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <i class="material-symbols-outlined">
+                                ballot
+                            </i>
+                            <span class="title">
+                                Raw Cardboard
+                            </span>
+                        </a>
+    
+    
+    
+                        <span class="sub-title text-body">
+                            Salary Tracker APP
+                        </span>
+                        <a routerLink="/salary-tracker" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <i class="material-symbols-outlined">
+                                ballot
+                            </i>
+                            <span class="title">
+                                Salary Tracker
+                            </span>
+                        </a>
+                    </div>
 
 
 

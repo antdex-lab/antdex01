@@ -27,7 +27,6 @@ export class AuthService {
   }
 
   checkAuthentication(): boolean {
-    console.log("check Auth", localStorage.getItem('isAuthenticated') === 'true')
     return localStorage.getItem('isAuthenticated') === 'true';
   }
 }

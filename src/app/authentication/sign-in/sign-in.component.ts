@@ -104,9 +104,12 @@ export class SignInComponent {
         this.router.navigate(['/crm']);
       } else {
         // Invalid credentials
-        this.error = 'Username or password is incorrect';
+        localStorage.setItem('isAuthenticatedForUser', 'true');
+        this.router.navigate(['/to-do-list']);
+        // this.error = 'Username or password is incorrect';
       }
     } else {
+      this.router.navigate(['/to-do-list']);
       console.log('Form is invalid. Please check the fields.');
     }
   }
