@@ -105,7 +105,10 @@ export class SignInComponent {
           this.router.navigate(['/crm']);
         } else if(localStorage.getItem('isAuthenticatedUser1') === 'true'){
           // return true;
-          this.router.navigate(['/to-do-list']);
+          this.router.navigate(['/printing']);
+        } else if(localStorage.getItem('isAuthenticatedUser2') === 'true'){
+          // return true;
+          this.router.navigate(['/z-fold']);
         }
         // Successful login
       } else {

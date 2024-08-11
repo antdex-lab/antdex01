@@ -208,6 +208,18 @@ import { RawCardBoardComponent } from './admin-app/raw-card-board/raw-card-board
 // Salary Tracker Routes
 import { SalaryTrackerComponent } from './salary-tracker/salary-tracker/salary-tracker.component';
 
+//z-fold-user
+import { ZFoldComponent } from './z-fold-user/z-fold/z-fold.component';
+import { DisptachComponent } from './z-fold-user/dispatch/disptach.component';
+
+//roll-user
+import { CuttingPlainComponent } from './roll-user/cutting-plain/cutting-plain.component';
+import { CuttingPrintedComponent } from './roll-user/cutting-printed/cutting-printed.component';
+import { PackingComponent } from './roll-user/packing/packing.component';
+import { PrintingComponent } from './roll-user/printing/printing.component';
+import { RollDisptachComponent } from './roll-user/roll-dispatch/roll-disptach.component';
+
+
 export const routes: Routes = [
     {path: '', component: CrmComponent, canActivate: [AuthGuard]},
     {path: 'crm', component: CrmComponent, canActivate: [AuthGuard]},
@@ -219,6 +231,16 @@ export const routes: Routes = [
     {path: 'raw-cardboard', component: RawCardBoardComponent, canActivate: [AuthGuard]},
 
     {path: 'salary-tracker', component: SalaryTrackerComponent, canActivate: [AuthGuard]},
+   
+    {path: 'z-fold', component: ZFoldComponent, canActivate: [AuthGuard]},
+    {path: 'z-fold-dispatch', component: DisptachComponent, canActivate: [AuthGuard]},
+
+    {path: 'printing', component: PrintingComponent, canActivate: [AuthGuard]},
+    {path: 'cutting-plain', component: CuttingPlainComponent, canActivate: [AuthGuard]},
+    {path: 'cutting-printed', component: CuttingPrintedComponent, canActivate: [AuthGuard]},
+    {path: 'packing', component: PackingComponent, canActivate: [AuthGuard]},
+    {path: 'roll-dispatch', component: RollDisptachComponent, canActivate: [AuthGuard]},
+
 
     
     {path: 'project-management', component: ProjectManagementComponent},

@@ -10,10 +10,10 @@ export class AuthService {
   private readonly adminPassword = 'admin123';
 
   private readonly prod1Username = 'prod1';
-  private readonly prod1Password = 'prod123';
+  private readonly prod1Password = 'prod1234';
   
   private readonly prod2Username = 'prod2';
-  private readonly prod2Password = 'prod123';
+  private readonly prod2Password = 'prod1234';
 
   private isAuthenticatedAdmin = new BehaviorSubject<boolean>(false);
   private isAuthenticatedUser1 = new BehaviorSubject<boolean>(false);

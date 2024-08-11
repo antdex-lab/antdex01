@@ -19,7 +19,10 @@ export class SidebarComponent implements OnInit {
 
     isSidebarToggled = false;
     isAdminLogin: boolean = false;
+    isUser1: boolean = false;
+    isUser2: boolean = false;
     isToggled = false;
+    panelOpenState = false;
 
     constructor(
         private toggleService: ToggleService,
@@ -38,6 +41,14 @@ export class SidebarComponent implements OnInit {
     ngOnInit(): void {
         this.authService.isAuthenticatedAdmin$.subscribe(isAdmin => {
             this.isAdminLogin = isAdmin;
+        });
+
+        this.authService.isAuthenticatedUser1$.subscribe(isUser1 => {
+            this.isUser1 = isUser1;
+        });
+
+        this.authService.isAuthenticatedUser2$.subscribe(isUser2 => {
+            this.isUser2 = isUser2;
         });
 
         this.authService.checkAuthenticationForLogin();
