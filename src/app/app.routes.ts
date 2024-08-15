@@ -210,6 +210,8 @@ import { SalaryTrackerComponent } from './salary-tracker/salary-tracker/salary-t
 
 //z-fold-user
 import { ZFoldComponent } from './z-fold-user/z-fold/z-fold.component';
+import { ZFoldPackingComponent } from './z-fold-user/packing/z-fold-packing.component'; 
+
 import { DisptachComponent } from './z-fold-user/dispatch/disptach.component';
 
 //roll-user
@@ -233,6 +235,7 @@ export const routes: Routes = [
     {path: 'salary-tracker', component: SalaryTrackerComponent, canActivate: [AuthGuard]},
    
     {path: 'z-fold', component: ZFoldComponent, canActivate: [AuthGuard]},
+    {path: 'z-fold-packing', component: ZFoldPackingComponent, canActivate: [AuthGuard]},
     {path: 'z-fold-dispatch', component: DisptachComponent, canActivate: [AuthGuard]},
 
     {path: 'printing', component: PrintingComponent, canActivate: [AuthGuard]},
