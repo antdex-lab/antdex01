@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import {Component} from '@angular/core';
 
 @Component({
     selector: 'app-authentication',
-    standalone: true,
-    imports: [RouterLink, RouterOutlet],
     templateUrl: './authentication.component.html',
     styleUrl: './authentication.component.scss'
 })
-export class AuthenticationComponent {}
+export class AuthenticationComponent {
+}

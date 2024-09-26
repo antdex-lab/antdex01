@@ -49,22 +49,14 @@
 //     }
 
 // }
-import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgIf } from '@angular/common';
-import { Router } from '@angular/router';
-import { CustomizerSettingsService } from '../../customizer-settings/customizer-settings.service';
-import { AuthService } from '../../auth.service'; // Import AuthService
+import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
+import {AuthService} from '../../auth.service'; // Import AuthService
 
 @Component({
   selector: 'app-sign-in',
-  standalone: true,
-  imports: [RouterLink, MatFormFieldModule, MatInputModule, MatButtonModule, MatCheckboxModule, ReactiveFormsModule, NgIf],
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
@@ -100,13 +92,13 @@ export class SignInComponent {
 
     if (this.authForm.valid) {
       if (this.authService.login(username, password)) {
-        if(localStorage.getItem('isAuthenticatedAdmin') === 'true'){
+          if (localStorage.getItem('isAuthenticatedAdmin') === 'true') {
           // return true;
           this.router.navigate(['/crm']);
-        } else if(localStorage.getItem('isAuthenticatedUser1') === 'true'){
+          } else if (localStorage.getItem('isAuthenticatedUser1') === 'true') {
           // return true;
           this.router.navigate(['/printing']);
-        } else if(localStorage.getItem('isAuthenticatedUser2') === 'true'){
+          } else if (localStorage.getItem('isAuthenticatedUser2') === 'true') {
           // return true;
           this.router.navigate(['/z-fold']);
         }
