@@ -30,8 +30,6 @@ export type ChartOptions = {
 
 @Component({
     selector: 'app-total-raw-core',
-    standalone: true,
-    imports: [NgApexchartsModule, RouterLink],
     templateUrl: './total-raw-core.component.html',
     styleUrl: './total-raw-core.component.scss'
 })
@@ -117,7 +115,7 @@ export class TotalRawCoreComponent {
             },
             tooltip: {
                 y: {
-                    formatter: function(val) {
+                    formatter: function (val) {
                         return "$" + val;
                     }
                 }

@@ -1,8 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
-import { RouterLink } from '@angular/router';
 import {
     ChartComponent,
     ApexNonAxisChartSeries,
@@ -13,7 +9,6 @@ import {
     ApexPlotOptions,
     ApexStroke,
     ApexFill,
-    NgApexchartsModule,
     ApexTooltip
 } from "ng-apexcharts";
 
@@ -33,8 +28,6 @@ export type ChartOptions = {
 
 @Component({
     selector: 'app-client-payment-status',
-    standalone: true,
-    imports: [MatCardModule, MatMenuModule, MatButtonModule, RouterLink, NgApexchartsModule],
     templateUrl: './client-payment-status.component.html',
     styleUrl: './client-payment-status.component.scss'
 })
@@ -95,7 +88,7 @@ export class ClientPaymentStatusComponent {
             ],
             tooltip: {
                 y: {
-                    formatter: function(val) {
+                    formatter: function (val) {
                         return val + "%";
                     }
                 }

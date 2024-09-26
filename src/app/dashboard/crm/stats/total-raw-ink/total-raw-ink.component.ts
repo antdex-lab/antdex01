@@ -34,8 +34,6 @@ export type ChartOptions = {
 
 @Component({
     selector: 'app-total-raw-ink',
-    standalone: true,
-    imports: [NgApexchartsModule, RouterLink],
     templateUrl: './total-raw-ink.component.html',
     styleUrl: './total-raw-ink.component.scss'
 })
@@ -118,7 +116,7 @@ export class TotalRawInkComponent {
             },
             tooltip: {
                 y: {
-                    formatter: function(val) {
+                    formatter: function (val) {
                         return val + "%";
                     }
                 }

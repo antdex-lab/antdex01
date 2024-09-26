@@ -1,8 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
-import { RouterLink } from '@angular/router';
 import {
     ChartComponent,
     ApexAxisChartSeries,
@@ -13,7 +9,6 @@ import {
     ApexYAxis,
     ApexTitleSubtitle,
     ApexLegend,
-    NgApexchartsModule,
     ApexGrid
 } from "ng-apexcharts";
 
@@ -36,8 +31,6 @@ export type ChartOptions = {
 
 @Component({
     selector: 'app-total-leads',
-    standalone: true,
-    imports: [MatCardModule, MatMenuModule, MatButtonModule, RouterLink, NgApexchartsModule],
     templateUrl: './total-leads.component.html',
     styleUrl: './total-leads.component.scss'
 })

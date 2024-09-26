@@ -1,14 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
-import { RouterLink } from '@angular/router';
 import { CustomizerSettingsService } from '../../../customizer-settings/customizer-settings.service';
 import {
     ChartComponent,
     ApexNonAxisChartSeries,
     ApexChart,
-    NgApexchartsModule,
     ApexLegend,
     ApexDataLabels,
     ApexTooltip,
@@ -28,8 +23,6 @@ export type ChartOptions = {
 
 @Component({
     selector: 'app-paper-rolls',
-    standalone: true,
-    imports: [MatCardModule, MatMenuModule, MatButtonModule, RouterLink, NgApexchartsModule],
     templateUrl: './paper-rolls.component.html',
     styleUrl: './paper-rolls.component.scss'
 })
@@ -74,7 +67,7 @@ export class PaperRollsComponent {
             ],
             tooltip: {
                 y: {
-                    formatter: function(val) {
+                    formatter: function (val) {
                         return val + "%";
                     }
                 }

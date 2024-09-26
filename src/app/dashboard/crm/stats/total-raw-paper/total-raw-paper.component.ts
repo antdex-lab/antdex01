@@ -9,12 +9,10 @@ import {
     ApexStroke,
     ApexYAxis,
     ApexLegend,
-    NgApexchartsModule,
     ApexGrid
 } from "ng-apexcharts";
 
 import { series } from "./data";
-import { RouterLink } from '@angular/router';
 import { CustomizerSettingsService } from '../../../../customizer-settings/customizer-settings.service';
 
 export type ChartOptions = {
@@ -32,8 +30,6 @@ export type ChartOptions = {
 
 @Component({
     selector: 'app-total-raw-paper',
-    standalone: true,
-    imports: [NgApexchartsModule, RouterLink],
     templateUrl: './total-raw-paper.component.html',
     styleUrl: './total-raw-paper.component.scss'
 })

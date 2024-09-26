@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NgScrollbarModule } from 'ngx-scrollbar';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ToggleService } from './toggle.service';
-import { NgClass } from '@angular/common';
 import { CustomizerSettingsService } from '../../customizer-settings/customizer-settings.service';
 import { AuthService } from '../../auth.service';
-import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-sidebar',
-    standalone: true,
-    imports: [NgScrollbarModule, MatExpansionModule, RouterLinkActive, RouterModule, RouterLink, NgClass, NgIf],
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss']
 })

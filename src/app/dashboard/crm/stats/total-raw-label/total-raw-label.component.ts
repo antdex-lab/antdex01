@@ -32,8 +32,6 @@ export type ChartOptions = {
 
 @Component({
     selector: 'app-total-raw-label',
-    standalone: true,
-    imports: [NgApexchartsModule, RouterLink],
     templateUrl: './total-raw-label.component.html',
     styleUrl: './total-raw-label.component.scss'
 })

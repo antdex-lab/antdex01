@@ -1,8 +1,4 @@
 import { Component, ViewChild } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatMenuModule } from "@angular/material/menu";
-import { RouterLink } from "@angular/router";
 import {
     ChartComponent,
     ApexAxisChartSeries,
@@ -12,7 +8,6 @@ import {
     ApexTooltip,
     ApexTitleSubtitle,
     ApexXAxis,
-    NgApexchartsModule,
     ApexLegend,
     ApexGrid,
     ApexPlotOptions
@@ -36,8 +31,6 @@ export type ChartOptions = {
 
 @Component({
     selector: 'app-earning-reports',
-    standalone: true,
-    imports: [MatCardModule, MatMenuModule, MatButtonModule, RouterLink, NgApexchartsModule],
     templateUrl: './earning-reports.component.html',
     styleUrl: './earning-reports.component.scss'
 })

@@ -30,8 +30,6 @@ export type ChartOptions = {
 
 @Component({
     selector: 'app-total-raw-box',
-    standalone: true,
-    imports: [NgApexchartsModule, RouterLink],
     templateUrl: './total-raw-box.component.html',
     styleUrl: './total-raw-box.component.scss'
 })
@@ -117,7 +115,7 @@ export class TotalRawBoxComponent {
             },
             tooltip: {
                 y: {
-                    formatter: function(val) {
+                    formatter: function (val) {
                         return "$" + val;
                     }
                 }

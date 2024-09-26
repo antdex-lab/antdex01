@@ -34,8 +34,6 @@ export type ChartOptions = {
 
 @Component({
     selector: 'app-total-raw-cardboard',
-    standalone: true,
-    imports: [NgApexchartsModule, RouterLink],
     templateUrl: './total-raw-cardboard.component.html',
     styleUrl: './total-raw-cardboard.component.scss'
 })
@@ -118,7 +116,7 @@ export class TotalRawCardboardComponent {
             },
             tooltip: {
                 y: {
-                    formatter: function(val) {
+                    formatter: function (val) {
                         return val + "%";
                     }
                 }
