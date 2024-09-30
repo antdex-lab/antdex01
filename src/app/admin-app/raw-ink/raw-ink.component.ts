@@ -1,244 +1,117 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
-import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
+import {ApiService} from "../../../services/api.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import Swal from "sweetalert2";
 
 @Component({
     selector: 'app-raw-label',
     templateUrl: './raw-ink.component.html',
     styleUrl: './raw-ink.component.scss'
 })
-export class RawInkComponent {
+export class RawInkComponent implements OnInit {
 
-    displayedColumns: string[] = ['select', 'taskID', 'taskName', 'assignedTo', 'dueDate', 'priority', 'status', 'action'];
-    dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-    selection = new SelectionModel<PeriodicElement>(true, []);
+    displayedColumns: string[] = ['color', 'sizeInKg', 'pricePerKg', 'totalPrice', 'dateOfEntry', 'action'];
+    dataSource: any[] = [];
 
-    /** Whether the number of selected elements matches the total number of rows. */
-    isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.data.length;
-        return numSelected === numRows;
-    }
-
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    toggleAllRows() {
-        if (this.isAllSelected()) {
-            this.selection.clear();
-            return;
-        }
-        this.selection.select(...this.dataSource.data);
-    }
-
-    /** The label for the checkbox on the passed row */
-    checkboxLabel(row?: PeriodicElement): string {
-        if (!row) {
-            return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-        }
-        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.taskID + 1}`;
-    }
-
-    // Search Filter
-    applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value;
-        this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
-
-    // Popup Trigger
-    classApplied = false;
-    toggleClass() {
-        this.classApplied = !this.classApplied;
-    }
-
-    // isToggled
-    isToggled = false;
+    inkForm: FormGroup;
+    isEdit: boolean = false;
+    elementId: string = '';
 
     constructor(
-        public themeService: CustomizerSettingsService
-    ) {
-        this.themeService.isToggled$.subscribe(isToggled => {
-            this.isToggled = isToggled;
+        private service: ApiService,
+        private fb: FormBuilder
+    ) { }
+
+    ngOnInit() {
+        this.loadCores();
+        this.inkForm = this.fb.group({
+            color: [''],
+            sizeInKg: [''],
+            pricePerKg: [''],
+            totalPrice: [''],
+            dateOfEntry: [new Date()]
         });
     }
 
-    // RTL Mode
-    toggleRTLEnabledTheme() {
-        this.themeService.toggleRTLEnabledTheme();
+    loadCores() {
+        this.service.getData('inks').subscribe((res) => {
+            this.dataSource = res;
+        });
     }
 
-}
+    submitCoreEntry() {
+        if (this.inkForm.valid) {
+            const sendData = {
+                color: this.inkForm.value.color,
+                sizeInKg: this.inkForm.value.sizeInKg,
+                pricePerKg: Number(this.inkForm.value.pricePerKg),
+                totalPrice: this.inkForm.value.totalPrice,
+                dateOfEntry: this.inkForm.value.dateOfEntry
+            };
 
-const ELEMENT_DATA: PeriodicElement[] = [
-    {
-        taskID: '#951',
-        taskName: 'Hotel management system',
-        assignedTo: 'Shawn Kennedy',
-        dueDate: '15 Nov, 2024',
-        priority: 'High',
-        status: {
-            inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#587',
-        taskName: 'Send proposal to APR Ltd',
-        assignedTo: 'Roberto Cruz',
-        dueDate: '14 Nov, 2024',
-        priority: 'Medium',
-        status: {
-            // inProgress: 'In Progress',
-            pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#618',
-        taskName: 'Python upgrade',
-        assignedTo: 'Juli Johnson',
-        dueDate: '13 Nov, 2024',
-        priority: 'High',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#367',
-        taskName: 'Schedule meeting with Daxa',
-        assignedTo: 'Catalina Engles',
-        dueDate: '12 Nov, 2024',
-        priority: 'Low',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#761',
-        taskName: 'Engineering lite touch',
-        assignedTo: 'Louis Nagle',
-        dueDate: '11 Nov, 2024',
-        priority: 'Medium',
-        status: {
-            inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#431',
-        taskName: 'Refund bill payment',
-        assignedTo: 'Michael Marquez',
-        dueDate: '10 Nov, 2024',
-        priority: 'Low',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#421',
-        taskName: 'Public beta release',
-        assignedTo: 'James Andy',
-        dueDate: '09 Nov, 2024',
-        priority: 'High',
-        status: {
-            inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#624',
-        taskName: 'Fix platform errors',
-        assignedTo: 'Alina Smith',
-        dueDate: '08 Nov, 2024',
-        priority: 'Medium',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#513',
-        taskName: 'Launch our mobile app',
-        assignedTo: 'David Warner',
-        dueDate: '07 Nov, 2024',
-        priority: 'Low',
-        status: {
-            // inProgress: 'In Progress',
-            pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
+            if (!this.isEdit) {
+                this.service.createData('inks', sendData).subscribe((res) => {
+                    if (res) {
+                        this.loadCores();
+                        this.inkForm.reset();
+                    }
+                });
+            } else {
+                this.service.updateData('inks', this.elementId, sendData).subscribe((res) => {
+                    if (res) {
+                        this.loadCores();
+                        this.isEdit = false;
+                        this.inkForm.reset();
+                    }
+                });
+            }
         }
     }
-];
 
-export interface PeriodicElement {
-    taskName: string;
-    taskID: string;
-    assignedTo: string;
-    dueDate: string;
-    priority: string;
-    status: any;
-    action: any;
+    editData(data: any) {
+        this.isEdit = true;
+        this.elementId = data._id;
+
+        this.inkForm.setValue({
+            color: data.color,
+            sizeInKg: data.sizeInKg,
+            pricePerKg: data.pricePerKg,
+            totalPrice: data.totalPrice,
+            dateOfEntry: new Date(data.dateOfEntry)
+        });
+    }
+
+    deleteData(id: string) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won’t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.service.deleteData('inks', id).subscribe((res) => {
+                    if (res) {
+                        Swal.fire(
+                            'Deleted!',
+                            'The core entry has been deleted.',
+                            'success'
+                        );
+                        this.loadCores();
+                    }
+                });
+            }
+        });
+    }
+
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        // Implement the filtering logic if necessary.
+    }
+
 }

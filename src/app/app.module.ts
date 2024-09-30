@@ -67,6 +67,9 @@ import {SalaryTrackerComponent} from './salary-tracker/salary-tracker/salary-tra
 import {DisptachComponent} from './z-fold-user/dispatch/disptach.component';
 import {ZFoldPackingComponent} from './z-fold-user/packing/z-fold-packing.component';
 import {ZFoldComponent} from './z-fold-user/z-fold/z-fold.component';
+import { HttpClientModule} from "@angular/common/http";
+import {RollDisptachComponent} from "./roll-user/roll-dispatch/roll-disptach.component";
+import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 
 @NgModule({
     declarations: [
@@ -117,6 +120,7 @@ import {ZFoldComponent} from './z-fold-user/z-fold/z-fold.component';
         CuttingPlainComponent,
         CuttingPrintedComponent,
         PackingComponent,
+        RollDisptachComponent
 
     ],
     imports: [
@@ -146,7 +150,10 @@ import {ZFoldComponent} from './z-fold-user/z-fold/z-fold.component';
         MatSelectModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        RouterOutlet
+        RouterOutlet,
+        HttpClientModule,
+        MatRadioButton,
+        MatRadioGroup
     ],
     providers: [provideClientHydration()],
     bootstrap: [AppComponent],

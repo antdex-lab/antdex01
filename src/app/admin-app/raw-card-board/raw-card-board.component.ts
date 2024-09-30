@@ -1,244 +1,115 @@
-import {Component} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
-import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
+import {Component, OnInit} from '@angular/core';
+import {ApiService} from "../../../services/api.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import Swal from "sweetalert2";
 
 @Component({
     selector: 'app-raw-label',
     templateUrl: './raw-card-board.component.html',
     styleUrl: './raw-card-board.component.scss'
 })
-export class RawCardBoardComponent {
+export class RawCardBoardComponent implements OnInit{
 
-    displayedColumns: string[] = ['select', 'taskID', 'taskName', 'assignedTo', 'dueDate', 'priority', 'status', 'action'];
-    dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-    selection = new SelectionModel<PeriodicElement>(true, []);
+    displayedColumns: string[] = ['cardboardSize', 'cardboardCount', 'pricePerCardboard', 'totalPrice', 'dateOfEntry', 'action'];
+    dataSource: any[] = [];
 
-    /** Whether the number of selected elements matches the total number of rows. */
-    isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.data.length;
-        return numSelected === numRows;
-    }
-
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    toggleAllRows() {
-        if (this.isAllSelected()) {
-            this.selection.clear();
-            return;
-        }
-        this.selection.select(...this.dataSource.data);
-    }
-
-    /** The label for the checkbox on the passed row */
-    checkboxLabel(row?: PeriodicElement): string {
-        if (!row) {
-            return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-        }
-        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.taskID + 1}`;
-    }
-
-    // Search Filter
-    applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value;
-        this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
-
-    // Popup Trigger
-    classApplied = false;
-    toggleClass() {
-        this.classApplied = !this.classApplied;
-    }
-
-    // isToggled
-    isToggled = false;
+    cardBoardForm: FormGroup;
+    isEdit: boolean = false;
+    elementId: string = '';
 
     constructor(
-        public themeService: CustomizerSettingsService
-    ) {
-        this.themeService.isToggled$.subscribe(isToggled => {
-            this.isToggled = isToggled;
+        private service: ApiService,
+        private fb: FormBuilder
+    ) { }
+
+    ngOnInit() {
+        this.loadData();
+        this.cardBoardForm = this.fb.group({
+            cardboardSize: [''],
+            cardboardCount: [''],
+            pricePerCardboard: [''],
+            totalPrice: [''],
+            dateOfEntry: [new Date()]
         });
     }
 
-    // RTL Mode
-    toggleRTLEnabledTheme() {
-        this.themeService.toggleRTLEnabledTheme();
+    loadData() {
+        this.service.getData('cardboards').subscribe((res) => {
+            this.dataSource = res;
+        });
     }
 
-}
+    submit() {
+        if (this.cardBoardForm.valid) {
+            const sendData = {
+                cardboardSize: this.cardBoardForm.value.cardboardSize,
+                cardboardCount: this.cardBoardForm.value.cardboardCount,
+                pricePerCardboard: this.cardBoardForm.value.pricePerCardboard,
+                totalPrice: this.cardBoardForm.value.totalPrice,
+                dateOfEntry: this.cardBoardForm.value.dateOfEntry
+            };
 
-const ELEMENT_DATA: PeriodicElement[] = [
-    {
-        taskID: '#951',
-        taskName: 'Hotel management system',
-        assignedTo: 'Shawn Kennedy',
-        dueDate: '15 Nov, 2024',
-        priority: 'High',
-        status: {
-            inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#587',
-        taskName: 'Send proposal to APR Ltd',
-        assignedTo: 'Roberto Cruz',
-        dueDate: '14 Nov, 2024',
-        priority: 'Medium',
-        status: {
-            // inProgress: 'In Progress',
-            pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#618',
-        taskName: 'Python upgrade',
-        assignedTo: 'Juli Johnson',
-        dueDate: '13 Nov, 2024',
-        priority: 'High',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#367',
-        taskName: 'Schedule meeting with Daxa',
-        assignedTo: 'Catalina Engles',
-        dueDate: '12 Nov, 2024',
-        priority: 'Low',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#761',
-        taskName: 'Engineering lite touch',
-        assignedTo: 'Louis Nagle',
-        dueDate: '11 Nov, 2024',
-        priority: 'Medium',
-        status: {
-            inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#431',
-        taskName: 'Refund bill payment',
-        assignedTo: 'Michael Marquez',
-        dueDate: '10 Nov, 2024',
-        priority: 'Low',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#421',
-        taskName: 'Public beta release',
-        assignedTo: 'James Andy',
-        dueDate: '09 Nov, 2024',
-        priority: 'High',
-        status: {
-            inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#624',
-        taskName: 'Fix platform errors',
-        assignedTo: 'Alina Smith',
-        dueDate: '08 Nov, 2024',
-        priority: 'Medium',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#513',
-        taskName: 'Launch our mobile app',
-        assignedTo: 'David Warner',
-        dueDate: '07 Nov, 2024',
-        priority: 'Low',
-        status: {
-            // inProgress: 'In Progress',
-            pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
+            if (!this.isEdit) {
+                this.service.createData('cardboards', sendData).subscribe((res) => {
+                    if (res) {
+                        this.loadData();
+                        this.cardBoardForm.reset();
+                    }
+                });
+            } else {
+                this.service.updateData('cardboards', this.elementId, sendData).subscribe((res) => {
+                    if (res) {
+                        this.loadData();
+                        this.isEdit = false;
+                        this.cardBoardForm.reset();
+                    }
+                });
+            }
         }
     }
-];
 
-export interface PeriodicElement {
-    taskName: string;
-    taskID: string;
-    assignedTo: string;
-    dueDate: string;
-    priority: string;
-    status: any;
-    action: any;
+    editData(data: any) {
+        this.isEdit = true;
+        this.elementId = data._id;
+
+        this.cardBoardForm.setValue({
+            cardboardSize: data.cardboardSize,
+            cardboardCount: data.cardboardCount,
+            pricePerCardboard: data.pricePerCardboard,
+            totalPrice: data.totalPrice,
+            dateOfEntry: new Date(data.dateOfEntry)
+        });
+    }
+
+    deleteData(id: string) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won’t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.service.deleteData('cardboards', id).subscribe((res) => {
+                    if (res) {
+                        Swal.fire(
+                            'Deleted!',
+                            'The core entry has been deleted.',
+                            'success'
+                        );
+                        this.loadData();
+                    }
+                });
+            }
+        });
+    }
+
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        // Implement the filtering logic if necessary.
+    }
+
 }

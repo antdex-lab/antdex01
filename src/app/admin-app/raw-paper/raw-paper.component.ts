@@ -1,244 +1,128 @@
-import {Component} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
+import {Component, OnInit} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
+import {ApiService} from "../../../services/api.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import Swal from "sweetalert2";
 
 @Component({
     selector: 'app-raw-label',
     templateUrl: './raw-paper.component.html',
     styleUrl: './raw-paper.component.scss'
 })
-export class RawPaperComponent {
+export class RawPaperComponent implements OnInit {
 
-    displayedColumns: string[] = ['select', 'taskID', 'taskName', 'assignedTo', 'dueDate', 'priority', 'status', 'action'];
-    dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-    selection = new SelectionModel<PeriodicElement>(true, []);
-
-    /** Whether the number of selected elements matches the total number of rows. */
-    isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.data.length;
-        return numSelected === numRows;
+    constructor(
+        private service: ApiService,
+        private fb: FormBuilder
+    ) {
     }
 
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    toggleAllRows() {
-        if (this.isAllSelected()) {
-            this.selection.clear();
-            return;
-        }
-        this.selection.select(...this.dataSource.data);
+    displayedColumns: string[] = ['sizeInMM', 'gsm', 'sizeInMeter', 'pricePerSquareMeters', 'totalSQM', 'totalPrice', 'dateOfEntry', 'action'];
+    dataSource: any[] = [];
+
+    papers: any[] = [];
+    rawPaperForm: FormGroup;
+
+    ngOnInit() {
+        this.loadPapers();
+        this.rawPaperForm = this.fb.group({
+            paperSizeMM: [''],
+            paperSizeM: [''],
+            gsmOfPaper: [''],
+            count: [''],
+            pricePerSQM: [''],
+            totalPrice: [''],
+            entryDate: [new Date()]
+        });
     }
 
-    /** The label for the checkbox on the passed row */
-    checkboxLabel(row?: PeriodicElement): string {
-        if (!row) {
-            return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    loadPapers() {
+        this.service.getData('papers').subscribe((res) => {
+            console.log(res);
+            this.dataSource = res;
+        })
+    }
+
+    submitRawPaperEntry() {
+        if (this.rawPaperForm.valid) {
+            console.log('Raw Paper Entry Submitted', this.rawPaperForm.value);
+            const sendData = {
+                sizeInMM: this.rawPaperForm.value.paperSizeMM,
+                sizeInMeter: this.rawPaperForm.value.paperSizeM,
+                pricePerSquareMeters: Number(this.rawPaperForm.value.pricePerSQM),
+                gsm: this.rawPaperForm.value.gsmOfPaper,
+                count: this.rawPaperForm.value.count,
+            }
+
+            if (!this.isEdit) {
+                this.service.createData('papers', sendData).subscribe((res) => {
+                    if (res) {
+                        this.loadPapers();
+                        this.rawPaperForm.reset();
+                    }
+                })
+            } else {
+                this.service.updateData('papers', this.elementId, sendData).subscribe((res) => {
+                    if (res) {
+                        this.loadPapers();
+                        this.isEdit = false;
+                        this.rawPaperForm.reset();
+                    }
+                })
+            }
+
         }
-        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.taskID + 1}`;
     }
 
     // Search Filter
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
-        this.dataSource.filter = filterValue.trim().toLowerCase();
+        // this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-    // Popup Trigger
-    classApplied = false;
-    toggleClass() {
-        this.classApplied = !this.classApplied;
-    }
+    isEdit: boolean = false;
+    elementId: string = ''
 
-    // isToggled
-    isToggled = false;
+    editData(data: any) {
+        this.isEdit = true;
 
-    constructor(
-        public themeService: CustomizerSettingsService
-    ) {
-        this.themeService.isToggled$.subscribe(isToggled => {
-            this.isToggled = isToggled;
+        this.elementId = data._id;
+
+        this.rawPaperForm.setValue({
+            paperSizeMM: data.sizeInMM,
+            paperSizeM: data.sizeInMeter,
+            gsmOfPaper: data.gsm,
+            count: data.count,
+            pricePerSQM: data.pricePerSquareMeters,
+            totalPrice: data.totalPrice,
+            entryDate: new Date(data.dateOfEntry)
         });
     }
 
-    // RTL Mode
-    toggleRTLEnabledTheme() {
-        this.themeService.toggleRTLEnabledTheme();
+    deletePaper(id: string) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won’t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.service.deleteData('papers', id).subscribe((res) => {
+                    if (res) {
+                        Swal.fire(
+                            'Deleted!',
+                            'The paper entry has been deleted.',
+                            'success'
+                        );
+                        this.loadPapers();
+                    }
+                });
+            }
+        });
     }
 
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-    {
-        taskID: '#951',
-        taskName: 'Hotel management system',
-        assignedTo: 'Shawn Kennedy',
-        dueDate: '15 Nov, 2024',
-        priority: 'High',
-        status: {
-            inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#587',
-        taskName: 'Send proposal to APR Ltd',
-        assignedTo: 'Roberto Cruz',
-        dueDate: '14 Nov, 2024',
-        priority: 'Medium',
-        status: {
-            // inProgress: 'In Progress',
-            pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#618',
-        taskName: 'Python upgrade',
-        assignedTo: 'Juli Johnson',
-        dueDate: '13 Nov, 2024',
-        priority: 'High',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#367',
-        taskName: 'Schedule meeting with Daxa',
-        assignedTo: 'Catalina Engles',
-        dueDate: '12 Nov, 2024',
-        priority: 'Low',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#761',
-        taskName: 'Engineering lite touch',
-        assignedTo: 'Louis Nagle',
-        dueDate: '11 Nov, 2024',
-        priority: 'Medium',
-        status: {
-            inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#431',
-        taskName: 'Refund bill payment',
-        assignedTo: 'Michael Marquez',
-        dueDate: '10 Nov, 2024',
-        priority: 'Low',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#421',
-        taskName: 'Public beta release',
-        assignedTo: 'James Andy',
-        dueDate: '09 Nov, 2024',
-        priority: 'High',
-        status: {
-            inProgress: 'In Progress',
-            // pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#624',
-        taskName: 'Fix platform errors',
-        assignedTo: 'Alina Smith',
-        dueDate: '08 Nov, 2024',
-        priority: 'Medium',
-        status: {
-            // inProgress: 'In Progress',
-            // pending: 'Pending',
-            completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    },
-    {
-        taskID: '#513',
-        taskName: 'Launch our mobile app',
-        assignedTo: 'David Warner',
-        dueDate: '07 Nov, 2024',
-        priority: 'Low',
-        status: {
-            // inProgress: 'In Progress',
-            pending: 'Pending',
-            // completed: 'Completed',
-            // notStarted: 'Not Started',
-        },
-        action: {
-            view: 'visibility',
-            edit: 'edit',
-            delete: 'delete'
-        }
-    }
-];
-
-export interface PeriodicElement {
-    taskName: string;
-    taskID: string;
-    assignedTo: string;
-    dueDate: string;
-    priority: string;
-    status: any;
-    action: any;
 }

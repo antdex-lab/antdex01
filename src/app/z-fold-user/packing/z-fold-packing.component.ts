@@ -10,7 +10,7 @@ import {CustomizerSettingsService} from '../../customizer-settings/customizer-se
 })
 export class ZFoldPackingComponent {
 
-    displayedColumns: string[] = ['select', 'taskID', 'taskName', 'assignedTo', 'dueDate', 'priority', 'status', 'action'];
+    displayedColumns: string[] = ['taskID', 'taskName', 'assignedTo', 'dueDate', 'action'];
     dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
     selection = new SelectionModel<PeriodicElement>(true, []);
 
