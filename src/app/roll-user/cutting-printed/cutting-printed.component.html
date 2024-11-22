@@ -27,7 +27,7 @@
         <form [formGroup]="printingForm" (ngSubmit)="submit()">
             <div class="row">
 
-                <!-- Printing Size As Per Printing Roll -->
+                <!-- Printing Size As Per Printing Roll DropDown -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Printing Size As Per Printing Roll</mat-label>
@@ -44,12 +44,12 @@
                 </div>
 
                 <!-- Ink Used -->
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Ink Used</mat-label>
                         <input matInput placeholder="Ex. 2 liters" formControlName="inkUsed">
                     </mat-form-field>
-                </div>
+                </div> -->
 
                 <!-- Core Per Roll -->
                 <div class="col-sm-6">
@@ -64,6 +64,48 @@
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size</mat-label>
                         <input matInput placeholder="Ex. 5 cm" formControlName="coreSize">
+                    </mat-form-field>
+                </div>
+
+                
+                <!-- Core Per Roll -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Core Per Roll</mat-label>
+                        <input matInput placeholder="Ex. 1" formControlName="corePerRoll">
+                    </mat-form-field>
+                </div>
+
+                <!-- Core Size -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Core Size</mat-label>
+                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize">
+                    </mat-form-field>
+                </div>
+
+                
+                <!-- Core Per Roll -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Core Per Roll</mat-label>
+                        <input matInput placeholder="Ex. 1" formControlName="corePerRoll">
+                    </mat-form-field>
+                </div>
+
+                <!-- Core Size -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Core Size</mat-label>
+                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize">
+                    </mat-form-field>
+                </div>
+
+                 <!-- Total Roll -->
+                 <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Total Roll</mat-label>
+                        <input matInput placeholder="Ex. 1" formControlName="totalRoll">
                     </mat-form-field>
                 </div>
 

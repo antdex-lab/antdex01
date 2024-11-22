@@ -28,7 +28,7 @@
         <form [formGroup]="printingForm" (ngSubmit)="submit()">
             <div class="row">
 
-                <!-- Printing Size Per Jumbo Roll -->
+                <!-- Printing Size Per Jumbo Roll FORMATE( 900X55000 - 56 count )-->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Printing Size Per Jumbo Roll</mat-label>
@@ -36,11 +36,19 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Printing Size -->
+                <!-- Printing Size DropDown-->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Printing Size</mat-label>
                         <input matInput placeholder="Ex. A4" formControlName="printingSize">
+                    </mat-form-field>
+                </div>
+
+                <!-- Ink Color -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Ink Color</mat-label>
+                        <input matInput placeholder="Ex. 2 liters" formControlName="inkColor">
                     </mat-form-field>
                 </div>
 

@@ -28,7 +28,7 @@
         <form [formGroup]="packingForm" (ngSubmit)="submit()">
             <div class="row">
 
-                <!-- Total Rolls -->
+                <!-- Total Rolls  by defoult 2 -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Label Per Roll</mat-label>
@@ -36,12 +36,13 @@
                     </mat-form-field>
                 </div>
 
-<!--                <div class="col-sm-6">-->
-<!--                    <mat-form-field class="mb-25">-->
-<!--                        <mat-label>Paper Size</mat-label>-->
-<!--                        <input matInput type="number" placeholder="Ex. 6000" formControlName="paperSize">-->
-<!--                    </mat-form-field>-->
-<!--                </div>-->
+                <!-- Label Size DropDown -->
+               <div class="col-sm-6">
+                   <mat-form-field class="mb-25">
+                       <mat-label>Label Size</mat-label>
+                       <input matInput type="number" placeholder="Ex. 6000" formControlName="labelSize">
+                   </mat-form-field>
+               </div>
 
                 <!-- Select Packing Type -->
                 <div class="col-sm-6">
@@ -51,6 +52,22 @@
                         <mat-checkbox formControlName="withoutBox">Without Box</mat-checkbox>
                     </div>
                 </div>
+
+            <!-- IF WITH BOX is Selected the show this -->
+               <div class="col-sm-6">
+                <mat-form-field class="mb-25">
+                    <mat-label>Box Size</mat-label>
+                    <input matInput type="number" placeholder="Ex. 6000" formControlName="BoxSize">
+                </mat-form-field>
+            </div>
+
+             <!-- Total Roll With Size -->
+             <div class="col-sm-6">
+                <mat-form-field class="mb-25">
+                    <mat-label>Total Roll With Size</mat-label>
+                    <input matInput type="number" placeholder="Ex. 6000" formControlName="TotalRollWithSize">
+                </mat-form-field>
+            </div>
 
                 <!-- Packing Date -->
                 <div class="col-sm-6">
