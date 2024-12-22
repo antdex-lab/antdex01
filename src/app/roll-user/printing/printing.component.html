@@ -32,23 +32,37 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Printing Size Per Jumbo Roll</mat-label>
-                        <input matInput placeholder="Ex. 1000" formControlName="printingSizePerJumboRoll">
+                        <input matInput placeholder="Ex. 900 MM" formControlName="printingSizePerJumboRoll">
+                        <input matInput placeholder="Ex. 55000 METERS" formControlName="printingSizePerJumboRoll">
+                        <input matInput placeholder="Ex. 50 COUNT" formControlName="printingSizePerJumboRoll">
                     </mat-form-field>
                 </div>
 
                 <!-- Printing Size DropDown-->
                 <div class="col-sm-6">
-                    <mat-form-field class="mb-25">
+                    <!-- <mat-form-field class="mb-25">
                         <mat-label>Printing Size</mat-label>
                         <input matInput placeholder="Ex. A4" formControlName="printingSize">
+                    </mat-form-field> -->
+                    <mat-form-field>
+                        <mat-label>Printing Size</mat-label>
+                        <mat-select>
+                            <mat-option value="option">Printing Size 1</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
 
                 <!-- Ink Color -->
                 <div class="col-sm-6">
-                    <mat-form-field class="mb-25">
+                    <!-- <mat-form-field class="mb-25">
                         <mat-label>Ink Color</mat-label>
                         <input matInput placeholder="Ex. 2 liters" formControlName="inkColor">
+                    </mat-form-field> -->
+                    <mat-form-field>
+                        <mat-label>Ink Color</mat-label>
+                        <mat-select>
+                            <mat-option value="option">Ink Color 1</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
 

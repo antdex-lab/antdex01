@@ -28,7 +28,7 @@
         <form [formGroup]="packingForm" (ngSubmit)="submit()">
             <div class="row">
 
-                <!-- Total Rolls  by defoult 2 -->
+                <!-- Total Rolls  by defoult 1 from backend task -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Label Per Roll</mat-label>
@@ -38,13 +38,15 @@
 
                 <!-- Label Size DropDown -->
                <div class="col-sm-6">
-                   <mat-form-field class="mb-25">
-                       <mat-label>Label Size</mat-label>
-                       <input matInput type="number" placeholder="Ex. 6000" formControlName="labelSize">
-                   </mat-form-field>
+                   <mat-form-field>
+                    <mat-label>Label Size</mat-label>
+                    <mat-select>
+                        <mat-option value="option">Label Size 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
                </div>
 
-                <!-- Select Packing Type -->
+                <!-- Select Packing Type
                 <div class="col-sm-6">
                     <div>
                         <h5>Select Packing Type:</h5>
@@ -53,19 +55,39 @@
                     </div>
                 </div>
 
-            <!-- IF WITH BOX is Selected the show this -->
+            IF WITH BOX is Selected the show this
                <div class="col-sm-6">
                 <mat-form-field class="mb-25">
                     <mat-label>Box Size</mat-label>
                     <input matInput type="number" placeholder="Ex. 6000" formControlName="BoxSize">
                 </mat-form-field>
-            </div>
+            </div> -->
+
+
+            <!-- Select Packing Type -->
+<!-- Select Packing Type -->
+<div class="col-sm-6">
+    <div>
+        <h5>Select Packing Type:</h5>
+        <mat-checkbox formControlName="withBox">With Box</mat-checkbox>
+        <mat-checkbox formControlName="withoutBox">Without Box</mat-checkbox>
+    </div>
+</div>
+
+<!-- If "With Box" is Selected, Show and Enable Box Size -->
+<div class="col-sm-6">
+    <mat-form-field class="mb-25">
+        <mat-label>Box Size</mat-label>
+        <input matInput type="number" placeholder="Ex. 6000" formControlName="BoxSize">
+    </mat-form-field>
+</div>
 
              <!-- Total Roll With Size -->
              <div class="col-sm-6">
                 <mat-form-field class="mb-25">
                     <mat-label>Total Roll With Size</mat-label>
                     <input matInput type="number" placeholder="Ex. 6000" formControlName="TotalRollWithSize">
+                    <input matInput type="number" placeholder="Ex. 50 mm" formControlName="TotalRollWithSize">
                 </mat-form-field>
             </div>
 

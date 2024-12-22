@@ -31,9 +31,16 @@ export class CuttingPrintedComponent implements OnInit{
             printingSizeAsPerPrintingRoll: [''],
             countForRoll: [''],
             inkUsed: [''],
-            corePerRoll: [''],
-            coreSize: [''],
+            corePerRoll1: [''],
+            coreSize1: [''],
+            corePerRoll2: [''],
+            coreSize2: [''],
+            corePerRoll3: [''],
+            coreSize3: [''],
             cuttingDateOfEntry: [new Date()]
+        });
+        this.printingForm.valueChanges.subscribe(() => {
+            this.calculateTotal();
         });
     }
 
@@ -43,14 +50,23 @@ export class CuttingPrintedComponent implements OnInit{
         });
     }
 
+    calculateTotal(): void {
+        const corePerRoll1 = Number(this.printingForm.get('corePerRoll1')?.value) || 0;
+        const corePerRoll2 = Number(this.printingForm.get('corePerRoll2')?.value) || 0;
+        const corePerRoll3 = Number(this.printingForm.get('corePerRoll3')?.value) || 0;
+    
+        const total = corePerRoll1 + corePerRoll2 + corePerRoll3;
+        this.printingForm.get('totalRoll')?.setValue(total);
+      }
+
     submit() {
         if (this.printingForm.valid) {
             const sendData = {
                 printingSizeAsPerPrintingRoll: this.printingForm.value.printingSizeAsPerPrintingRoll,
                 countForRoll: this.printingForm.value.countForRoll,
                 inkUsed: this.printingForm.value.inkUsed,
-                corePerRoll: this.printingForm.value.corePerRoll,
-                coreSize: this.printingForm.value.coreSize,
+                // corePerRoll: this.printingForm.value.corePerRoll,
+                // coreSize: this.printingForm.value.coreSize,
                 cuttingDateOfEntry: this.printingForm.value.cuttingDateOfEntry
             };
 

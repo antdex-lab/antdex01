@@ -29,9 +29,15 @@
 
                 <!-- Printing Size As Per Printing Roll DropDown -->
                 <div class="col-sm-6">
-                    <mat-form-field class="mb-25">
+                    <!-- <mat-form-field class="mb-25">
                         <mat-label>Printing Size As Per Printing Roll</mat-label>
                         <input matInput placeholder="Ex. 1000" formControlName="printingSizeAsPerPrintingRoll">
+                    </mat-form-field> -->
+                    <mat-form-field>
+                        <mat-label>ECG Roll Size</mat-label>
+                        <mat-select>
+                            <mat-option value="option">ECG Roll Size 1</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
 
@@ -39,7 +45,7 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Count For Roll</mat-label>
-                        <input matInput type="number" placeholder="Ex. 10" formControlName="countForRoll">
+                        <input matInput type="number" placeholder="Ex. 10" formControlName="countForRoll" >
                     </mat-form-field>
                 </div>
 
@@ -54,8 +60,9 @@
                 <!-- Core Per Roll -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Core Per Roll</mat-label>
-                        <input matInput placeholder="Ex. 1" formControlName="corePerRoll">
+                        <mat-label>Core Per Roll 1</mat-label>
+                        <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll1"
+                        (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
 
@@ -63,7 +70,7 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size</mat-label>
-                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize">
+                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize1">
                     </mat-form-field>
                 </div>
 
@@ -71,8 +78,9 @@
                 <!-- Core Per Roll -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Core Per Roll</mat-label>
-                        <input matInput placeholder="Ex. 1" formControlName="corePerRoll">
+                        <mat-label>Core Per Roll 2</mat-label>
+                        <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll2"
+                        (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
 
@@ -80,7 +88,7 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size</mat-label>
-                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize">
+                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize2">
                     </mat-form-field>
                 </div>
 
@@ -88,8 +96,9 @@
                 <!-- Core Per Roll -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Core Per Roll</mat-label>
-                        <input matInput placeholder="Ex. 1" formControlName="corePerRoll">
+                        <mat-label>Core Per Roll 3</mat-label>
+                        <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll3"
+                        (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
 
@@ -97,7 +106,7 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size</mat-label>
-                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize">
+                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize3" >
                     </mat-form-field>
                 </div>
 
@@ -105,7 +114,8 @@
                  <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Total Roll</mat-label>
-                        <input matInput placeholder="Ex. 1" formControlName="totalRoll">
+                        <input matInput placeholder="Ex. 1" formControlName="totalRoll"
+                        readonly>
                     </mat-form-field>
                 </div>
 

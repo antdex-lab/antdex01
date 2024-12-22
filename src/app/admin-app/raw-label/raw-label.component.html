@@ -49,16 +49,23 @@
 
                 <!-- Label Size  DropDown-->
                 <div class="col-sm-6">
-                    <mat-form-field class="mb-25">
+                    <!-- <mat-form-field class="mb-25">
                         <mat-label>Label Size</mat-label>
                         <input matInput placeholder="Ex. 2x4" formControlName="labelSize">
+                    </mat-form-field> -->
+                    <mat-form-field>
+                        <mat-label>Label Size</mat-label>
+                        <mat-select>
+                            <mat-option value="option">Label Size 1</mat-option>
+                        </mat-select>
+                        <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
                     </mat-form-field>
                 </div>
 
                 <!-- Label Count -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Label Count</mat-label>
+                        <mat-label>No. Of Label</mat-label>
                         <input matInput type="number" placeholder="Ex. 500" formControlName="labelCount">
                     </mat-form-field>
                 </div>

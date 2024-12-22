@@ -27,11 +27,20 @@
         <form [formGroup]="rollDispatchForm" (ngSubmit)="submit()">
             <div class="row">
 
+                 <!-- No. Of Packs -->
+                 <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>No. Of Packets</mat-label>
+                        <input matInput type="number" placeholder="Ex. 6000" formControlName="noOfRollPackets">
+                    </mat-form-field>
+                </div>
+
                 <!-- Roll Size -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Roll Size</mat-label>
+                        <mat-label>Roll Size - Lable Name</mat-label>
                         <input matInput placeholder="Ex. 50" formControlName="rollSize">
+                        <input matInput placeholder="Ex. lable name" formControlName="rollSize">
                     </mat-form-field>
                 </div>
 
