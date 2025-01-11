@@ -1,5 +1,5 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA,} from '@angular/core';
-import {CommonModule, NgClass, NgIf} from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserModule, provideClientHydration,} from '@angular/platform-browser';
@@ -21,24 +21,11 @@ import {StatsComponent} from './dashboard/crm/stats/stats.component';
 import {TasksStatsComponent} from './dashboard/crm/tasks-stats/tasks-stats.component';
 import {TopCustomersComponent} from './dashboard/crm/top-customers/top-customers.component';
 import {TotalLeadsComponent} from './dashboard/crm/total-leads/total-leads.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatMenuModule} from '@angular/material/menu';
 import {SidebarComponent} from './common/sidebar/sidebar.component';
-import {MatExpansionModule} from '@angular/material/expansion';
 import {NgScrollbarModule} from 'ngx-scrollbar';
 import {HeaderComponent} from './common/header/header.component';
 import {CrmComponent} from './dashboard/crm/crm.component';
 import {NgApexchartsModule} from 'ng-apexcharts';
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
 import {TotalRawBoxComponent} from './dashboard/crm/stats/total-raw-box/total-raw-box.component';
 import {TotalRawCardboardComponent} from './dashboard/crm/stats/total-raw-cardboard/total-raw-cardboard.component';
 import {TotalRawCoreComponent} from './dashboard/crm/stats/total-raw-core/total-raw-core.component';
@@ -67,9 +54,9 @@ import {SalaryTrackerComponent} from './salary-tracker/salary-tracker/salary-tra
 import {DisptachComponent} from './z-fold-user/dispatch/disptach.component';
 import {ZFoldPackingComponent} from './z-fold-user/packing/z-fold-packing.component';
 import {ZFoldComponent} from './z-fold-user/z-fold/z-fold.component';
-import { HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {RollDisptachComponent} from "./roll-user/roll-dispatch/roll-disptach.component";
-import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
+import {MaterialModule} from "./material.module";
 
 @NgModule({
     declarations: [
@@ -121,7 +108,6 @@ import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
         CuttingPrintedComponent,
         PackingComponent,
         RollDisptachComponent
-
     ],
     imports: [
         CommonModule,
@@ -131,29 +117,15 @@ import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
         FormsModule,
         ReactiveFormsModule,
         RouterLink,
-        MatTooltipModule,
-        MatFormFieldModule,
-        MatCardModule,
-        MatMenuModule,
-        MatButtonModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatCheckboxModule,
         NgScrollbarModule,
-        MatExpansionModule,
         RouterLinkActive,
         RouterModule,
-        NgClass,
-        NgIf,
+        // NgClass,
+        // NgIf,
         NgApexchartsModule,
-        MatInputModule,
-        MatSelectModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
         RouterOutlet,
         HttpClientModule,
-        MatRadioButton,
-        MatRadioGroup
+        MaterialModule
     ],
     providers: [provideClientHydration()],
     bootstrap: [AppComponent],
