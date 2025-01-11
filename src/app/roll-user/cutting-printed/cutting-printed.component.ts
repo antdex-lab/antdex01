@@ -1,7 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
-import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ApiService} from "../../../services/api.service";
 import Swal from "sweetalert2";
@@ -54,7 +51,7 @@ export class CuttingPrintedComponent implements OnInit{
         const corePerRoll1 = Number(this.printingForm.get('corePerRoll1')?.value) || 0;
         const corePerRoll2 = Number(this.printingForm.get('corePerRoll2')?.value) || 0;
         const corePerRoll3 = Number(this.printingForm.get('corePerRoll3')?.value) || 0;
-    
+
         const total = corePerRoll1 + corePerRoll2 + corePerRoll3;
         this.printingForm.get('totalRoll')?.setValue(total);
       }

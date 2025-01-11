@@ -1,7 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
-import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
 import {ApiService} from "../../../services/api.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import Swal from "sweetalert2";
