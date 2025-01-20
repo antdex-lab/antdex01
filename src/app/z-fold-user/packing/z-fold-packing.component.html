@@ -73,10 +73,8 @@
 </mat-card>
 
 <!-- Z-Fold -->
-<mat-card
-    class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
-    [class.rtl-enabled]="false"
->
+<mat-card class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
+    [class.rtl-enabled]="false">
     <mat-card-header>
         <mat-card-title>
 
@@ -86,7 +84,8 @@
                 <i class="material-symbols-outlined">
                     search
                 </i>
-                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..." (keyup)="applyFilter($event)" #input>
+                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..."
+                    (keyup)="applyFilter($event)" #input>
             </form>
         </mat-card-subtitle>
     </mat-card-header>

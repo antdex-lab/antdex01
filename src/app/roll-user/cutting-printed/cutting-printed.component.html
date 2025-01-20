@@ -28,15 +28,16 @@
             <div class="row">
 
                 <!-- Printing Size As Per Printing Roll DropDown -->
-                <div class="col-sm-6">
+                <div class="col-sm-6" *ngIf="dropdown">
                     <!-- <mat-form-field class="mb-25">
                         <mat-label>Printing Size As Per Printing Roll</mat-label>
                         <input matInput placeholder="Ex. 1000" formControlName="printingSizeAsPerPrintingRoll">
                     </mat-form-field> -->
                     <mat-form-field>
-                        <mat-label>ECG Roll Size</mat-label>
-                        <mat-select>
-                            <mat-option value="option">ECG Roll Size 1</mat-option>
+                        <mat-label>{{ dropdown.category }}</mat-label>
+                        <mat-select formControlName="printingSizeAsPerPrintingRoll">
+                            <mat-option *ngFor="let item of dropdown.options" [value]="item.value">{{ item.label
+                                }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -45,7 +46,7 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Count For Roll</mat-label>
-                        <input matInput type="number" placeholder="Ex. 10" formControlName="countForRoll" >
+                        <input matInput type="number" placeholder="Ex. 10" formControlName="countForRoll">
                     </mat-form-field>
                 </div>
 
@@ -62,7 +63,7 @@
                     <mat-form-field class="mb-25">
                         <mat-label>Core Per Roll 1</mat-label>
                         <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll1"
-                        (input)="calculateTotal()">
+                            (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
 
@@ -74,13 +75,13 @@
                     </mat-form-field>
                 </div>
 
-                
+
                 <!-- Core Per Roll -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Per Roll 2</mat-label>
                         <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll2"
-                        (input)="calculateTotal()">
+                            (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
 
@@ -92,13 +93,13 @@
                     </mat-form-field>
                 </div>
 
-                
+
                 <!-- Core Per Roll -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Per Roll 3</mat-label>
                         <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll3"
-                        (input)="calculateTotal()">
+                            (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
 
@@ -106,16 +107,15 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size</mat-label>
-                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize3" >
+                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize3">
                     </mat-form-field>
                 </div>
 
-                 <!-- Total Roll -->
-                 <div class="col-sm-6">
+                <!-- Total Roll -->
+                <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Total Roll</mat-label>
-                        <input matInput placeholder="Ex. 1" formControlName="totalRoll"
-                        readonly>
+                        <input matInput placeholder="Ex. 1" formControlName="totalRoll" readonly>
                     </mat-form-field>
                 </div>
 
@@ -123,7 +123,8 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Cutting Date Of Entry</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="cuttingDateOfEntry" placeholder="Choose a date">
+                        <input matInput [matDatepicker]="picker" formControlName="cuttingDateOfEntry"
+                            placeholder="Choose a date">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -143,10 +144,8 @@
 </mat-card>
 
 <!-- Printed-Cutting -->
-<mat-card
-    class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
-    [class.rtl-enabled]="false"
->
+<mat-card class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
+    [class.rtl-enabled]="false">
     <mat-card-header>
         <mat-card-title>
 
@@ -156,7 +155,8 @@
                 <i class="material-symbols-outlined">
                     search
                 </i>
-                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..." (keyup)="applyFilter($event)" #input>
+                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..."
+                    (keyup)="applyFilter($event)" #input>
             </form>
         </mat-card-subtitle>
     </mat-card-header>
@@ -201,12 +201,14 @@
                         </th>
                         <td mat-cell *matCellDef="let element">
                             <div class="action-info">
-                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above" (click)="editData(element)">
+                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above"
+                                    (click)="editData(element)">
                                     <i class="material-symbols-outlined">
                                         edit
                                     </i>
                                 </button>
-                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above" (click)="deleteData(element._id)">
+                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above"
+                                    (click)="deleteData(element._id)">
                                     <i class="material-symbols-outlined">
                                         delete
                                     </i>

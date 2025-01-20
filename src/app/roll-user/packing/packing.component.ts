@@ -118,6 +118,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
+import { Dropdown } from '../cutting-plain/cutting-plain.component';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -132,6 +133,8 @@ export class PackingComponent implements OnInit {
     isEdit: boolean = false;
     elementId: string = '';
 
+    dropdown: Dropdown;
+
     constructor(
         private service: ApiService,
         private fb: FormBuilder
@@ -139,13 +142,25 @@ export class PackingComponent implements OnInit {
 
     ngOnInit() {
         this.loadData();
+        this.loadDropdown();
         this.initializeForm();
         this.setupFormListeners();
+    }
+
+    loadDropdown() {
+        this.service.getData('dropdown/category/Label Size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.dropdown = res.data;
+                console.log(this.dropdown);
+            }
+        })
     }
 
     initializeForm() {
         this.packingForm = this.fb.group({
             labelPerRoll: [''],
+            labelSize: [''],
+            TotalRollWithSize: [''],
             withBox: [false],
             withoutBox: [false],
             BoxSize: [{ value: '', disabled: true }],

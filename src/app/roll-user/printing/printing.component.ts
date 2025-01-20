@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ApiService} from "../../../services/api.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
+import { Dropdown } from '../cutting-plain/cutting-plain.component';
 
 @Component({
     selector: 'app-cutting-plain',
     templateUrl: './printing.component.html',
     styleUrl: './printing.component.scss'
 })
-export class PrintingComponent implements OnInit{
+export class PrintingComponent implements OnInit {
 
     displayedColumns: string[] = ['printingSizePerJumboRoll', 'printingSize', 'inkUsed', 'dateOfEntry', 'action'];
     dataSource: any[] = [];
@@ -17,6 +18,9 @@ export class PrintingComponent implements OnInit{
     isEdit: boolean = false;
     elementId: string = '';
 
+    dropdown: Dropdown;
+    dropdown2: Dropdown;
+
     constructor(
         private service: ApiService,
         private fb: FormBuilder
@@ -24,12 +28,30 @@ export class PrintingComponent implements OnInit{
 
     ngOnInit() {
         this.loadData();
+        this.loadDropdown();
         this.printingForm = this.fb.group({
             printingSizePerJumboRoll: [''],
             printingSize: [''],
+            inkColor: [''],
             inkUsed: [''],
             dateOfEntry: [new Date()]
         });
+    }
+
+    loadDropdown() {
+        this.service.getData('dropdown/category/Printing Size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.dropdown = res.data;
+                console.log(this.dropdown);
+            }
+        })
+
+        this.service.getData('dropdown/category/Ink Color').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.dropdown2 = res.data;
+                console.log(this.dropdown2);
+            }
+        })
     }
 
     loadData() {

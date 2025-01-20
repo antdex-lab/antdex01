@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ApiService} from "../../../services/api.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 
 @Component({
@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
     templateUrl: './disptach.component.html',
     styleUrl: './disptach.component.scss'
 })
-export class DisptachComponent implements OnInit{
+export class DisptachComponent implements OnInit {
 
     displayedColumns: string[] = ['packetModelPerSize', 'noOfpacket', 'orderBy', 'DateAndTime', 'action'];
     dataSource: any[] = [];

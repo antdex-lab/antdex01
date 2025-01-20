@@ -1,21 +1,24 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ApiService} from "../../../services/api.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
+import { Dropdown } from '../cutting-plain/cutting-plain.component';
 
 @Component({
     selector: 'app-cutting-plain',
     templateUrl: './cutting-printed.component.html',
     styleUrl: './cutting-printed.component.scss'
 })
-export class CuttingPrintedComponent implements OnInit{
+export class CuttingPrintedComponent implements OnInit {
 
-    displayedColumns: string[] = ['printingSizeAsPerPrintingRoll', 'countForRoll', 'inkUsed', 'corePerRoll','coreSize', 'cuttingDateOfEntry', 'action'];
+    displayedColumns: string[] = ['printingSizeAsPerPrintingRoll', 'countForRoll', 'inkUsed', 'corePerRoll', 'coreSize', 'cuttingDateOfEntry', 'action'];
     dataSource: any[] = [];
 
     printingForm: FormGroup;
     isEdit: boolean = false;
     elementId: string = '';
+
+    dropdown: Dropdown;
 
     constructor(
         private service: ApiService,
@@ -24,6 +27,7 @@ export class CuttingPrintedComponent implements OnInit{
 
     ngOnInit() {
         this.loadData();
+        this.loadDropdown();
         this.printingForm = this.fb.group({
             printingSizeAsPerPrintingRoll: [''],
             countForRoll: [''],
@@ -34,12 +38,24 @@ export class CuttingPrintedComponent implements OnInit{
             coreSize2: [''],
             corePerRoll3: [''],
             coreSize3: [''],
+            totalRoll: [''],
             cuttingDateOfEntry: [new Date()]
         });
         this.printingForm.valueChanges.subscribe(() => {
             this.calculateTotal();
         });
     }
+
+
+    loadDropdown() {
+        this.service.getData('dropdown/category/ECG Roll Size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.dropdown = res.data;
+                console.log(this.dropdown);
+            }
+        })
+    }
+
 
     loadData() {
         this.service.getData('cuttings').subscribe((res) => {
@@ -54,7 +70,7 @@ export class CuttingPrintedComponent implements OnInit{
 
         const total = corePerRoll1 + corePerRoll2 + corePerRoll3;
         this.printingForm.get('totalRoll')?.setValue(total);
-      }
+    }
 
     submit() {
         if (this.printingForm.valid) {

@@ -1,14 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService} from "../../../services/api.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from "../../../services/api.service";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
+
+interface LabelSizeDropdown {
+    category: string;
+    options: Array<{
+        value: string;
+        label: string;
+    }>;
+}
 
 @Component({
     selector: 'app-raw-label',
     templateUrl: './raw-label.component.html',
     styleUrl: './raw-label.component.scss'
 })
-export class RawLabelComponent implements OnInit{
+export class RawLabelComponent implements OnInit {
 
     displayedColumns: string[] = ['rawMaterial', 'price', 'labelSize', 'labelCount', 'pricePerLabel', 'dateOfEntry', 'action'];
     dataSource: any[] = [];
@@ -17,12 +25,15 @@ export class RawLabelComponent implements OnInit{
     isEdit: boolean = false;
     elementId: string = '';
 
+    labelSizeDropdown: LabelSizeDropdown;
+
     constructor(
         private service: ApiService,
         private fb: FormBuilder
     ) { }
 
     ngOnInit() {
+        this.loadDropdown();
         this.loadData();
         this.labelForm = this.fb.group({
             rawMaterial: [''],
@@ -32,6 +43,15 @@ export class RawLabelComponent implements OnInit{
             pricePerLabel: [''],
             dateOfEntry: [new Date()]
         });
+    }
+
+    loadDropdown() {
+        this.service.getData('dropdown/category/Label Size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.labelSizeDropdown = res.data;
+                console.log(this.labelSizeDropdown);
+            }
+        })
     }
 
     loadData() {

@@ -42,31 +42,32 @@
                     </mat-form-field>
                 </div>
 
-   <!-- Bill or WithoutBill -->
-   <div class="col-sm-6">
-    <mat-form-field class="mb-25">
-        <mat-label>Bill or WithoutBill</mat-label>
-        <mat-select formControlName="orderBy">
-            <mat-option value="Bill">Bill</mat-option>
-            <mat-option value="WithoutBill">Without Bill</mat-option>
-        </mat-select>
-    </mat-form-field>
-</div>
+                <!-- Bill or WithoutBill -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Bill or WithoutBill</mat-label>
+                        <mat-select formControlName="orderBy">
+                            <mat-option value="Bill">Bill</mat-option>
+                            <mat-option value="WithoutBill">Without Bill</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
 
-<!-- Bill Number -->
-<div class="col-sm-6">
-   <mat-form-field class="mb-25">
-       <mat-label>Bill Number</mat-label>
-       <input matInput type="number" placeholder="Ex. 6000" formControlName="BillNumber">
-   </mat-form-field>
-</div>
+                <!-- Bill Number -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Bill Number</mat-label>
+                        <input matInput type="number" placeholder="Ex. 6000" formControlName="BillNumber">
+                    </mat-form-field>
+                </div>
 
 
                 <!-- Z-Fold Dispatch Date/Time -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Z-Fold-Dispatch Date/Time</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="DateAndTime" placeholder="Choose a date">
+                        <input matInput [matDatepicker]="picker" formControlName="DateAndTime"
+                            placeholder="Choose a date">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -97,10 +98,8 @@
 </mat-card>
 
 <!-- Z-Fold-Dispatch -->
-<mat-card
-    class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
-    [class.rtl-enabled]="false"
->
+<mat-card class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
+    [class.rtl-enabled]="false">
     <mat-card-header>
         <mat-card-title>
 
@@ -110,7 +109,8 @@
                 <i class="material-symbols-outlined">
                     search
                 </i>
-                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..." (keyup)="applyFilter($event)" #input>
+                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..."
+                    (keyup)="applyFilter($event)" #input>
             </form>
         </mat-card-subtitle>
     </mat-card-header>
@@ -145,12 +145,14 @@
                         </th>
                         <td mat-cell *matCellDef="let element">
                             <div class="action-info">
-                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above" (click)="editData(element)">
+                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above"
+                                    (click)="editData(element)">
                                     <i class="material-symbols-outlined">
                                         edit
                                     </i>
                                 </button>
-                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above" (click)="deleteData(element._id)">
+                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above"
+                                    (click)="deleteData(element._id)">
                                     <i class="material-symbols-outlined">
                                         delete
                                     </i>

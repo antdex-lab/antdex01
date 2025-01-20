@@ -6,10 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  // private baseUrl = 'http://localhost:3000/api'; // Base URL of your API
-  private baseUrl = 'https://dex-avn-be.onrender.com/api'; // Base URL of your API
+  private baseUrl = 'http://localhost:3000/api'; // Base URL of your API
+  // private baseUrl = 'https://dex-avn-be.onrender.com/api'; // Base URL of your API
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Generic GET method
   getData(endpoint: string): Observable<any> {
@@ -29,5 +29,9 @@ export class ApiService {
   // Generic DELETE method
   deleteData(endpoint: string, id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${endpoint}/${id}`);
+  }
+
+  getDropDown(endpoint: string, data?: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${endpoint}`, data);
   }
 }

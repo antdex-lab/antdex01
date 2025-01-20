@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ApiService} from "../../../services/api.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 
 @Component({
@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
     templateUrl: './roll-disptach.component.html',
     styleUrl: './roll-disptach.component.scss'
 })
-export class RollDisptachComponent implements OnInit{
+export class RollDisptachComponent implements OnInit {
 
     displayedColumns: string[] = ['rollSize', 'noOfRollPerSize', 'orderBy', 'DateAndTime', 'action'];
     dataSource: any[] = [];
@@ -25,9 +25,12 @@ export class RollDisptachComponent implements OnInit{
     ngOnInit() {
         this.loadData();
         this.rollDispatchForm = this.fb.group({
+            noOfRollPackets: [''],
             rollSize: [''],
             noOfRollPerSize: [''],
             orderBy: [''],
+            bill: [''],
+            billNumber: [''],
             DateAndTime: [new Date()]
         });
     }

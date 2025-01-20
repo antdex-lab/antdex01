@@ -1,21 +1,31 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ApiService} from "../../../services/api.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
+
+export interface Dropdown {
+    category: string;
+    options: Array<{
+        value: string;
+        label: string;
+    }>;
+}
 
 @Component({
     selector: 'app-cutting-plain',
     templateUrl: './cutting-plain.component.html',
     styleUrl: './cutting-plain.component.scss'
 })
-export class CuttingPlainComponent implements OnInit{
+export class CuttingPlainComponent implements OnInit {
 
-    displayedColumns: string[] = ['cuttingSizeFromJumboRoll', 'countForRoll', 'inkUsed', 'corePerRoll','coreSize', 'cuttingDateOfEntry', 'action'];
+    displayedColumns: string[] = ['cuttingSizeFromJumboRoll', 'countForRoll', 'inkUsed', 'corePerRoll', 'coreSize', 'cuttingDateOfEntry', 'action'];
     dataSource: any[] = [];
 
     cuttingPlainForm: FormGroup;
     isEdit: boolean = false;
     elementId: string = '';
+
+    dropdown: Dropdown;
 
     constructor(
         private service: ApiService,
@@ -24,6 +34,7 @@ export class CuttingPlainComponent implements OnInit{
 
     ngOnInit() {
         this.loadData();
+        this.loadDropdown();
         this.cuttingPlainForm = this.fb.group({
             cuttingSizeFromJumboRoll: [''],
             countForRoll: [''],
@@ -32,6 +43,15 @@ export class CuttingPlainComponent implements OnInit{
             coreSize: [''],
             cuttingDateOfEntry: [new Date()]
         });
+    }
+
+    loadDropdown() {
+        this.service.getData('dropdown/category/ECG Roll Size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.dropdown = res.data;
+                console.log(this.dropdown);
+            }
+        })
     }
 
     loadData() {
