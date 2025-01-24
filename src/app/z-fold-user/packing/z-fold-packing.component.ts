@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
-import { CustomizerSettingsService } from '../../customizer-settings/customizer-settings.service';
+import {Component} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
+import {SelectionModel} from '@angular/cdk/collections';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -52,20 +51,6 @@ export class ZFoldPackingComponent {
 
     // isToggled
     isToggled = false;
-
-    constructor(
-        public themeService: CustomizerSettingsService
-    ) {
-        this.themeService.isToggled$.subscribe(isToggled => {
-            this.isToggled = isToggled;
-        });
-    }
-
-    // RTL Mode
-    toggleRTLEnabledTheme() {
-        this.themeService.toggleRTLEnabledTheme();
-    }
-
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [

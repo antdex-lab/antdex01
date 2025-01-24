@@ -7,10 +7,8 @@ import {AppComponent} from './app.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterLink, RouterLinkActive, RouterModule, RouterOutlet} from '@angular/router';
-import {ToDoListComponent} from './apps/to-do-list/to-do-list.component';
 import {BoxComponent} from './dashboard/crm/boxs/box.component';
 import {CardboardComponent} from './dashboard/crm/cardboards/cardboard.component';
-import {ClientPaymentStatusComponent} from './dashboard/crm/client-payment-status/client-payment-status.component';
 import {CoreComponent} from './dashboard/crm/cores/core.component';
 import {EarningReportsComponent} from './dashboard/crm/earning-reports/earning-reports.component';
 import {InkComponent} from './dashboard/crm/inks/ink.component';
@@ -75,8 +73,6 @@ import {MaterialModule} from "./material.module";
         TasksStatsComponent,
         TopCustomersComponent,
         RecentLeadsComponent,
-        ToDoListComponent,
-        ClientPaymentStatusComponent,
         TotalLeadsComponent,
         TotalRawPaperComponent,
         TotalRawLabelComponent,

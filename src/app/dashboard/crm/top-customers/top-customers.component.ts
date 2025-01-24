@@ -1,7 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { CustomizerSettingsService } from '../../../customizer-settings/customizer-settings.service';
+import {Component, ViewChild} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
     selector: 'app-top-customers',
@@ -17,22 +16,6 @@ export class TopCustomersComponent {
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
-    }
-
-    // isToggled
-    isToggled = false;
-
-    constructor(
-        public themeService: CustomizerSettingsService
-    ) {
-        this.themeService.isToggled$.subscribe(isToggled => {
-            this.isToggled = isToggled;
-        });
-    }
-
-    // RTL Mode
-    toggleRTLEnabledTheme() {
-        this.themeService.toggleRTLEnabledTheme();
     }
 
 }

@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
 
 @Component({
     selector: 'app-confirm-email',
@@ -8,15 +7,5 @@ import {CustomizerSettingsService} from '../../customizer-settings/customizer-se
 })
 export class ConfirmEmailComponent {
 
-    // isToggled
-    isToggled = false;
-
-    constructor(
-        public themeService: CustomizerSettingsService
-    ) {
-        this.themeService.isToggled$.subscribe(isToggled => {
-            this.isToggled = isToggled;
-        });
-    }
 
 }
