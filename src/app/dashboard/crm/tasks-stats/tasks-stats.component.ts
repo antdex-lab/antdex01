@@ -19,7 +19,7 @@ export type ChartOptions = {
     stroke: ApexStroke;
     dataLabels: ApexDataLabels;
     markers: ApexMarkers;
-    tooltip: any; // ApexTooltip;
+    tooltip: any;
     yaxis: ApexYAxis;
     grid: ApexGrid;
     colors: string[];

@@ -11,8 +11,9 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import {MAT_DATE_FORMATS, MatNativeDateModule} from "@angular/material/core";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
+import {MY_DATE_FORMATS} from "./common/pipe/DatePipe";
 
 @NgModule({
     declarations: [],
@@ -49,6 +50,9 @@ import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
         MatNativeDateModule,
         MatRadioButton,
         MatRadioGroup
+    ],
+    providers:[
+        { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
     ]
 })
 

@@ -23,16 +23,18 @@ export class RawPaperComponent implements OnInit {
     rawPaperForm: FormGroup;
 
     ngOnInit() {
-        this.loadPapers();
         this.rawPaperForm = this.fb.group({
             paperSizeMM: [''],
             paperSizeM: [''],
             gsmOfPaper: [''],
             count: [''],
             pricePerSQM: [''],
+            pricePerKG: [''],
             totalPrice: [''],
             entryDate: [new Date()]
         });
+
+        this.loadPapers();
     }
 
     loadPapers() {
@@ -51,6 +53,8 @@ export class RawPaperComponent implements OnInit {
                 pricePerSquareMeters: Number(this.rawPaperForm.value.pricePerSQM),
                 gsm: this.rawPaperForm.value.gsmOfPaper,
                 count: this.rawPaperForm.value.count,
+                dateOfEntry: this.rawPaperForm.value.entryDate,
+                pricePerKG: this.rawPaperForm.value.pricePerKG
             }
 
             if (!this.isEdit) {
@@ -63,6 +67,7 @@ export class RawPaperComponent implements OnInit {
             } else {
                 this.service.updateData('papers', this.elementId, sendData).subscribe((res) => {
                     if (res) {
+                        console.log(res);
                         this.loadPapers();
                         this.isEdit = false;
                         this.rawPaperForm.reset();
@@ -94,6 +99,7 @@ export class RawPaperComponent implements OnInit {
             count: data.count,
             pricePerSQM: data.pricePerSquareMeters,
             totalPrice: data.totalPrice,
+            pricePerKG: '',
             entryDate: new Date(data.dateOfEntry)
         });
     }

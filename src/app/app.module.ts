@@ -1,5 +1,5 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import {CommonModule, registerLocaleData} from '@angular/common';
 
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserModule, provideClientHydration,} from '@angular/platform-browser';
@@ -55,6 +55,11 @@ import {ZFoldComponent} from './z-fold-user/z-fold/z-fold.component';
 import {HttpClientModule} from "@angular/common/http";
 import {RollDisptachComponent} from "./roll-user/roll-dispatch/roll-disptach.component";
 import {MaterialModule} from "./material.module";
+import {MAT_DATE_FORMATS} from "@angular/material/core";
+import {MY_DATE_FORMATS} from "./common/pipe/DatePipe";
+import localeEnGb from '@angular/common/locales/en-GB';
+
+registerLocaleData(localeEnGb);
 
 @NgModule({
     declarations: [
@@ -123,7 +128,10 @@ import {MaterialModule} from "./material.module";
         HttpClientModule,
         MaterialModule
     ],
-    providers: [provideClientHydration()],
+    providers: [provideClientHydration(),
+        {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
+        {provide: LOCALE_ID, useValue: 'en-GB'}
+    ],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
