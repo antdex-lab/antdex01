@@ -121,8 +121,6 @@ registerLocaleData(localeEnGb);
         NgScrollbarModule,
         RouterLinkActive,
         RouterModule,
-        // NgClass,
-        // NgIf,
         NgApexchartsModule,
         RouterOutlet,
         HttpClientModule,

@@ -29,12 +29,20 @@
             <div class="row">
 
                 <!-- Printing Size Per Jumbo Roll FORMATE( 900X55000 - 56 count )-->
-                <div class="col-sm-6">
+                <div class="col-sm-6"  *ngIf="rollDropdown">
+<!--                    <mat-form-field class="mb-25">-->
+<!--                        <mat-label>Printing Size Per Jumbo Roll</mat-label>-->
+<!--                        <input matInput placeholder="Ex. 900 MM" formControlName="printingSizePerJumboRoll">-->
+<!--                        <input matInput placeholder="Ex. 55000 METERS" formControlName="printingSizePerJumboRoll">-->
+<!--                        <input matInput placeholder="Ex. 50 COUNT" formControlName="printingSizePerJumboRoll">-->
+<!--                    </mat-form-field>-->
+
                     <mat-form-field class="mb-25">
                         <mat-label>Printing Size Per Jumbo Roll</mat-label>
-                        <input matInput placeholder="Ex. 900 MM" formControlName="printingSizePerJumboRoll">
-                        <input matInput placeholder="Ex. 55000 METERS" formControlName="printingSizePerJumboRoll">
-                        <input matInput placeholder="Ex. 50 COUNT" formControlName="printingSizePerJumboRoll">
+                        <mat-select formControlName="printingSizePerJumboRoll">
+                            <mat-option *ngFor="let item of rollDropdown" [value]="item.value">{{ item.label
+                                }}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
 

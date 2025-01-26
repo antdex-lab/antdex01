@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
-import { Dropdown } from '../cutting-plain/cutting-plain.component';
+import {Dropdown, RollDropDown} from '../cutting-plain/cutting-plain.component';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -20,6 +20,8 @@ export class PrintingComponent implements OnInit {
 
     dropdown: Dropdown;
     dropdown2: Dropdown;
+
+    rollDropdown: RollDropDown[];
 
     constructor(
         private service: ApiService,
@@ -39,6 +41,14 @@ export class PrintingComponent implements OnInit {
     }
 
     loadDropdown() {
+
+        this.service.getData('dropdown/papers').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.rollDropdown = res.data;
+                console.log("papers",this.rollDropdown);
+            }
+        })
+
         this.service.getData('dropdown/category/Printing Size').subscribe((res) => {
             if (res.statusCode === 200) {
                 this.dropdown = res.data;
@@ -63,11 +73,14 @@ export class PrintingComponent implements OnInit {
     submit() {
         if (this.printingForm.valid) {
             const sendData = {
-                printingSizePerJumboRoll: this.printingForm.value.printingSizePerJumboRoll,
+                printingSizePerJumboRoll: this.rollDropdown.filter((i) => i.value === this.printingForm.value.printingSizePerJumboRoll)[0].label,
+                id: this.printingForm.value.printingSizePerJumboRoll,
                 printingSize: this.printingForm.value.printingSize,
                 inkUsed: this.printingForm.value.inkUsed,
                 dateOfEntry: this.printingForm.value.dateOfEntry
             };
+
+            console.log(sendData);
 
             if (!this.isEdit) {
                 this.service.createData('printings', sendData).subscribe((res) => {

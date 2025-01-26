@@ -11,6 +11,11 @@ export interface Dropdown {
     }>;
 }
 
+export interface RollDropDown {
+    value: string;
+    label: string;
+}
+
 @Component({
     selector: 'app-cutting-plain',
     templateUrl: './cutting-plain.component.html',
@@ -26,6 +31,7 @@ export class CuttingPlainComponent implements OnInit {
     elementId: string = '';
 
     dropdown: Dropdown;
+    rollDropdown: RollDropDown;
 
     constructor(
         private service: ApiService,
