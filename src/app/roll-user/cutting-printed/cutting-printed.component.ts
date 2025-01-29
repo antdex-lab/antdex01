@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import { Dropdown } from '../cutting-plain/cutting-plain.component';
+import * as XLSX from "xlsx";
+import {saveAs} from "file-saver";
 
 @Component({
     selector: 'app-cutting-plain',
@@ -145,6 +147,17 @@ export class CuttingPrintedComponent implements OnInit {
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         // Implement the filtering logic if necessary.
+    }
+
+
+    downloadExcel() {
+        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource);
+        const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Cutting Printed Data');
+
+        const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+        saveAs(data, 'Cutting_Printed_Data.xlsx');
     }
 
 }

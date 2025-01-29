@@ -111,7 +111,12 @@
     [class.rtl-enabled]="false">
     <mat-card-header>
         <mat-card-title>
-
+            <div class="download-excel-btn" (click)="downloadExcel()">
+                <span class="material-symbols-outlined">
+                    download
+                </span>
+                Download Excel
+            </div>
         </mat-card-title>
         <mat-card-subtitle>
             <form class="search-box position-relative">

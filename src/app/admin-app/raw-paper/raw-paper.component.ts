@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../../services/api.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import Swal from "sweetalert2";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'app-raw-label',
@@ -130,4 +132,13 @@ export class RawPaperComponent implements OnInit {
         });
     }
 
+    downloadExcel() {
+        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource);
+        const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Raw Paper Data');
+
+        const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+        saveAs(data, 'Raw_Paper_Data.xlsx');
+    }
 }
