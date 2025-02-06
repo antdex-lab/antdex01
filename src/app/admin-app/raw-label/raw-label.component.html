@@ -108,7 +108,12 @@
     [class.rtl-enabled]="false">
     <mat-card-header>
         <mat-card-title>
-
+            <div class="download-excel-btn" (click)="downloadExcel()">
+                <span class="material-symbols-outlined">
+                    download
+                </span>
+                Download Excel
+            </div>
         </mat-card-title>
         <mat-card-subtitle>
             <form class="search-box position-relative">
@@ -125,28 +130,23 @@
             <div class="table-responsive">
                 <table mat-table [dataSource]="dataSource">
 
-                    <ng-container matColumnDef="rawMaterial">
-                        <th mat-header-cell *matHeaderCellDef> Color </th>
-                        <td mat-cell *matCellDef="let element"> {{element.rawMaterial}} </td>
-                    </ng-container>
-
                     <ng-container matColumnDef="price">
-                        <th mat-header-cell *matHeaderCellDef> Size In Kg </th>
+                        <th mat-header-cell *matHeaderCellDef> Price </th>
                         <td mat-cell *matCellDef="let element"> {{element.price}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="labelSize">
-                        <th mat-header-cell *matHeaderCellDef> Price per Kg </th>
+                        <th mat-header-cell *matHeaderCellDef> Label Size </th>
                         <td mat-cell *matCellDef="let element"> {{element.labelSize}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="labelCount">
-                        <th mat-header-cell *matHeaderCellDef> Total Price </th>
+                        <th mat-header-cell *matHeaderCellDef> Label Count </th>
                         <td mat-cell *matCellDef="let element"> {{element.labelCount}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="pricePerLabel">
-                        <th mat-header-cell *matHeaderCellDef> Total Price </th>
+                        <th mat-header-cell *matHeaderCellDef> Price Per Label </th>
                         <td mat-cell *matCellDef="let element"> {{element.pricePerLabel}} </td>
                     </ng-container>
 
