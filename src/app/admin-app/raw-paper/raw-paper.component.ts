@@ -41,7 +41,6 @@ export class RawPaperComponent implements OnInit {
 
     loadPapers() {
         this.service.getData('papers').subscribe((res) => {
-            console.log(res);
             this.dataSource = res;
         })
     }
@@ -69,7 +68,6 @@ export class RawPaperComponent implements OnInit {
             } else {
                 this.service.updateData('papers', this.elementId, sendData).subscribe((res) => {
                     if (res) {
-                        console.log(res);
                         this.loadPapers();
                         this.isEdit = false;
                         this.rawPaperForm.reset();

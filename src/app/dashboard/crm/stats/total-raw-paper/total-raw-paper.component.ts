@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 
 import {
     ChartComponent,
@@ -37,6 +37,9 @@ export class TotalRawPaperComponent {
 
     @ViewChild("chart") chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;
+
+    @Input()
+    data: any;
 
     // isToggled
     isToggled = false;

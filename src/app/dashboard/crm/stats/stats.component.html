@@ -4,37 +4,37 @@
             <div class="col-md-2 ">
 
                 <!-- New Users -->
-                <app-total-raw-paper />
+                <app-total-raw-paper [data]="data && data.paper ? data.paper : 0" />
 
             </div>
             <div class="col-md-2 ">
 
                 <!-- New Users -->
-                <app-total-raw-core />
+                <app-total-raw-core [data]="data && data.cores ? data.cores : 0" />
 
             </div>
             <div class="col-md-2 ">
 
                 <!-- New Users -->
-                <app-total-raw-ink />
+                <app-total-raw-ink [data]="data && data.ink ? data.ink : 0" />
 
             </div>
             <div class="col-md-2 ">
 
                 <!-- Active Users -->
-                <app-total-raw-label />
+                <app-total-raw-label [data]="data && data.label ? data.label : 0" />
 
             </div>
             <div class="col-md-2 ">
 
                 <!-- Revenue Growth -->
-                <app-total-raw-box />
+                <app-total-raw-box [data]="data && data.box ? data.box : 0" />
 
             </div>
             <div class="col-md-2 ">
 
                 <!-- Lead Conversation -->
-                <app-total-raw-cardboard />
+                <app-total-raw-cardboard [data]="data && data.cardboard ? data.cardboard : 0" />
 
             </div>
         </div>
