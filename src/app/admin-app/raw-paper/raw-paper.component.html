@@ -60,7 +60,7 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Price per SQM</mat-label>
-                        <input matInput placeholder="Ex. 100" formControlName="pricePerSQM">
+                        <input matInput placeholder="Ex. 100" formControlName="pricePerSQM" (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">
