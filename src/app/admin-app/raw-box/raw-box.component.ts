@@ -125,4 +125,13 @@ export class RawBoxComponent implements OnInit{
         saveAs(data, 'Raw_Box_Data.xlsx');
     }
 
+    totalPrice() {
+        const { boxCount, pricePerBox } = this.boxForm.value;
+
+        if (pricePerBox && boxCount) {
+            const total = Number(boxCount) * Number(pricePerBox);
+            this.boxForm.patchValue({ totalPrice: total.toFixed(2) });
+        }
+    }
+
 }

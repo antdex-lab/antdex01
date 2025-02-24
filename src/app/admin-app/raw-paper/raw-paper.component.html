@@ -34,33 +34,33 @@
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Paper Size of mm</mat-label>
-                        <input matInput placeholder="Ex. 50" formControlName="paperSizeMM">
+                        <input matInput placeholder="Ex. 50" formControlName="paperSizeMM" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Paper Size of Mitter</mat-label>
-                        <input matInput placeholder="Ex. 6000" formControlName="paperSizeM">
+                        <input matInput placeholder="Ex. 6000" formControlName="paperSizeM" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>GSM of Paper</mat-label>
-                        <input matInput placeholder="Ex. 54" formControlName="gsmOfPaper">
+                        <input matInput placeholder="Ex. 54" formControlName="gsmOfPaper" >
                     </mat-form-field>
                 </div>
 
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>No. Of Roll</mat-label>
-                        <input matInput placeholder="Ex. 1" formControlName="count">
+                        <input matInput placeholder="Ex. 1" formControlName="count" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
 
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Price per SQM</mat-label>
-                        <input matInput placeholder="Ex. 100" formControlName="pricePerSQM">
+                        <input matInput placeholder="Ex. 100" formControlName="pricePerSQM" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">

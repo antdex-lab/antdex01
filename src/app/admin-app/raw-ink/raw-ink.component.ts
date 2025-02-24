@@ -124,4 +124,14 @@ export class RawInkComponent implements OnInit {
         const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
         saveAs(data, 'Raw_Ink_Data.xlsx');
     }
+
+    totalPrice() {
+        const { sizeInKg, pricePerKg } = this.inkForm.value;
+
+        if (sizeInKg && pricePerKg) {
+            const total = Number(sizeInKg) * Number(pricePerKg);
+            this.inkForm.patchValue({ totalPrice: total.toFixed(2) });
+        }
+    }
+
 }

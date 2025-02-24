@@ -3,7 +3,7 @@ import {ApiService} from "../../../services/api.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
+import {saveAs} from 'file-saver';
 
 @Component({
     selector: 'app-raw-label',
@@ -139,4 +139,14 @@ export class RawPaperComponent implements OnInit {
         const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
         saveAs(data, 'Raw_Paper_Data.xlsx');
     }
+
+    totalPrice() {
+        const { paperSizeMM, paperSizeM, count, pricePerSQM } = this.rawPaperForm.value;
+
+        if (paperSizeMM && paperSizeM && count && pricePerSQM) {
+            const total = (Number(paperSizeMM) / 1000) * Number(paperSizeM) * Number(count) * Number(pricePerSQM);
+            this.rawPaperForm.patchValue({ totalPrice: total.toFixed(2) });
+        }
+    }
+
 }

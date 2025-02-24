@@ -124,4 +124,14 @@ export class RawCoreComponent implements OnInit {
         const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
         saveAs(data, 'Raw_Core_Data.xlsx');
     }
+
+    totalPrice() {
+        const { noOfCores, size, pricePerCore } = this.coreForm.value;
+
+        if (noOfCores && size && pricePerCore) {
+            const total = Number(noOfCores) * Number(size) * Number(pricePerCore);
+            this.coreForm.patchValue({ totalPrice: total.toFixed(2) });
+        }
+    }
+
 }

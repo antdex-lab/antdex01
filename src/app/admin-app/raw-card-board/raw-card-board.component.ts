@@ -123,4 +123,13 @@ export class RawCardBoardComponent implements OnInit{
         const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
         saveAs(data, 'Raw_Cardboard_Data.xlsx');
     }
+
+    totalPrice() {
+        const { cardboardCount, pricePerCardboard } = this.cardBoardForm.value;
+
+        if (cardboardCount && pricePerCardboard) {
+            const total = Number(cardboardCount) * Number(pricePerCardboard);
+            this.cardBoardForm.patchValue({ totalPrice: total.toFixed(2) });
+        }
+    }
 }

@@ -34,19 +34,19 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Count</mat-label>
-                        <input matInput type="number" formControlName="noOfCores" placeholder="Ex. 501">
+                        <input matInput type="number" formControlName="noOfCores" placeholder="Ex. 501" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size</mat-label>
-                        <input matInput type="number" formControlName="size" placeholder="Ex. 60">
+                        <input matInput type="number" formControlName="size" placeholder="Ex. 60" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Price per Core</mat-label>
-                        <input matInput formControlName="pricePerCore" placeholder="Ex. 100">
+                        <input matInput formControlName="pricePerCore" placeholder="Ex. 100" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">
