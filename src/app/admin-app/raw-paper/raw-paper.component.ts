@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService} from "../../../services/api.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from "../../../services/api.service";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from 'xlsx';
-import {saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'app-raw-label',
@@ -38,17 +38,6 @@ export class RawPaperComponent implements OnInit {
 
         this.loadPapers();
     }
-
-    calculateTotal() {
-        const sizeInMetersConverted = this.rawPaperForm.value.paperSizeMM / 1000; // Convert MM to meters
-        const totalSQM = (this.rawPaperForm.value.paperSizeM * sizeInMetersConverted) * this.rawPaperForm.value.count;
-        const totalPrice = totalSQM * this.rawPaperForm.value.pricePerSQM;
-        console.log("Total Price",totalSQM, totalPrice)
-        this.rawPaperForm.patchValue({
-            totalPrice: totalPrice.toFixed(2)
-        });
-        // return { totalSQM, totalPrice };
-      }
 
     loadPapers() {
         this.service.getData('papers').subscribe((res) => {
