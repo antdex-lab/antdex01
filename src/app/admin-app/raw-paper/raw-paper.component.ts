@@ -39,6 +39,17 @@ export class RawPaperComponent implements OnInit {
         this.loadPapers();
     }
 
+    calculateTotal() {
+        const sizeInMetersConverted = this.rawPaperForm.value.paperSizeMM / 1000; // Convert MM to meters
+        const totalSQM = (this.rawPaperForm.value.paperSizeM * sizeInMetersConverted) * this.rawPaperForm.value.count;
+        const totalPrice = totalSQM * this.rawPaperForm.value.pricePerSQM;
+        console.log("Total Price",totalSQM, totalPrice)
+        this.rawPaperForm.patchValue({
+            totalPrice: totalPrice.toFixed(2)
+        });
+        // return { totalSQM, totalPrice };
+      }
+
     loadPapers() {
         this.service.getData('papers').subscribe((res) => {
             this.dataSource = res;

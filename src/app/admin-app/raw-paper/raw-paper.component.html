@@ -46,7 +46,7 @@
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>GSM of Paper</mat-label>
-                        <input matInput placeholder="Ex. 54" formControlName="gsmOfPaper" >
+                        <input matInput placeholder="Ex. 54" formControlName="gsmOfPaper">
                     </mat-form-field>
                 </div>
 
@@ -80,9 +80,8 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Entry date</mat-label>
-                        <input matInput [matDatepicker]="picker"
-                               formControlName="entryDate"
-                               placeholder="Choose a date">
+                        <input matInput [matDatepicker]="picker" formControlName="entryDate"
+                            placeholder="Choose a date">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -90,10 +89,10 @@
 
                 <button mat-button class="btn" type="submit">
                     <span *ngIf="!isEdit">
-                    Submit
+                        Submit
                     </span>
                     <span *ngIf="isEdit">
-                    Update
+                        Update
                     </span>
                 </button>
             </div>
@@ -102,10 +101,8 @@
 </mat-card>
 
 <!-- Raw Paper -->
-<mat-card
-    class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
-    [class.rtl-enabled]="false"
->
+<mat-card class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
+    [class.rtl-enabled]="false">
     <mat-card-header>
         <mat-card-title>
             <div class="download-excel-btn" (click)="downloadExcel()">
@@ -120,7 +117,8 @@
                 <i class="material-symbols-outlined">
                     search
                 </i>
-                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..." (keyup)="applyFilter($event)" #input>
+                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..."
+                    (keyup)="applyFilter($event)" #input>
             </form>
         </mat-card-subtitle>
     </mat-card-header>
@@ -199,7 +197,7 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="action-info">
                                 <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above"
-                                        (click)="editData(element)">
+                                    (click)="editData(element)">
                                     <i class="material-symbols-outlined">
                                         edit
                                     </i>
