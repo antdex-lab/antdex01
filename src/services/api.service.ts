@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:3000/api'; // Base URL of your API
-  // private baseUrl = 'https://dex-avn-be.onrender.com/api'; // Base URL of your API
+  // private baseUrl = 'http://localhost:3000/api'; // Base URL of your API
+  private baseUrl = 'https://dex-avn-be.onrender.com/api'; // Base URL of your API
 
   constructor(private http: HttpClient) { }
 
