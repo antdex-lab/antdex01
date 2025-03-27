@@ -1,10 +1,6 @@
-import { NgClass } from '@angular/common';
-import { MatMenuModule } from '@angular/material/menu';
-import { Component, HostListener } from '@angular/core';
-import { ToggleService } from '../sidebar/toggle.service';
-import { MatButtonModule } from '@angular/material/button';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CustomizerSettingsService } from '../../customizer-settings/customizer-settings.service';
+import {Component, HostListener} from '@angular/core';
+import {ToggleService} from '../sidebar/toggle.service';
+import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
 
 @Component({
     selector: 'app-header',

@@ -1,0 +1,136 @@
+<!-- Breadcrumb -->
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between">
+    <h5 class="mb-0">
+        Manage Categories
+    </h5>
+</div>
+
+<!-- Create Product -->
+<mat-card class="daxa-card create-product-card mb-25 border-radius bg-white border-none d-block">
+    <mat-card-content>
+        <form [formGroup]="dynamicDialogForm" (ngSubmit)="submitDialog()">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Category Title
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Category Title
+                                    </mat-label>
+                                    <input matInput placeholder="E.g. Printing Size" formControlName="title">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <mat-card class="daxa-card mb-25 border-radius bg-white border-none d-block">
+                            <mat-card-header>
+                                <mat-card-title>
+                                    <h5 class="mt-0 mb-0">
+                                        Add Category Options
+                                    </h5>
+                                </mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <mat-form-field>
+                                    <mat-label>Category Options</mat-label>
+                                    <mat-chip-grid #chipGrid aria-label="Enter Options">
+                                        @for (category of options; track category) {
+                                        <mat-chip-row (removed)="remove(category)" [editable]="true" (edited)="edit(category, $event)"
+                                            [aria-description]="'press enter to edit ' + category.label">
+                                        {{category.label}}
+                                        <button matChipRemove [attr.aria-label]="'remove ' + category.label">
+                                            <mat-icon>cancel</mat-icon>
+                                        </button>
+                                    </mat-chip-row>
+                                        }
+                                        <input placeholder="New option..." [matChipInputFor]="chipGrid"
+                                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                               [matChipInputAddOnBlur]="addOnBlur"
+                                               (matChipInputTokenEnd)="add($event)"/>
+                                    </mat-chip-grid>
+                                </mat-form-field>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-box">
+                <button mat-button>
+                    {{ isEditMode ? "Update Category" : "Create Category" }}
+                </button>
+                <button mat-button>
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="daxa-card products-list-card mb-25 border-radius bg-white border-none d-block">
+    <mat-card-content>
+        <div class="products-list-table">
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource">
+
+                    <ng-container matColumnDef="category">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Category
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.category }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="options">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Options
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="info d-flex align-items-center">
+                                {{element.subCategories}}
+<!--                                <div *ngFor="let item of element.options">{{item.label}} ,</div>-->
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Action
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="action-info">
+                                <button type="button" mat-button matTooltip="Edit Product" matTooltipPosition="above"
+                                        (click)="editDialog(element)">
+                                    <i class="material-symbols-outlined">
+                                        {{ element.action.edit }}
+                                    </i>
+                                </button>
+                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above"
+                                        (click)="deleteDialog(element._id)">
+                                    <i class="material-symbols-outlined">
+                                        {{ element.action.delete }}
+                                    </i>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data matching the filter</td>
+                    </tr>
+
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>

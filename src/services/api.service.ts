@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  // private baseUrl = 'http://localhost:3030'; // Base URL of your API
-  private baseUrl = 'https://dex-avn-be.vercel.app'; // Base URL of your API
+  private baseUrl = 'http://localhost:3030'; // Base URL of your API
+  // private baseUrl = 'https://dex-avn-be.vercel.app'; // Base URL of your API
 
   constructor(private http: HttpClient) { }
 
@@ -33,5 +33,9 @@ export class ApiService {
 
   getDropDown(endpoint: string, data?: any): Observable<any> {
     return this.http.get(`${this.baseUrl}/${endpoint}`, data);
+  }
+
+  updateDropdown(endpoint: string, data?: any): Observable<any> {
+      return this.http.put(`${this.baseUrl}/${endpoint}`, data);
   }
 }

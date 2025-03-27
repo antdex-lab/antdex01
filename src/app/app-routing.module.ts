@@ -25,6 +25,7 @@ import { ForgotPasswordComponent } from './authentication/forgot-password/forgot
 import { LockScreenComponent } from './authentication/lock-screen/lock-screen.component';
 import { LogoutComponent } from './authentication/logout/logout.component';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
+import {CategoriesComponent} from "./admin-app/categories/categories.component";
 
 const routes: Routes = [
     { path: '', redirectTo: 'crm', pathMatch: 'full' },
@@ -47,6 +48,7 @@ const routes: Routes = [
     { path: 'cutting-printed', component: CuttingPrintedComponent, canActivate: [AuthGuard] },
     { path: 'packing', component: PackingComponent, canActivate: [AuthGuard] },
     { path: 'roll-dispatch', component: RollDisptachComponent, canActivate: [AuthGuard] },
+    { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuard] },
     {
         path: 'authentication',
         component: AuthenticationComponent,

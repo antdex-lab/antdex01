@@ -1,0 +1,517 @@
+.mat-mdc-card {
+    &.daxa-card {
+        &.create-product-card {
+            .mat-mdc-card-content {
+                .title {
+                    margin-bottom: 20px;
+                }
+
+                .main-label {
+                    margin-bottom: 12px;
+                }
+            }
+        }
+    }
+}
+
+::ng-deep {
+    .mat-mdc-card {
+        &.daxa-card {
+            &.create-product-card {
+                .mat-mdc-card-content {
+                    .btn-box {
+                        .mat-mdc-button {
+                            border: 0;
+                            height: auto;
+                            min-width: auto;
+                            min-height: auto;
+                            padding: 13px 40px;
+                            font-weight: normal;
+                            color: var(--whiteColor);
+                            background-color: var(--daxaColor);
+
+                            &:not(:first-child) {
+                                margin-left: 10px;
+                                background-color: var(--dangerColor);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+
+    .mat-mdc-card {
+        &.daxa-card {
+            &.create-product-card {
+                .mat-mdc-card-content {
+                    .title {
+                        margin-bottom: 15px;
+                    }
+
+                    .main-label {
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+    }
+
+    ::ng-deep {
+        .mat-mdc-card {
+            &.daxa-card {
+                &.create-product-card {
+                    .mat-mdc-card-content {
+                        .btn-box {
+                            .mat-mdc-button {
+                                padding: 13px 18px;
+
+                                &:not(:first-child) {
+                                    margin-left: 8px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.ml-16 {
+    margin-left: 16px;
+}
+
+.edit-product-images {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .product-image-list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 10px 0;
+        gap: 10px;
+
+        .product-image {
+            display: flex;
+            border: 1px solid black;
+            width: 100%;
+            padding: 10px;
+            position: relative;
+
+            .image-container {
+                max-width: 120px;
+                max-height: 120px;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+
+            .delete-icon {
+                position: absolute;
+                right: 20px;
+                top: 45%;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.mat-mdc-card {
+    &.daxa-card {
+        &.products-list-card {
+            .mat-mdc-card-header {
+                .search-box {
+                    width: 300px;
+                }
+
+                .info {
+                    margin-left: 25px;
+
+                    li {
+                        margin-right: 20px;
+
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
+
+            .mat-mdc-card-content {
+                margin: {
+                    left: -20px;
+                    right: -20px;
+                }
+
+                .products-list-table {
+                    .mat-mdc-table {
+                        .mat-mdc-header-cell {
+                            &:last-child {
+                                text-align: right;
+                            }
+
+                            &:first-child {
+                                padding-right: 0;
+                            }
+                        }
+
+                        .mat-mdc-cell {
+                            &:last-child {
+                                text-align: right;
+                            }
+
+                            &:first-child {
+                                padding-right: 0;
+                            }
+                        }
+
+                        .info {
+                            .image {
+                                width: 50px;
+                                line-height: .01;
+                                margin-right: 12px;
+
+                                img {
+                                    border-radius: 50%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+::ng-deep {
+    .mat-mdc-card {
+        &.daxa-card {
+            &.products-list-card {
+                .mat-mdc-card-header {
+                    .mat-mdc-card-header-text {
+                        .mat-mdc-card-title {
+                            display: flex;
+                            align-items: center;
+                        }
+                    }
+                }
+
+                .mat-mdc-card-content {
+                    .products-list-table {
+                        .mat-mdc-paginator {
+                            padding: {
+                                top: 15px;
+                                left: 20px;
+                                right: 20px;
+                            }
+
+                        ;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+
+    .mat-mdc-card {
+        &.daxa-card {
+            &.products-list-card {
+                .mat-mdc-card-header {
+                    .info {
+                        margin-left: 0;
+
+                        li {
+                            margin: {
+                                right: 15px;
+                                top: 12px;
+                            }
+
+                        ;
+                        }
+                    }
+
+                    .mat-mdc-button {
+                        &.add-new-btn {
+                            margin-top: 12px;
+                        }
+                    }
+                }
+
+                .mat-mdc-card-content {
+                    margin: {
+                        left: -15px;
+                        right: -15px;
+                    }
+
+                ;
+
+                    .products-list-table {
+                        .mat-mdc-table {
+                            .info {
+                                .image {
+                                    width: 40px;
+                                    margin-right: 8px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    ::ng-deep {
+        .mat-mdc-card {
+            &.daxa-card {
+                &.products-list-card {
+                    .mat-mdc-card-header {
+                        .mat-mdc-card-header-text {
+                            display: block;
+
+                            .mat-mdc-card-title {
+                                display: block;
+                            }
+                        }
+                    }
+
+                    .mat-mdc-card-content {
+                        .products-list-table {
+                            .mat-mdc-paginator {
+                                padding: {
+                                    top: 10px;
+                                    left: 15px;
+                                    right: 15px;
+                                }
+
+                            ;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width : 576px) and (max-width : 767px) {
+
+    .mat-mdc-card {
+        &.daxa-card {
+            &.products-list-card {
+                .mat-mdc-card-content {
+                    margin: {
+                        left: -20px;
+                        right: -20px;
+                    }
+
+                ;
+                }
+            }
+        }
+    }
+
+    ::ng-deep {
+        .mat-mdc-card {
+            &.daxa-card {
+                &.products-list-card {
+                    .mat-mdc-card-content {
+                        .products-list-table {
+                            .mat-mdc-paginator {
+                                padding: {
+                                    left: 20px;
+                                    right: 20px;
+                                }
+
+                            ;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    .mat-mdc-card {
+        &.daxa-card {
+            &.products-list-card {
+                .mat-mdc-card-header {
+                    .search-box {
+                        width: 100%;
+                    }
+
+                    .info {
+                        margin-left: 0;
+
+                        li {
+                            margin: {
+                                right: 15px;
+                                top: 12px;
+                            }
+
+                        ;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ::ng-deep {
+        .mat-mdc-card {
+            &.daxa-card {
+                &.products-list-card {
+                    .mat-mdc-card-header {
+                        .mat-mdc-card-header-text {
+                            .mat-mdc-card-title {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {
+
+    .mat-mdc-card {
+        &.daxa-card {
+            &.products-list-card {
+                .mat-mdc-card-header {
+                    .search-box {
+                        width: 100%;
+                    }
+
+                    .info {
+                        margin-left: 0;
+
+                        li {
+                            margin: {
+                                right: 15px;
+                                top: 12px;
+                            }
+
+                        ;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ::ng-deep {
+        .mat-mdc-card {
+            &.daxa-card {
+                &.products-list-card {
+                    .mat-mdc-card-header {
+                        .mat-mdc-card-header-text {
+                            .mat-mdc-card-title {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+
+    .mat-mdc-card {
+        &.daxa-card {
+            &.products-list-card {
+                .mat-mdc-card-header {
+                    .search-box {
+                        width: 100%;
+                    }
+
+                    .info {
+                        margin-left: 0;
+
+                        li {
+                            margin: {
+                                right: 15px;
+                                top: 12px;
+                            }
+
+                        ;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ::ng-deep {
+        .mat-mdc-card {
+            &.daxa-card {
+                &.products-list-card {
+                    .mat-mdc-card-header {
+                        .mat-mdc-card-header-text {
+                            .mat-mdc-card-title {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {
+
+    .mat-mdc-card {
+        &.daxa-card {
+            &.products-list-card {
+                .mat-mdc-card-header {
+                    .search-box {
+                        width: 340px;
+                    }
+
+                    .info {
+                        margin-left: 50px;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+.max-width-400 {
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+}
