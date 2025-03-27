@@ -1,5 +1,4 @@
-<div
-    class="sidebar-area bg-white active" [ngClass]="{'active': isSidebarToggled}">
+<div class="sidebar-area bg-white active" [ngClass]="{'active': isSidebarToggled}">
 
     <!--    [class.component-dark-theme]="themeService.isDark()"-->
     <!--    [class.dark-sidebar]="themeService.isSidebarDark()"-->
@@ -14,11 +13,7 @@
             <!-- <span class="fw-semibold">Daxa</span> -->
         </a>
     </div>
-    <div
-        (click)="toggle()"
-        class="burger-menu"
-        [ngClass]="{'active': isSidebarToggled}"
-    >
+    <div (click)="toggle()" class="burger-menu" [ngClass]="{'active': isSidebarToggled}">
         <span class="top-bar"></span>
         <span class="middle-bar"></span>
         <span class="bottom-bar"></span>
@@ -33,7 +28,8 @@
                         <span class="sub-title text-body">
                             MAIN
                         </span>
-                        <a routerLink="/crm" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/crm" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 dashboard
                             </i>
@@ -41,53 +37,12 @@
                                 Dashboard
                             </span>
                         </a>
-                        <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    <i class="material-symbols-outlined">
-                                        dashboard
-                                    </i>
-                                    <span class="title">
-                                        Dashboard
-                                    </span>
-                                    <span class="daxa-badge">
-                                        5
-                                    </span>
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <ul class="sidebar-sub-menu">
-                                <li class="sidemenu-item">
-                                    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                        E-Commerce
-                                    </a>
-                                </li>
-                                <li class="sidemenu-item">
-                                    <a routerLink="/crm" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                        CRM
-                                    </a>
-                                </li>
-                                <li class="sidemenu-item">
-                                    <a routerLink="/project-management" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                        Project Management
-                                    </a>
-                                </li>
-                                <li class="sidemenu-item">
-                                    <a routerLink="/lms" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                        LMS
-                                    </a>
-                                </li>
-                                <li class="sidemenu-item">
-                                    <a routerLink="/help-desk" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                        Help Desk <span class="daxa-badge">Hot</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </mat-expansion-panel> -->
 
                         <span class="sub-title text-body">
                             ADMIN APP
                         </span>
-                        <a routerLink="/raw-paper" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/raw-paper" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 ballot
                             </i>
@@ -95,7 +50,8 @@
                                 Raw Paper
                             </span>
                         </a>
-                        <a routerLink="/raw-core" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/raw-core" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 ballot
                             </i>
@@ -103,7 +59,8 @@
                                 Raw Core
                             </span>
                         </a>
-                        <a routerLink="/raw-ink" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/raw-ink" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 ballot
                             </i>
@@ -111,7 +68,8 @@
                                 Raw Ink
                             </span>
                         </a>
-                        <a routerLink="/raw-label" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/raw-label" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 ballot
                             </i>
@@ -119,7 +77,8 @@
                                 Raw Label
                             </span>
                         </a>
-                        <a routerLink="/raw-box" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/raw-box" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 ballot
                             </i>
@@ -127,7 +86,8 @@
                                 Raw Box
                             </span>
                         </a>
-                        <a routerLink="/raw-cardboard" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/raw-cardboard" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 ballot
                             </i>
@@ -141,7 +101,8 @@
                         <span class="sub-title text-body">
                             SALARY APP
                         </span>
-                        <a routerLink="/salary-tracker" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/salary-tracker" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 ballot
                             </i>
@@ -154,7 +115,8 @@
                             ROLLS SECTION
                         </span>
 
-                        <a routerLink="/printing" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/printing" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 print
                             </i>
@@ -162,7 +124,8 @@
                                 Printing
                             </span>
                         </a>
-                        <a routerLink="/cutting-printed" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/cutting-printed" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 content_cut
                             </i>
@@ -170,7 +133,8 @@
                                 Cutting Printed Roll
                             </span>
                         </a>
-                        <a routerLink="/cutting-plain" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/cutting-plain" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 content_cut
                             </i>
@@ -178,7 +142,8 @@
                                 Cutting Plain Roll
                             </span>
                         </a>
-                        <a routerLink="/packing" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/packing" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 package_2
                             </i>
@@ -186,7 +151,8 @@
                                 Packing
                             </span>
                         </a>
-                        <a routerLink="/roll-dispatch" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/roll-dispatch" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 local_shipping
                             </i>
@@ -199,7 +165,8 @@
                             Z-FOLD SECTION
                         </span>
 
-                        <a routerLink="/z-fold" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/z-fold" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 document_scanner
                             </i>
@@ -207,7 +174,8 @@
                                 Z-Fold
                             </span>
                         </a>
-                        <a routerLink="/z-fold-packing" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/z-fold-packing" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 package_2
                             </i>
@@ -215,7 +183,8 @@
                                 Packing
                             </span>
                         </a>
-                        <a routerLink="/z-fold-dispatch" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/z-fold-dispatch" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 local_shipping
                             </i>
@@ -231,7 +200,8 @@
                             ROLLS SECTION
                         </span>
 
-                        <a routerLink="/printing" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/printing" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 print
                             </i>
@@ -239,7 +209,8 @@
                                 Printing
                             </span>
                         </a>
-                        <a routerLink="/cutting-printed" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/cutting-printed" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 content_cut
                             </i>
@@ -247,7 +218,8 @@
                                 Cutting Printed Roll
                             </span>
                         </a>
-                        <a routerLink="/cutting-plain" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/cutting-plain" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 content_cut
                             </i>
@@ -255,7 +227,8 @@
                                 Cutting Plain Roll
                             </span>
                         </a>
-                        <a routerLink="/packing" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/packing" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 package_2
                             </i>
@@ -263,7 +236,8 @@
                                 Packing
                             </span>
                         </a>
-                        <a routerLink="/roll-dispatch" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/roll-dispatch" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 local_shipping
                             </i>
@@ -279,7 +253,8 @@
                             Z-FOLD SECTION
                         </span>
 
-                        <a routerLink="/z-fold" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/z-fold" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 document_scanner
                             </i>
@@ -287,7 +262,8 @@
                                 Z-Fold
                             </span>
                         </a>
-                        <a routerLink="/z-fold-packing" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/z-fold-packing" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 package_2
                             </i>
@@ -295,7 +271,8 @@
                                 Packing
                             </span>
                         </a>
-                        <a routerLink="/z-fold-dispatch" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <a routerLink="/z-fold-dispatch" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
                                 local_shipping
                             </i>
@@ -306,7 +283,8 @@
 
                     </div>
 
-                    <a (click)="onLogout()" routerLink="/authentication/logout" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a (click)="onLogout()" routerLink="/authentication/logout" class="sidebar-menu-link"
+                        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
                             logout
                         </i>

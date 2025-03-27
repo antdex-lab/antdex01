@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ApiService} from "../../../services/api.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { ApiService } from "../../services/api.service";
 import Swal from "sweetalert2";
 
 @Component({
@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
     templateUrl: './salary-tracker.component.html',
     styleUrl: './salary-tracker.component.scss'
 })
-export class SalaryTrackerComponent implements OnInit{
+export class SalaryTrackerComponent implements OnInit {
 
     displayedColumns: string[] = ['name', 'salary', 'contact', 'address', 'department', 'dateOfJoining', 'action'];
     dataSource: any[] = [];

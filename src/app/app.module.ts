@@ -48,7 +48,7 @@ import { CuttingPlainComponent } from './roll-user/cutting-plain/cutting-plain.c
 import { CuttingPrintedComponent } from './roll-user/cutting-printed/cutting-printed.component';
 import { PackingComponent } from './roll-user/packing/packing.component';
 import { PrintingComponent } from './roll-user/printing/printing.component';
-import { SalaryTrackerComponent } from './salary-tracker/salary-tracker/salary-tracker.component';
+import { SalaryTrackerComponent } from './salary-tracker/salary-tracker.component';
 import { DisptachComponent } from './z-fold-user/dispatch/disptach.component';
 import { ZFoldPackingComponent } from './z-fold-user/packing/z-fold-packing.component';
 import { ZFoldComponent } from './z-fold-user/z-fold/z-fold.component';
