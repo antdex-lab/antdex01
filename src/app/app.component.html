@@ -6,15 +6,15 @@
     <app-sidebar />
 
     <!-- Main Content -->
-    <div class="main-content transition d-flex flex-column" [ngClass]="{'active': isSidebarToggled}"
-        [class.right-sidebar]="themeService.isRightSidebar()" [class.hide-sidebar]="themeService.isHideSidebar()">
+    <div class="main-content transition d-flex flex-column" [ngClass]="{'active': isSidebarToggled}">
         <app-header />
         <router-outlet />
         <div class="flex-grow-1"></div>
-        <app-footer />
     </div>
 
     <!-- Customizer Settings -->
-    <app-customizer-settings />
+    <!--    <app-customizer-settings />-->
 
 </div>
+
+<!--[class.right-sidebar]="themeService.isRightSidebar()" [class.hide-sidebar]="themeService.isHideSidebar()"-->

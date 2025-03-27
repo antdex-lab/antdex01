@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
-import {Dropdown, RollDropDown} from '../cutting-plain/cutting-plain.component';
+import { Dropdown, RollDropDown } from '../cutting-plain/cutting-plain.component';
 import * as XLSX from "xlsx";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
 
 @Component({
     selector: 'app-cutting-plain',
@@ -47,7 +47,7 @@ export class PrintingComponent implements OnInit {
         this.service.getData('dropdown/papers').subscribe((res) => {
             if (res.statusCode === 200) {
                 this.rollDropdown = res.data;
-                console.log("papers",this.rollDropdown);
+                console.log("papers", this.rollDropdown);
             }
         })
 
