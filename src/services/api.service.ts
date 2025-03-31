@@ -36,6 +36,6 @@ export class ApiService {
   }
 
   updateDropdown(endpoint: string, data?: any): Observable<any> {
-      return this.http.put(`${this.baseUrl}/${endpoint}`, data);
+    return this.http.put(`${this.baseUrl}/${endpoint}`, data);
   }
 }

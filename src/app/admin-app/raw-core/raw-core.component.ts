@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {ApiService} from "../../../services/api.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
 
 @Component({
     selector: 'app-raw-core',
@@ -74,7 +74,7 @@ export class RawCoreComponent implements OnInit {
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.coreForm.setValue({
+        this.coreForm.patchValue({
             noOfCores: data.noOfCores,
             size: data.size,
             pricePerCore: data.pricePerCore,
@@ -126,10 +126,10 @@ export class RawCoreComponent implements OnInit {
     }
 
     totalPrice() {
-        const { noOfCores, size, pricePerCore } = this.coreForm.value;
+        const { noOfCores, pricePerCore } = this.coreForm.value;
 
-        if (noOfCores && size && pricePerCore) {
-            const total = Number(noOfCores) * Number(size) * Number(pricePerCore);
+        if (noOfCores && pricePerCore) {
+            const total = Number(noOfCores) * Number(pricePerCore);
             this.coreForm.patchValue({ totalPrice: total.toFixed(2) });
         }
     }

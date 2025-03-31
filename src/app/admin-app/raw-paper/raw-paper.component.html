@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
-                        <mat-label>Paper Size of Mitter</mat-label>
+                        <mat-label>Paper Size of Meter</mat-label>
                         <input matInput placeholder="Ex. 6000" formControlName="paperSizeM" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
@@ -57,16 +57,22 @@
                     </mat-form-field>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Price per SQM</mat-label>
                         <input matInput placeholder="Ex. 100" formControlName="pricePerSQM" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
+                <div class="col-sm-4">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Kg</mat-label>
+                        <input matInput placeholder="Ex. 100" formControlName="paperKG" (change)="totalPrice()">
+                    </mat-form-field>
+                </div>
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Price per KG</mat-label>
-                        <input matInput placeholder="Ex. 100" formControlName="pricePerKG">
+                        <input matInput placeholder="Ex. 100" formControlName="pricePerKG" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">

@@ -31,6 +31,7 @@ export class RawPaperComponent implements OnInit {
             gsmOfPaper: [''],
             count: [''],
             pricePerSQM: [''],
+            paperKG: [''],
             pricePerKG: [''],
             totalPrice: [''],
             entryDate: [new Date()]
@@ -55,7 +56,9 @@ export class RawPaperComponent implements OnInit {
                 gsm: this.rawPaperForm.value.gsmOfPaper,
                 count: this.rawPaperForm.value.count,
                 dateOfEntry: this.rawPaperForm.value.entryDate,
-                pricePerKG: this.rawPaperForm.value.pricePerKG
+                pricePerKG: this.rawPaperForm.value.pricePerKG,
+                paperKG: this.rawPaperForm.value.paperKG,
+                totalPrice: this.rawPaperForm.value.totalPrice
             }
 
             if (!this.isEdit) {
@@ -92,14 +95,15 @@ export class RawPaperComponent implements OnInit {
 
         this.elementId = data._id;
 
-        this.rawPaperForm.setValue({
+        this.rawPaperForm.patchValue({
             paperSizeMM: data.sizeInMM,
             paperSizeM: data.sizeInMeter,
             gsmOfPaper: data.gsm,
             count: data.count,
             pricePerSQM: data.pricePerSquareMeters,
             totalPrice: data.totalPrice,
-            pricePerKG: '',
+            pricePerKG: data.pricePerKG ? data.pricePerKG : '',
+            paperKG: data.paperKG ? data.paperKG : '',
             entryDate: new Date(data.dateOfEntry)
         });
     }
@@ -141,10 +145,21 @@ export class RawPaperComponent implements OnInit {
     }
 
     totalPrice() {
-        const { paperSizeMM, paperSizeM, count, pricePerSQM } = this.rawPaperForm.value;
+        const { paperSizeMM, paperSizeM, pricePerSQM, paperKG, pricePerKG } = this.rawPaperForm.value;
 
-        if (paperSizeMM && paperSizeM && count && pricePerSQM) {
-            const total = (Number(paperSizeMM) / 1000) * Number(paperSizeM) * Number(count) * Number(pricePerSQM);
+        if (paperSizeMM) {
+            this.rawPaperForm.patchValue({ paperSizeM: (Number(paperSizeMM) / 1000).toFixed(2) });
+        }
+
+        if (paperSizeMM && paperSizeM && pricePerSQM) {
+            const total = (Number(paperSizeMM) / 1000) * Number(paperSizeM) * Number(pricePerSQM);
+            // const total = (Number(paperSizeMM) / 1000) * Number(paperSizeM) * Number(count) * Number(pricePerSQM);
+            this.rawPaperForm.patchValue({ totalPrice: total.toFixed(2) });
+        }
+
+        if (paperKG && pricePerKG) {
+            const total = Number(paperKG) * Number(pricePerKG);
+            // const total = (Number(paperSizeMM) / 1000) * Number(paperSizeM) * Number(count) * Number(pricePerSQM);
             this.rawPaperForm.patchValue({ totalPrice: total.toFixed(2) });
         }
     }

@@ -36,31 +36,26 @@
                 </div>
 
                 <!-- Model Size Selection -->
-                <div class="col-sm-6">
+                <div class="col-sm-6" *ngIf="modelSizeDropdown">
                     <mat-form-field class="mb-25">
                         <mat-label>Model Size</mat-label>
+
                         <mat-select formControlName="modelSize">
-                            <mat-option value="50">50 mm</mat-option>
-                            <mat-option value="80">80 mm</mat-option>
-                            <mat-option value="105">105 mm</mat-option>
-                            <mat-option value="110">110 mm</mat-option>
+                            <mat-option *ngFor="let item of modelSizeDropdown.options" [value]="item.value">{{
+                                item.label
+                                }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
 
                 <!-- Actual Packet / Jumbo Roll -->
-                <div class="col-sm-6">
-                    <!-- <mat-form-field class="mb-25">
-                        <mat-label>Actual Packet / Jumbo Roll</mat-label>
-                        <input matInput type="number" placeholder="Ex. 50" formControlName="actualPacketPerJumboRoll">
-                    </mat-form-field> -->
+                <div class="col-sm-6" *ngIf="actualPacketDropdown">
                     <mat-form-field class="mb-25">
                         <mat-label>Actual Packet / Jumbo Roll</mat-label>
                         <mat-select formControlName="actualPacketPerJumboRoll">
-                            <mat-option value="50">50</mat-option>
-                            <mat-option value="80">80</mat-option>
-                            <mat-option value="105">105</mat-option>
-                            <mat-option value="110">110</mat-option>
+                            <mat-option *ngFor="let item of actualPacketDropdown.options" [value]="item.value">{{
+                                item.label
+                                }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>

@@ -31,7 +31,7 @@
                 <!-- Total Rolls  by defoult 1 from backend task -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Label Per Roll</mat-label>
+                        <mat-label>Roll with label</mat-label>
                         <input matInput type="number" placeholder="Ex. 50" formControlName="labelPerRoll">
                     </mat-form-field>
                 </div>
@@ -67,33 +67,48 @@
 
                 <!-- Select Packing Type -->
                 <!-- Select Packing Type -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div>
                         <h5>Select Packing Type:</h5>
-                        <mat-checkbox formControlName="withBox">With Box</mat-checkbox>
-                        <mat-checkbox formControlName="withoutBox">Without Box</mat-checkbox>
+                        <mat-checkbox formControlName="withBox" (click)="setupFormListeners()">With Box</mat-checkbox>
+                        <mat-checkbox formControlName="withoutBox" (click)="setupFormListeners()">Without Box</mat-checkbox>
                     </div>
                 </div>
 
                 <!-- If "With Box" is Selected, Show and Enable Box Size -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Box Size</mat-label>
-                        <input matInput type="number" placeholder="Ex. 6000" formControlName="BoxSize">
+                        <input matInput type="text" placeholder="Ex. 6000" formControlName="BoxSize">
                     </mat-form-field>
                 </div>
 
                 <!-- Total Roll With Size -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
-                        <mat-label>Total Roll With Size</mat-label>
-                        <input matInput type="number" placeholder="Ex. 6000" formControlName="TotalRollWithSize">
+                        <mat-label>Box Packed</mat-label>
+                        <input matInput type="number" placeholder="Ex. 6000" formControlName="boxPacked">
+                        <!-- <input matInput type="number" placeholder="Ex. 50 mm" formControlName="TotalRollWithSize"> -->
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-4">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Box Packed Per Cartoon</mat-label>
+                        <input matInput type="text" placeholder="Ex. 6000" formControlName="boxPackedPerCartoon">
+                    </mat-form-field>
+                </div>
+                
+                <div class="col-sm-4">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Total Roll Packed</mat-label>
+                        <input matInput type="number" placeholder="Ex. 6000" formControlName="totalRollPacked">
                         <!-- <input matInput type="number" placeholder="Ex. 50 mm" formControlName="TotalRollWithSize"> -->
                     </mat-form-field>
                 </div>
 
                 <!-- Packing Date -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Packing Date</mat-label>
                         <input matInput [matDatepicker]="picker" formControlName="dateOfEntry"

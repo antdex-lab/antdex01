@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService} from "../../../services/api.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from "../../../services/api.service";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
 
 @Component({
     selector: 'app-raw-label',
     templateUrl: './raw-card-board.component.html',
     styleUrl: './raw-card-board.component.scss'
 })
-export class RawCardBoardComponent implements OnInit{
+export class RawCardBoardComponent implements OnInit {
 
     displayedColumns: string[] = ['cardboardSize', 'cardboardCount', 'pricePerCardboard', 'totalPrice', 'dateOfEntry', 'action'];
     dataSource: any[] = [];
@@ -74,7 +74,7 @@ export class RawCardBoardComponent implements OnInit{
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.cardBoardForm.setValue({
+        this.cardBoardForm.patchValue({
             cardboardSize: data.cardboardSize,
             cardboardCount: data.cardboardCount,
             pricePerCardboard: data.pricePerCardboard,

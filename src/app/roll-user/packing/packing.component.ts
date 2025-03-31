@@ -46,7 +46,9 @@ export class PackingComponent implements OnInit {
         this.packingForm = this.fb.group({
             labelPerRoll: [''],
             labelSize: [''],
-            TotalRollWithSize: [''],
+            boxPacked: [''],
+            boxPackedPerCartoon: [''],
+            totalRollPacked: [''],
             withBox: [false],
             withoutBox: [false],
             BoxSize: [{ value: '', disabled: true }],
@@ -85,6 +87,10 @@ export class PackingComponent implements OnInit {
         if (this.packingForm.valid) {
             const sendData = {
                 labelPerRoll: this.packingForm.value.labelPerRoll,
+                labelSize: this.packingForm.value.labelSize,
+                boxPacked: this.packingForm.value.boxPacked,
+                boxPackedPerCartoon: this.packingForm.value.boxPackedPerCartoon,
+                totalRollPacked: this.packingForm.value.totalRollPacked,
                 withBox: this.packingForm.value.withBox ? true : false,
                 withoutBox: this.packingForm.value.withoutBox ? true : false,
                 BoxSize: this.packingForm.value.BoxSize,
@@ -116,10 +122,16 @@ export class PackingComponent implements OnInit {
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.packingForm.setValue({
+        console.log(data);
+
+        this.packingForm.patchValue({
             labelPerRoll: data.labelPerRoll,
+            labelSize: data.labelSize,
             withBox: data.withBox,
             withoutBox: data.withoutBox,
+            boxPacked: data.boxPacked,
+            boxPackedPerCartoon: data.boxPackedPerCartoon,
+            totalRollPacked: data.totalRollPacked,
             BoxSize: data.BoxSize || '',
             dateOfEntry: new Date(data.dateOfEntry)
         });

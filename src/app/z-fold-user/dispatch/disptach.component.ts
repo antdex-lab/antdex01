@@ -29,6 +29,9 @@ export class DisptachComponent implements OnInit {
             packetModelPerSize: [''],
             noOfpacket: [''],
             orderBy: [''],
+            bill: [''],
+            billNumber: [''],
+            dispatchVia: [''],
             DateAndTime: [new Date()]
         });
     }
@@ -45,6 +48,9 @@ export class DisptachComponent implements OnInit {
                 packetModelPerSize: this.zFoldForm.value.packetModelPerSize,
                 noOfpacket: this.zFoldForm.value.noOfpacket,
                 orderBy: this.zFoldForm.value.orderBy,
+                bill: this.zFoldForm.value.bill,
+                billNumber: this.zFoldForm.value.billNumber,
+                dispatchVia: this.zFoldForm.value.dispatchVia,
                 DateAndTime: this.zFoldForm.value.DateAndTime
             };
 
@@ -71,10 +77,13 @@ export class DisptachComponent implements OnInit {
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.zFoldForm.setValue({
+        this.zFoldForm.patchValue({
             packetModelPerSize: data.packetModelPerSize,
             noOfpacket: data.noOfpacket,
+            bill: data.bill,
+            billNumber: data.billNumber,
             orderBy: data.orderBy,
+            dispatchVia: data.dispatchVia,
             DateAndTime: new Date(data.DateAndTime)
         });
     }

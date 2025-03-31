@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService} from "../../../services/api.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from "../../../services/api.service";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
 
 @Component({
     selector: 'app-raw-label',
@@ -74,7 +74,7 @@ export class RawInkComponent implements OnInit {
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.inkForm.setValue({
+        this.inkForm.patchValue({
             color: data.color,
             sizeInKg: data.sizeInKg,
             pricePerKg: data.pricePerKg,

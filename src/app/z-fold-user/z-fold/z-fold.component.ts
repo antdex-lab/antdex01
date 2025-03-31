@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
+import { Dropdown } from '../../roll-user/cutting-plain/cutting-plain.component';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -17,6 +18,9 @@ export class ZFoldComponent implements OnInit {
     isEdit: boolean = false;
     elementId: string = '';
 
+    actualPacketDropdown: Dropdown;
+    modelSizeDropdown: Dropdown;
+
     constructor(
         private service: ApiService,
         private fb: FormBuilder
@@ -24,6 +28,7 @@ export class ZFoldComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.loadDropdown();
         this.loadData();
         this.zFoldForm = this.fb.group({
             jumboEntry: [''],
@@ -33,6 +38,22 @@ export class ZFoldComponent implements OnInit {
             difference: [''],
             DateOfEntry: [new Date()]
         });
+    }
+
+    loadDropdown() {
+        this.service.getData('dropdown/category/Actual Packet').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.actualPacketDropdown = res.data;
+                console.log(this.actualPacketDropdown);
+            }
+        })
+
+        this.service.getData('dropdown/category/Model Size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.modelSizeDropdown = res.data;
+                console.log(this.modelSizeDropdown);
+            }
+        })
     }
 
     loadData() {
@@ -75,10 +96,12 @@ export class ZFoldComponent implements OnInit {
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.zFoldForm.setValue({
+        console.log(data);
+
+        this.zFoldForm.patchValue({
             jumboEntry: data.jumboEntry,
             modelSize: data.modelSize,
-            actualPacketPerJumboRoll: data.actualPacketPerJumboRoll,
+            actualPacketPerJumboRoll: data.actualPacketPerJumboRoll.toString(),
             manufacturedPacketPerJumboRoll: data.manufacturedPacketPerJumboRoll,
             difference: data.difference,
             DateOfEntry: new Date(data.DateOfEntry)

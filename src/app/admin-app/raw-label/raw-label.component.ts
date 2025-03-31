@@ -3,7 +3,7 @@ import { ApiService } from "../../../services/api.service";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
 
 interface LabelSizeDropdown {
     category: string;
@@ -96,7 +96,9 @@ export class RawLabelComponent implements OnInit {
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.labelForm.setValue({
+        console.log(data);
+
+        this.labelForm.patchValue({
             rawMaterial: data.rawMaterial,
             price: data.price,
             labelSize: data.labelSize,

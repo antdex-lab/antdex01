@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService} from "../../../services/api.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from "../../../services/api.service";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
 
 @Component({
     selector: 'app-raw-label',
     templateUrl: './raw-box.component.html',
     styleUrl: './raw-box.component.scss'
 })
-export class RawBoxComponent implements OnInit{
+export class RawBoxComponent implements OnInit {
 
     displayedColumns: string[] = ['boxSize', 'boxCount', 'pricePerBox', 'totalPrice', 'dateOfEntry', 'action'];
     dataSource: any[] = [];
@@ -74,7 +74,7 @@ export class RawBoxComponent implements OnInit{
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.boxForm.setValue({
+        this.boxForm.patchValue({
             boxSize: data.boxSize,
             boxCount: data.boxCount,
             pricePerBox: data.pricePerBox,

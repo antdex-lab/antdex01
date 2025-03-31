@@ -46,7 +46,7 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Bill or WithoutBill</mat-label>
-                        <mat-select formControlName="orderBy">
+                        <mat-select formControlName="bill">
                             <mat-option value="Bill">Bill</mat-option>
                             <mat-option value="WithoutBill">Without Bill</mat-option>
                         </mat-select>
@@ -57,10 +57,16 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Bill Number</mat-label>
-                        <input matInput type="number" placeholder="Ex. 6000" formControlName="BillNumber">
+                        <input matInput type="number" placeholder="Ex. 6000" formControlName="billNumber">
                     </mat-form-field>
                 </div>
 
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Dispatch Via</mat-label>
+                        <input matInput type="text" placeholder="Ex. 6000" formControlName="dispatchVia">
+                    </mat-form-field>
+                </div>
 
                 <!-- Z-Fold Dispatch Date/Time -->
                 <div class="col-sm-6">

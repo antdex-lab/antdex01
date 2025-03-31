@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
 
 @Component({
     selector: 'app-cutting-plain',
@@ -12,7 +12,7 @@ import {saveAs} from "file-saver";
 })
 export class RollDisptachComponent implements OnInit {
 
-    displayedColumns: string[] = ['rollSize', 'noOfRollPerSize', 'orderBy', 'DateAndTime', 'action'];
+    displayedColumns: string[] = ['totalBoxDispatch', 'rollSizeWithLabel', 'orderBy', 'DateAndTime','dispatchVia', 'action'];
     dataSource: any[] = [];
 
     rollDispatchForm: FormGroup;
@@ -27,12 +27,13 @@ export class RollDisptachComponent implements OnInit {
     ngOnInit() {
         this.loadData();
         this.rollDispatchForm = this.fb.group({
-            noOfRollPackets: [''],
-            rollSize: [''],
-            noOfRollPerSize: [''],
+            totalBoxDispatch: [''],
+            rollSizeWithLabel: [''],
+            totalRolls: [''],
             orderBy: [''],
             bill: [''],
             billNumber: [''],
+            dispatchVia: [''],
             DateAndTime: [new Date()]
         });
     }
@@ -46,9 +47,13 @@ export class RollDisptachComponent implements OnInit {
     submit() {
         if (this.rollDispatchForm.valid) {
             const sendData = {
-                rollSize: this.rollDispatchForm.value.rollSize,
-                noOfRollPerSize: this.rollDispatchForm.value.noOfRollPerSize,
+                totalBoxDispatch: this.rollDispatchForm.value.totalBoxDispatch,
+                rollSizeWithLabel: this.rollDispatchForm.value.rollSizeWithLabel,
+                totalRolls: this.rollDispatchForm.value.totalRolls,
                 orderBy: this.rollDispatchForm.value.orderBy,
+                bill: this.rollDispatchForm.value.bill,
+                billNumber: this.rollDispatchForm.value.billNumber,
+                dispatchVia: this.rollDispatchForm.value.dispatchVia,
                 DateAndTime: this.rollDispatchForm.value.DateAndTime
             };
 
@@ -75,10 +80,14 @@ export class RollDisptachComponent implements OnInit {
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.rollDispatchForm.setValue({
-            rollSize: data.rollSize,
-            noOfRollPerSize: data.noOfRollPerSize,
+        this.rollDispatchForm.patchValue({
+            totalBoxDispatch: data.totalBoxDispatch,
+            rollSizeWithLabel: data.rollSizeWithLabel,
+            totalRolls: data.totalRolls,
             orderBy: data.orderBy,
+            bill: data.bill,
+            billNumber: data.billNumber,
+            dispatchVia: data.dispatchVia,
             DateAndTime: new Date(data.DateAndTime)
         });
     }
