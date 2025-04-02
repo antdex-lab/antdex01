@@ -26,6 +26,7 @@ import { LockScreenComponent } from './authentication/lock-screen/lock-screen.co
 import { LogoutComponent } from './authentication/logout/logout.component';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
 import {CategoriesComponent} from "./admin-app/categories/categories.component";
+import {OldStockComponent} from "./admin-app/old-stock/old-stock.component";
 
 const routes: Routes = [
     { path: '', redirectTo: 'crm', pathMatch: 'full' },
@@ -49,6 +50,7 @@ const routes: Routes = [
     { path: 'packing', component: PackingComponent, canActivate: [AuthGuard] },
     { path: 'roll-dispatch', component: RollDisptachComponent, canActivate: [AuthGuard] },
     { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuard] },
+    { path: 'old-stock', component: OldStockComponent, canActivate: [AuthGuard] },
     {
         path: 'authentication',
         component: AuthenticationComponent,

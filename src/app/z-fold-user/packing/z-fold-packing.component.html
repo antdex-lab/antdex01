@@ -24,32 +24,32 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form>
+        <form [formGroup]="zFoldPackingForm" (ngSubmit)="submit()">
             <div class="row">
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Cardboard Size</mat-label>
-                        <input matInput placeholder="Ex. 50">
+                        <input matInput type="text" placeholder="Ex. 50" formControlName="cardBoardSize">
                     </mat-form-field>
                 </div>
 
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Printed</mat-label>
-                        <input matInput type="number" placeholder="Ex. 50">
+                        <input matInput type="text" placeholder="Ex. 50" formControlName="printed">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Non Printed</mat-label>
-                        <input matInput type="number" placeholder="Ex. 51">
+                        <input matInput type="text" placeholder="Ex. 51" formControlName="nonPrinted">
                     </mat-form-field>
                 </div>
 
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>No. of Packet</mat-label>
-                        <input matInput type="number" placeholder="Ex. 50">
+                        <input matInput type="text" placeholder="Ex. 50" formControlName="noOfPacket">
                     </mat-form-field>
                 </div>
 
@@ -57,16 +57,19 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Date/Time</mat-label>
-                        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="entryDate">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
 
 
-                <button mat-button class="btn" type="submit">
-                    Sumbit
-                </button>
+                <div class="col-sm-12">
+                    <button mat-button class="btn" type="submit">
+                        <span *ngIf="!isEdit">Submit</span>
+                        <span *ngIf="isEdit">Update</span>
+                    </button>
+                </div>
             </div>
         </form>
     </mat-card-content>
@@ -95,42 +98,51 @@
                 <table mat-table [dataSource]="dataSource">
 
                     <!-- Task ID Column -->
-                    <ng-container matColumnDef="taskID">
+                    <ng-container matColumnDef="cardBoardSize">
                         <th mat-header-cell *matHeaderCellDef>
-                            Task ID
+                            Card Board Size
                         </th>
                         <td mat-cell *matCellDef="let element">
-                            {{element.taskID}}
+                            {{element.cardBoardSize}}
                         </td>
                     </ng-container>
 
                     <!-- Task Name Column -->
-                    <ng-container matColumnDef="taskName">
+                    <ng-container matColumnDef="printed">
                         <th mat-header-cell *matHeaderCellDef>
-                            Task Name
+                            Printed
                         </th>
                         <td mat-cell *matCellDef="let element">
-                            {{element.taskName}}
+                            {{element.printed}}
                         </td>
                     </ng-container>
 
                     <!-- Assigned To Column -->
-                    <ng-container matColumnDef="assignedTo">
+                    <ng-container matColumnDef="nonPrinted">
                         <th mat-header-cell *matHeaderCellDef>
-                            Assigned To
+                            Non Printed
                         </th>
                         <td mat-cell *matCellDef="let element" class="text-black">
-                            {{element.assignedTo}}
+                            {{element.nonPrinted}}
                         </td>
                     </ng-container>
 
                     <!-- Due Date Column -->
-                    <ng-container matColumnDef="dueDate">
+                    <ng-container matColumnDef="noOfPacket">
                         <th mat-header-cell *matHeaderCellDef>
-                            Due Date
+                            No. Of Packet
                         </th>
                         <td mat-cell *matCellDef="let element">
-                            {{element.dueDate}}
+                            {{element.noOfPacket}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="entryDate">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Entry Date
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.entryDate | date}}
                         </td>
                     </ng-container>
 
@@ -141,19 +153,16 @@
                         </th>
                         <td mat-cell *matCellDef="let element">
                             <div class="action-info">
-                                <button type="button" mat-button matTooltip="View" matTooltipPosition="above">
+                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above"
+                                        (click)="editData(element)">
                                     <i class="material-symbols-outlined">
-                                        {{element.action.view}}
+                                        edit
                                     </i>
                                 </button>
-                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above">
+                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above"
+                                        (click)="deleteData(element._id)">
                                     <i class="material-symbols-outlined">
-                                        {{element.action.edit}}
-                                    </i>
-                                </button>
-                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above">
-                                    <i class="material-symbols-outlined">
-                                        {{element.action.delete}}
+                                        delete
                                     </i>
                                 </button>
                             </div>

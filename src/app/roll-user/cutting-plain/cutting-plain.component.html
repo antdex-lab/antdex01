@@ -43,14 +43,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Count For Roll -->
-                <div class="col-sm-6">
-                    <mat-form-field class="mb-25">
-                        <mat-label>Roll Made</mat-label>
-                        <input matInput type="number" placeholder="Ex. 10" formControlName="countForRoll">
-                    </mat-form-field>
-                </div>
-
                 <!-- Ink Used -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
@@ -62,16 +54,69 @@
                 <!-- Core Per Roll -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Core Per Roll</mat-label>
-                        <input matInput placeholder="Ex. 1" formControlName="corePerRoll">
+                        <mat-label>Core Per Roll 1</mat-label>
+                        <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll1"
+                               (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
 
                 <!-- Core Size -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Core Size</mat-label>
-                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize">
+                        <mat-label>Core Size 1</mat-label>
+                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize1">
+                    </mat-form-field>
+                </div>
+
+
+                <!-- Core Per Roll -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Core Per Roll 2</mat-label>
+                        <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll2"
+                               (input)="calculateTotal()">
+                    </mat-form-field>
+                </div>
+
+                <!-- Core Size -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Core Size 2</mat-label>
+                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize2">
+                    </mat-form-field>
+                </div>
+
+
+                <!-- Core Per Roll -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Core Per Roll 3</mat-label>
+                        <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll3"
+                               (input)="calculateTotal()">
+                    </mat-form-field>
+                </div>
+
+                <!-- Core Size -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Core Size 3</mat-label>
+                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize3">
+                    </mat-form-field>
+                </div>
+
+                <!-- Total Roll -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Actual Roll</mat-label>
+                        <input matInput placeholder="Ex. 1" formControlName="totalRoll" readonly>
+                    </mat-form-field>
+                </div>
+
+                <!-- Count For Roll -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Roll Made</mat-label>
+                        <input matInput type="number" placeholder="Ex. 10" formControlName="countForRoll">
                     </mat-form-field>
                 </div>
 
@@ -131,24 +176,19 @@
                         <td mat-cell *matCellDef="let element"> {{element.cuttingSizeFromJumboRoll}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="countForRoll">
-                        <th mat-header-cell *matHeaderCellDef> Count For Roll </th>
-                        <td mat-cell *matCellDef="let element"> {{element.countForRoll}} </td>
-                    </ng-container>
-
                     <ng-container matColumnDef="inkUsed">
                         <th mat-header-cell *matHeaderCellDef> Ink Used </th>
                         <td mat-cell *matCellDef="let element"> {{element.inkUsed}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="corePerRoll">
-                        <th mat-header-cell *matHeaderCellDef> Core Per Roll </th>
-                        <td mat-cell *matCellDef="let element"> {{element.corePerRoll}} </td>
+                    <ng-container matColumnDef="countForRoll">
+                        <th mat-header-cell *matHeaderCellDef> Actual Roll </th>
+                        <td mat-cell *matCellDef="let element"> {{element.countForRoll}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="coreSize">
-                        <th mat-header-cell *matHeaderCellDef> Core Size </th>
-                        <td mat-cell *matCellDef="let element"> {{element.coreSize}} </td>
+                    <ng-container matColumnDef="totalRoll">
+                        <th mat-header-cell *matHeaderCellDef> Roll Made </th>
+                        <td mat-cell *matCellDef="let element"> {{element.totalRoll}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="cuttingDateOfEntry">

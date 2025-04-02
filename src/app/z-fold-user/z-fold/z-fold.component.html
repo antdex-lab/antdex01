@@ -28,10 +28,28 @@
             <div class="row">
 
                 <!-- Jumbo Size + GSM Roll Entry -->
-                <div class="col-sm-6">
+<!--                <div class="col-sm-6">-->
+<!--                    <mat-form-field class="mb-25">-->
+<!--                        <mat-label>Jumbo Size + GSM Roll Entry</mat-label>-->
+<!--                        <input matInput placeholder="Ex. 50" formControlName="jumboEntry">-->
+<!--                    </mat-form-field>-->
+<!--                </div>-->
+
+                <!-- Printing Size Per Jumbo Roll FORMATE( 900X55000 - 56 count )-->
+                <div class="col-sm-6" *ngIf="rollDropdown && !isEdit">
                     <mat-form-field class="mb-25">
                         <mat-label>Jumbo Size + GSM Roll Entry</mat-label>
-                        <input matInput placeholder="Ex. 50" formControlName="jumboEntry">
+                        <mat-select formControlName="jumboEntry">
+                            <mat-option *ngFor="let item of rollDropdown" [value]="item.label">{{ item.label
+                                }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-6" *ngIf="isEdit">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Jumbo Size + GSM Roll Entry</mat-label>
+                        <input matInput formControlName="jumboEntry" />
                     </mat-form-field>
                 </div>
 

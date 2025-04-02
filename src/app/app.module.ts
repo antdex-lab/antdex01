@@ -59,6 +59,7 @@ import { MAT_DATE_FORMATS } from "@angular/material/core";
 import { MY_DATE_FORMATS } from "./common/pipe/DatePipe";
 import localeEnGb from '@angular/common/locales/en-GB';
 import { CustomizerSettingsComponent } from "./customizer-settings/customizer-settings.component";
+import {OldStockComponent} from "./admin-app/old-stock/old-stock.component";
 
 registerLocaleData(localeEnGb);
 
@@ -108,7 +109,8 @@ registerLocaleData(localeEnGb);
         CuttingPlainComponent,
         CuttingPrintedComponent,
         PackingComponent,
-        RollDisptachComponent
+        RollDisptachComponent,
+        OldStockComponent
     ],
     imports: [
         CommonModule,

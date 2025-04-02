@@ -98,7 +98,7 @@
                         <input matInput type="text" placeholder="Ex. 6000" formControlName="boxPackedPerCartoon">
                     </mat-form-field>
                 </div>
-                
+
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Total Roll Packed</mat-label>
@@ -159,8 +159,13 @@
                 <table mat-table [dataSource]="dataSource">
 
                     <ng-container matColumnDef="labelPerRoll">
-                        <th mat-header-cell *matHeaderCellDef> Label Per Roll </th>
+                        <th mat-header-cell *matHeaderCellDef> Roll With Label </th>
                         <td mat-cell *matCellDef="let element"> {{element.labelPerRoll}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="labelSize">
+                        <th mat-header-cell *matHeaderCellDef> Label Size </th>
+                        <td mat-cell *matCellDef="let element"> {{element.labelSize}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="withBox">
@@ -168,9 +173,9 @@
                         <td mat-cell *matCellDef="let element"> {{element.withBox}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="withoutBox">
-                        <th mat-header-cell *matHeaderCellDef> Without Box </th>
-                        <td mat-cell *matCellDef="let element"> {{element.withoutBox}} </td>
+                    <ng-container matColumnDef="totalRollPacked">
+                        <th mat-header-cell *matHeaderCellDef> Total Roll Packed </th>
+                        <td mat-cell *matCellDef="let element"> {{element.totalRollPacked}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="dateOfEntry">

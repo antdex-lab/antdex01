@@ -25,7 +25,7 @@ export interface RollDropDown {
 })
 export class CuttingPlainComponent implements OnInit {
 
-    displayedColumns: string[] = ['cuttingSizeFromJumboRoll', 'countForRoll', 'inkUsed', 'corePerRoll', 'coreSize', 'cuttingDateOfEntry', 'action'];
+    displayedColumns: string[] = ['cuttingSizeFromJumboRoll', 'inkUsed',  'countForRoll', 'totalRoll', 'cuttingDateOfEntry', 'action'];
     dataSource: any[] = [];
 
     cuttingPlainForm: FormGroup;
@@ -47,8 +47,13 @@ export class CuttingPlainComponent implements OnInit {
             cuttingSizeFromJumboRoll: [''],
             countForRoll: [''],
             inkUsed: [''],
-            corePerRoll: [''],
-            coreSize: [''],
+            corePerRoll1: [''],
+            coreSize1: [''],
+            corePerRoll2: [''],
+            coreSize2: [''],
+            corePerRoll3: [''],
+            coreSize3: [''],
+            totalRoll: [''],
             cuttingDateOfEntry: [new Date()]
         });
     }
@@ -72,10 +77,15 @@ export class CuttingPlainComponent implements OnInit {
         if (this.cuttingPlainForm.valid) {
             const sendData = {
                 cuttingSizeFromJumboRoll: this.cuttingPlainForm.value.cuttingSizeFromJumboRoll,
-                countForRoll: this.cuttingPlainForm.value.countForRoll,
                 inkUsed: this.cuttingPlainForm.value.inkUsed,
-                corePerRoll: this.cuttingPlainForm.value.corePerRoll,
-                coreSize: this.cuttingPlainForm.value.coreSize,
+                corePerRoll1: this.cuttingPlainForm.value.corePerRoll1,
+                coreSize1: this.cuttingPlainForm.value.coreSize1,
+                corePerRoll2: this.cuttingPlainForm.value.corePerRoll2,
+                coreSize2: this.cuttingPlainForm.value.coreSize2,
+                corePerRoll3: this.cuttingPlainForm.value.corePerRoll3,
+                coreSize3: this.cuttingPlainForm.value.coreSize3,
+                countForRoll: this.cuttingPlainForm.value.countForRoll,
+                totalRoll : this.cuttingPlainForm.value.totalRoll,
                 cuttingDateOfEntry: this.cuttingPlainForm.value.cuttingDateOfEntry
             };
 
@@ -104,10 +114,15 @@ export class CuttingPlainComponent implements OnInit {
 
         this.cuttingPlainForm.setValue({
             cuttingSizeFromJumboRoll: data.cuttingSizeFromJumboRoll,
-            countForRoll: data.countForRoll,
             inkUsed: data.inkUsed,
-            corePerRoll: data.corePerRoll,
-            coreSize: data.coreSize,
+            corePerRoll1: data.corePerRoll1,
+            coreSize1: data.coreSize1,
+            corePerRoll2: data.corePerRoll2,
+            coreSize2: data.coreSize2,
+            corePerRoll3: data.corePerRoll3,
+            coreSize3: data.coreSize3,
+            countForRoll: data.countForRoll,
+            totalRoll: data.totalRoll,
             cuttingDateOfEntry: new Date(data.cuttingDateOfEntry)
         });
     }
@@ -141,6 +156,15 @@ export class CuttingPlainComponent implements OnInit {
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         // Implement the filtering logic if necessary.
+    }
+
+    calculateTotal(): void {
+        const corePerRoll1 = Number(this.cuttingPlainForm.get('corePerRoll1')?.value) || 0;
+        const corePerRoll2 = Number(this.cuttingPlainForm.get('corePerRoll2')?.value) || 0;
+        const corePerRoll3 = Number(this.cuttingPlainForm.get('corePerRoll3')?.value) || 0;
+
+        const total = corePerRoll1 + corePerRoll2 + corePerRoll3;
+        this.cuttingPlainForm.get('totalRoll')?.setValue(total);
     }
 
     downloadExcel() {

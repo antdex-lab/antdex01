@@ -13,7 +13,7 @@ import {saveAs} from "file-saver";
 })
 export class CuttingPrintedComponent implements OnInit {
 
-    displayedColumns: string[] = ['printingSizeAsPerPrintingRoll', 'countForRoll', 'inkUsed', 'corePerRoll', 'coreSize', 'cuttingDateOfEntry', 'action'];
+    displayedColumns: string[] = ['printingSizeAsPerPrintingRoll', 'inkUsed', 'countForRoll', 'totalRoll', 'cuttingDateOfEntry', 'action'];
     dataSource: any[] = [];
 
     printingForm: FormGroup;
@@ -43,9 +43,6 @@ export class CuttingPrintedComponent implements OnInit {
             totalRoll: [''],
             cuttingDateOfEntry: [new Date()]
         });
-        // this.printingForm.valueChanges.subscribe(() => {
-        //     this.calculateTotal();
-        // });
     }
 
 
@@ -78,10 +75,15 @@ export class CuttingPrintedComponent implements OnInit {
         if (this.printingForm.valid) {
             const sendData = {
                 printingSizeAsPerPrintingRoll: this.printingForm.value.printingSizeAsPerPrintingRoll,
-                countForRoll: this.printingForm.value.countForRoll,
                 inkUsed: this.printingForm.value.inkUsed,
-                // corePerRoll: this.printingForm.value.corePerRoll,
-                // coreSize: this.printingForm.value.coreSize,
+                corePerRoll1: this.printingForm.value.corePerRoll1,
+                coreSize1: this.printingForm.value.coreSize1,
+                corePerRoll2: this.printingForm.value.corePerRoll2,
+                coreSize2: this.printingForm.value.coreSize2,
+                corePerRoll3: this.printingForm.value.corePerRoll3,
+                coreSize3: this.printingForm.value.coreSize3,
+                countForRoll: this.printingForm.value.countForRoll,
+                totalRoll : this.printingForm.value.totalRoll,
                 cuttingDateOfEntry: this.printingForm.value.cuttingDateOfEntry
             };
 
@@ -108,12 +110,17 @@ export class CuttingPrintedComponent implements OnInit {
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.printingForm.setValue({
+        this.printingForm.patchValue({
             printingSizeAsPerPrintingRoll: data.printingSizeAsPerPrintingRoll,
-            countForRoll: data.countForRoll,
             inkUsed: data.inkUsed,
-            corePerRoll: data.corePerRoll,
-            coreSize: data.coreSize,
+            corePerRoll1: data.corePerRoll1,
+            coreSize1: data.coreSize1,
+            corePerRoll2: data.corePerRoll2,
+            coreSize2: data.coreSize2,
+            corePerRoll3: data.corePerRoll3,
+            coreSize3: data.coreSize3,
+            countForRoll: data.countForRoll,
+            totalRoll: data.totalRoll,
             cuttingDateOfEntry: new Date(data.cuttingDateOfEntry)
         });
     }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
-import { Dropdown } from '../../roll-user/cutting-plain/cutting-plain.component';
+import {Dropdown, RollDropDown} from '../../roll-user/cutting-plain/cutting-plain.component';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -20,6 +20,8 @@ export class ZFoldComponent implements OnInit {
 
     actualPacketDropdown: Dropdown;
     modelSizeDropdown: Dropdown;
+
+    rollDropdown: RollDropDown[];
 
     constructor(
         private service: ApiService,
@@ -41,6 +43,14 @@ export class ZFoldComponent implements OnInit {
     }
 
     loadDropdown() {
+
+        this.service.getData('dropdown/papers').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.rollDropdown = res.data;
+                console.log("papers", this.rollDropdown);
+            }
+        })
+
         this.service.getData('dropdown/category/Actual Packet').subscribe((res) => {
             if (res.statusCode === 200) {
                 this.actualPacketDropdown = res.data;
@@ -106,6 +116,8 @@ export class ZFoldComponent implements OnInit {
             difference: data.difference,
             DateOfEntry: new Date(data.DateOfEntry)
         });
+
+        this.zFoldForm.get('jumboEntry')?.disable();
     }
 
     deleteData(id: string) {

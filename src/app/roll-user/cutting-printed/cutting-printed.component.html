@@ -42,14 +42,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Count For Roll -->
-                <div class="col-sm-6">
-                    <mat-form-field class="mb-25">
-                        <mat-label>Roll Made</mat-label>
-                        <input matInput type="number" placeholder="Ex. 10" formControlName="countForRoll">
-                    </mat-form-field>
-                </div>
-
                 <!-- Ink Used -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
@@ -70,7 +62,7 @@
                 <!-- Core Size -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Core Size</mat-label>
+                        <mat-label>Core Size 1</mat-label>
                         <input matInput placeholder="Ex. 5 cm" formControlName="coreSize1">
                     </mat-form-field>
                 </div>
@@ -88,7 +80,7 @@
                 <!-- Core Size -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Core Size</mat-label>
+                        <mat-label>Core Size 2</mat-label>
                         <input matInput placeholder="Ex. 5 cm" formControlName="coreSize2">
                     </mat-form-field>
                 </div>
@@ -106,7 +98,7 @@
                 <!-- Core Size -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Core Size</mat-label>
+                        <mat-label>Core Size 3</mat-label>
                         <input matInput placeholder="Ex. 5 cm" formControlName="coreSize3">
                     </mat-form-field>
                 </div>
@@ -116,6 +108,14 @@
                     <mat-form-field class="mb-25">
                         <mat-label>Actual Roll</mat-label>
                         <input matInput placeholder="Ex. 1" formControlName="totalRoll" readonly>
+                    </mat-form-field>
+                </div>
+
+                <!-- Count For Roll -->
+                <div class="col-sm-6">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Roll Made</mat-label>
+                        <input matInput type="number" placeholder="Ex. 10" formControlName="countForRoll">
                     </mat-form-field>
                 </div>
 
@@ -171,13 +171,8 @@
                 <table mat-table [dataSource]="dataSource">
 
                     <ng-container matColumnDef="printingSizeAsPerPrintingRoll">
-                        <th mat-header-cell *matHeaderCellDef> Printing Size Per Printing Roll </th>
+                        <th mat-header-cell *matHeaderCellDef> ECG Roll Size </th>
                         <td mat-cell *matCellDef="let element"> {{element.printingSizeAsPerPrintingRoll}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="countForRoll">
-                        <th mat-header-cell *matHeaderCellDef> Count For Roll </th>
-                        <td mat-cell *matCellDef="let element"> {{element.countForRoll}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="inkUsed">
@@ -185,14 +180,14 @@
                         <td mat-cell *matCellDef="let element"> {{element.inkUsed}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="corePerRoll">
-                        <th mat-header-cell *matHeaderCellDef> Core Per Roll </th>
-                        <td mat-cell *matCellDef="let element"> {{element.corePerRoll}} </td>
+                    <ng-container matColumnDef="countForRoll">
+                        <th mat-header-cell *matHeaderCellDef> Actual Roll </th>
+                        <td mat-cell *matCellDef="let element"> {{element.countForRoll}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="coreSize">
-                        <th mat-header-cell *matHeaderCellDef> Core Size </th>
-                        <td mat-cell *matCellDef="let element"> {{element.coreSize}} </td>
+                    <ng-container matColumnDef="totalRoll">
+                        <th mat-header-cell *matHeaderCellDef> Roll Made </th>
+                        <td mat-cell *matCellDef="let element"> {{element.totalRoll}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="cuttingDateOfEntry">

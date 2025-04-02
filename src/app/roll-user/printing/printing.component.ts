@@ -13,7 +13,7 @@ import { saveAs } from "file-saver";
 })
 export class PrintingComponent implements OnInit {
 
-    displayedColumns: string[] = ['printingSizePerJumboRoll', 'printingSize', 'inkUsed', 'dateOfEntry', 'action'];
+    displayedColumns: string[] = ['printingSizePerJumboRoll', 'printingSize','inkColor', 'inkUsed', 'dateOfEntry', 'action'];
     dataSource: any[] = [];
 
     printingForm: FormGroup;
@@ -75,7 +75,7 @@ export class PrintingComponent implements OnInit {
     submit() {
         if (this.printingForm.valid) {
             const sendData = {
-                printingSizePerJumboRoll: this.rollDropdown.filter((i) => i.value === this.printingForm.value.printingSizePerJumboRoll)[0].label,
+                printingSizePerJumboRoll: !this.isEdit ?  this.rollDropdown.filter((i) => i.value === this.printingForm.value.printingSizePerJumboRoll)[0].label : this.printingForm.value.printingSizePerJumboRoll,
                 id: this.printingForm.value.printingSizePerJumboRoll,
                 printingSize: this.printingForm.value.printingSize,
                 inkUsed: this.printingForm.value.inkUsed,
@@ -105,19 +105,18 @@ export class PrintingComponent implements OnInit {
     editData(data: any) {
         this.isEdit = true;
         this.elementId = data._id;
-
-
-        const roll = this.rollDropdown.filter((i) => i.label === data.printingSizePerJumboRoll);
-
-        console.log(roll)
+        // const roll = this.rollDropdown.filter((i) => i.label === data.printingSizePerJumboRoll);
 
         this.printingForm.patchValue({
-            printingSizePerJumboRoll: roll[0].value,
+            printingSizePerJumboRoll: data.printingSizePerJumboRoll,
             printingSize: data.printingSize,
             inkColor : data.inkColor,
             inkUsed: data.inkUsed,
             dateOfEntry: new Date(data.dateOfEntry)
         });
+
+        this.printingForm.get('printingSizePerJumboRoll')?.disable();
+
     }
 
     deleteData(id: string) {

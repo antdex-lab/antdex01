@@ -18,7 +18,7 @@ export class RawPaperComponent implements OnInit {
     ) {
     }
 
-    displayedColumns: string[] = ['sizeInMM', 'gsm', 'sizeInMeter', 'pricePerSquareMeters', 'totalSQM', 'totalPrice', 'dateOfEntry', 'action'];
+    displayedColumns: string[] = ['sizeInMM', 'gsm', 'sizeInMeter', 'pricePerSquareMeters', 'totalSQM', 'paperKG', 'pricePerKG', 'totalPrice', 'dateOfEntry', 'action'];
     dataSource: any[] = [];
 
     papers: any[] = [];

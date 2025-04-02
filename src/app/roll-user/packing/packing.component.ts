@@ -13,7 +13,7 @@ import { saveAs } from "file-saver";
 })
 export class PackingComponent implements OnInit {
 
-    displayedColumns: string[] = ['labelPerRoll', 'withBox', 'withoutBox', 'dateOfEntry', 'action'];
+    displayedColumns: string[] = ['labelPerRoll', 'labelSize','withBox', 'totalRollPacked', 'dateOfEntry', 'action'];
     dataSource: any[] = [];
     packingForm: FormGroup;
     isEdit: boolean = false;

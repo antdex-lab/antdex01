@@ -29,13 +29,20 @@
             <div class="row">
 
                 <!-- Printing Size Per Jumbo Roll FORMATE( 900X55000 - 56 count )-->
-                <div class="col-sm-6" *ngIf="rollDropdown">
+                <div class="col-sm-6" *ngIf="rollDropdown && !isEdit">
                     <mat-form-field class="mb-25">
                         <mat-label>Printing Size Per Jumbo Roll</mat-label>
                         <mat-select formControlName="printingSizePerJumboRoll">
                             <mat-option *ngFor="let item of rollDropdown" [value]="item.value">{{ item.label
                                 }}</mat-option>
                         </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-6" *ngIf="isEdit">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Printing Size Per Jumbo Roll</mat-label>
+                        <input matInput formControlName="printingSizePerJumboRoll" [disabled]="true">
                     </mat-form-field>
                 </div>
 
@@ -136,6 +143,11 @@
                     <ng-container matColumnDef="printingSize">
                         <th mat-header-cell *matHeaderCellDef> Printing Size </th>
                         <td mat-cell *matCellDef="let element"> {{element.printingSize}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="inkColor">
+                        <th mat-header-cell *matHeaderCellDef> Ink Color </th>
+                        <td mat-cell *matCellDef="let element"> {{element.inkColor}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="inkUsed">
