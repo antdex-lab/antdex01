@@ -43,9 +43,9 @@ export class CuttingPrintedComponent implements OnInit {
             totalRoll: [''],
             cuttingDateOfEntry: [new Date()]
         });
-        this.printingForm.valueChanges.subscribe(() => {
-            this.calculateTotal();
-        });
+        // this.printingForm.valueChanges.subscribe(() => {
+        //     this.calculateTotal();
+        // });
     }
 
 

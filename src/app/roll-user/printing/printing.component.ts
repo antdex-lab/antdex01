@@ -79,10 +79,9 @@ export class PrintingComponent implements OnInit {
                 id: this.printingForm.value.printingSizePerJumboRoll,
                 printingSize: this.printingForm.value.printingSize,
                 inkUsed: this.printingForm.value.inkUsed,
+                inkColor : this.printingForm.value.inkColor,
                 dateOfEntry: this.printingForm.value.dateOfEntry
             };
-
-            console.log(sendData);
 
             if (!this.isEdit) {
                 this.service.createData('printings', sendData).subscribe((res) => {
@@ -107,9 +106,15 @@ export class PrintingComponent implements OnInit {
         this.isEdit = true;
         this.elementId = data._id;
 
-        this.printingForm.setValue({
-            printingSizePerJumboRoll: data.printingSizePerJumboRoll,
+
+        const roll = this.rollDropdown.filter((i) => i.label === data.printingSizePerJumboRoll);
+
+        console.log(roll)
+
+        this.printingForm.patchValue({
+            printingSizePerJumboRoll: roll[0].value,
             printingSize: data.printingSize,
+            inkColor : data.inkColor,
             inkUsed: data.inkUsed,
             dateOfEntry: new Date(data.dateOfEntry)
         });
