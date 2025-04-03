@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { Dropdown } from '../cutting-plain/cutting-plain.component';
 import * as XLSX from "xlsx";
 import {saveAs} from "file-saver";
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 @Component({
     selector: 'app-cutting-plain',
@@ -47,18 +48,21 @@ export class CuttingPrintedComponent implements OnInit {
 
 
     loadDropdown() {
+        LoadingSpinnerComponent.show();
         this.service.getData('dropdown/category/ECG Roll Size').subscribe((res) => {
             if (res.statusCode === 200) {
+                LoadingSpinnerComponent.hide();
                 this.dropdown = res.data;
-                console.log(this.dropdown);
             }
         })
     }
 
 
     loadData() {
+        LoadingSpinnerComponent.show();
         this.service.getData('cuttings').subscribe((res) => {
             this.dataSource = res;
+            LoadingSpinnerComponent.hide();
         });
     }
 
@@ -88,15 +92,19 @@ export class CuttingPrintedComponent implements OnInit {
             };
 
             if (!this.isEdit) {
+                LoadingSpinnerComponent.show();
                 this.service.createData('cuttings', sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.printingForm.reset();
                     }
                 });
             } else {
+                LoadingSpinnerComponent.show();
                 this.service.updateData('cuttings', this.elementId, sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.isEdit = false;
                         this.printingForm.reset();
@@ -137,8 +145,10 @@ export class CuttingPrintedComponent implements OnInit {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
+                LoadingSpinnerComponent.show();
                 this.service.deleteData('cuttings', id).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         Swal.fire(
                             'Deleted!',
                             'The core entry has been deleted.',

@@ -4,6 +4,7 @@ import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 @Component({
     selector: 'app-raw-core',
@@ -36,8 +37,10 @@ export class RawCoreComponent implements OnInit {
     }
 
     loadCores() {
+        LoadingSpinnerComponent.show();
         this.service.getData('cores').subscribe((res) => {
             this.dataSource = res;
+            LoadingSpinnerComponent.hide();
         });
     }
 
@@ -52,15 +55,19 @@ export class RawCoreComponent implements OnInit {
             };
 
             if (!this.isEdit) {
+                LoadingSpinnerComponent.show();
                 this.service.createData('cores', sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadCores();
                         this.coreForm.reset();
                     }
                 });
             } else {
+                LoadingSpinnerComponent.show();
                 this.service.updateData('cores', this.elementId, sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadCores();
                         this.isEdit = false;
                         this.coreForm.reset();

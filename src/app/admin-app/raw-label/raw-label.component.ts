@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 interface LabelSizeDropdown {
     category: string;
@@ -48,8 +49,10 @@ export class RawLabelComponent implements OnInit {
     }
 
     loadDropdown() {
+        LoadingSpinnerComponent.show();
         this.service.getData('dropdown/category/Label Size').subscribe((res) => {
             if (res.statusCode === 200) {
+                LoadingSpinnerComponent.hide();
                 this.labelSizeDropdown = res.data;
                 console.log(this.labelSizeDropdown);
             }
@@ -57,7 +60,9 @@ export class RawLabelComponent implements OnInit {
     }
 
     loadData() {
+        LoadingSpinnerComponent.show();
         this.service.getData('labels').subscribe((res) => {
+            LoadingSpinnerComponent.hide();
             this.dataSource = res;
         });
     }
@@ -74,15 +79,19 @@ export class RawLabelComponent implements OnInit {
             };
 
             if (!this.isEdit) {
+                LoadingSpinnerComponent.show();
                 this.service.createData('labels', sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.labelForm.reset();
                     }
                 });
             } else {
+                LoadingSpinnerComponent.show();
                 this.service.updateData('labels', this.elementId, sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.isEdit = false;
                         this.labelForm.reset();
@@ -120,8 +129,10 @@ export class RawLabelComponent implements OnInit {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
+                LoadingSpinnerComponent.show();
                 this.service.deleteData('labels', id).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         Swal.fire(
                             'Deleted!',
                             'The core entry has been deleted.',

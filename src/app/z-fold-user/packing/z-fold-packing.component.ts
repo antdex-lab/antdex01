@@ -4,6 +4,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ApiService} from "../../../services/api.service";
 import Swal from "sweetalert2";
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 @Component({
     selector: 'app-cutting-plain',
@@ -36,8 +37,10 @@ export class ZFoldPackingComponent implements OnInit{
 
 
     loadData() {
+        LoadingSpinnerComponent.show();
         this.service.getData('z-fold-packing').subscribe((res) => {
             this.dataSource = res;
+            LoadingSpinnerComponent.hide();
         });
     }
 
@@ -52,15 +55,20 @@ export class ZFoldPackingComponent implements OnInit{
             };
 
             if (!this.isEdit) {
+
+                LoadingSpinnerComponent.show();
                 this.service.createData('z-fold-packing', sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.zFoldPackingForm.reset();
                     }
                 });
             } else {
+                LoadingSpinnerComponent.show();
                 this.service.updateData('z-fold-packing', this.elementId, sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.isEdit = false;
                         this.zFoldPackingForm.reset();
@@ -95,8 +103,10 @@ export class ZFoldPackingComponent implements OnInit{
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
+                LoadingSpinnerComponent.show();
                 this.service.deleteData('z-fold-packing', id).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         Swal.fire(
                             'Deleted!',
                             'Deleted Successfully.',

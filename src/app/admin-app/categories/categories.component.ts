@@ -18,6 +18,7 @@ import {ApiService} from "../../../services/api.service";
 import {takeWhile} from "rxjs";
 import {NgForOf} from "@angular/common";
 import Swal from "sweetalert2";
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 export interface SubCategory {
     label: string;
@@ -68,14 +69,14 @@ export class CategoriesComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     getCategoryList() {
-
+        LoadingSpinnerComponent.show();
         this.apiService.getData('dropdown/all').pipe(takeWhile(() => this.isAlive)).subscribe((res) => {
-console.log(res);
+
             if (res.statusCode === 200) {
                 this.dataSource.data = res.data.map((item: any) => {
 
                     item.subCategories = item.options.map((option: any) => option.label)
-
+                    LoadingSpinnerComponent.hide();
                     return {
                         ...item, action: {
                             edit: 'edit',
@@ -117,8 +118,11 @@ console.log(res);
 
         console.log(data);
         if (this.isEditMode) {
+            LoadingSpinnerComponent.show();
+
             this.apiService.updateDropdown('dropdown/category', data).subscribe(async (res) => {
                 if (res && res.statusCode === 200) {
+                    LoadingSpinnerComponent.hide();
                     await Swal.fire({
                         icon: "success",
                         title: "Success",
@@ -132,16 +136,13 @@ console.log(res);
                     this.dynamicDialogForm.reset();
                 }
             })
-            // this.dialogService.updateDialog(data, this.recordId,).pipe(takeWhile(() => this.isAlive)).subscribe(res => {
-            //     if (res) {
-            //         this.dynamicDialogForm.reset();
-            //         this.getCategoryList();
-            //         this.isEditMode = false;
-            //     }
-            // });
         } else {
+            LoadingSpinnerComponent.show();
+
             this.apiService.createData('dropdown/', data).subscribe(async (res) => {
                 if (res && res.statusCode === 201) {
+                    LoadingSpinnerComponent.hide();
+
                     await Swal.fire({
                         icon: "success",
                         title: "Success",
@@ -158,11 +159,6 @@ console.log(res);
         }
     }
 
-    applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value;
-        this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
-
     editDialog(product: categoryData) {
         this.dynamicDialogForm.patchValue({
             title: product.category
@@ -174,8 +170,10 @@ console.log(res);
     }
 
     deleteDialog(id: string) {
+        LoadingSpinnerComponent.show();
         this.apiService.deleteData('dropdown', id).subscribe(async (res) => {
             if (res.statusCode === 200) {
+                LoadingSpinnerComponent.hide();
                 await Swal.fire({
                     icon: "success",
                     title: "Success",

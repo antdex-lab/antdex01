@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 @Component({
     selector: 'app-cutting-plain',
@@ -37,8 +38,10 @@ export class DisptachComponent implements OnInit {
     }
 
     loadData() {
+        LoadingSpinnerComponent.show();
         this.service.getData('dispatchZs').subscribe((res) => {
             this.dataSource = res;
+            LoadingSpinnerComponent.hide();
         });
     }
 
@@ -55,15 +58,19 @@ export class DisptachComponent implements OnInit {
             };
 
             if (!this.isEdit) {
+                LoadingSpinnerComponent.show();
                 this.service.createData('dispatchZs', sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.zFoldForm.reset();
                     }
                 });
             } else {
+                LoadingSpinnerComponent.show();
                 this.service.updateData('dispatchZs', this.elementId, sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.isEdit = false;
                         this.zFoldForm.reset();
@@ -100,8 +107,10 @@ export class DisptachComponent implements OnInit {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
+                LoadingSpinnerComponent.show();
                 this.service.deleteData('dispatchZs', id).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         Swal.fire(
                             'Deleted!',
                             'The core entry has been deleted.',

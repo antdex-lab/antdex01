@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { ViewportScroller } from '@angular/common';
-import { Router, Event, NavigationEnd } from '@angular/router';
-import { CustomizerSettingsService } from './customizer-settings/customizer-settings.service';
-import { ToggleService } from './common/sidebar/toggle.service';
+import {Component} from '@angular/core';
+import {ViewportScroller} from '@angular/common';
+import {Event, NavigationEnd, Router} from '@angular/router';
+import {CustomizerSettingsService} from './customizer-settings/customizer-settings.service';
+import {ToggleService} from './common/sidebar/toggle.service';
 
 @Component({
     selector: 'app-root',
@@ -10,9 +10,6 @@ import { ToggleService } from './common/sidebar/toggle.service';
     styleUrl: './app.component.scss'
 })
 export class AppComponent {
-
-    // Title
-    title = 'Daxa - Angular 18 Material Design Admin Dashboard Template';
 
     // isSidebarToggled
     isSidebarToggled = false;
@@ -38,6 +35,7 @@ export class AppComponent {
         this.themeService.isToggled$.subscribe(isToggled => {
             this.isToggled = isToggled;
         });
+
     }
 
 }

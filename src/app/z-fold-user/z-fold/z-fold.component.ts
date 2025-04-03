@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import {Dropdown, RollDropDown} from '../../roll-user/cutting-plain/cutting-plain.component';
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 @Component({
     selector: 'app-cutting-plain',
@@ -44,22 +45,27 @@ export class ZFoldComponent implements OnInit {
 
     loadDropdown() {
 
+        LoadingSpinnerComponent.show();
         this.service.getData('dropdown/papers').subscribe((res) => {
             if (res.statusCode === 200) {
+                LoadingSpinnerComponent.hide();
                 this.rollDropdown = res.data;
-                console.log("papers", this.rollDropdown);
             }
         })
 
+        LoadingSpinnerComponent.show();
         this.service.getData('dropdown/category/Actual Packet').subscribe((res) => {
             if (res.statusCode === 200) {
+                LoadingSpinnerComponent.hide();
                 this.actualPacketDropdown = res.data;
                 console.log(this.actualPacketDropdown);
             }
         })
 
+        LoadingSpinnerComponent.show();
         this.service.getData('dropdown/category/Model Size').subscribe((res) => {
             if (res.statusCode === 200) {
+                LoadingSpinnerComponent.hide();
                 this.modelSizeDropdown = res.data;
                 console.log(this.modelSizeDropdown);
             }
@@ -67,8 +73,10 @@ export class ZFoldComponent implements OnInit {
     }
 
     loadData() {
+        LoadingSpinnerComponent.show();
         this.service.getData('zFolds').subscribe((res) => {
             this.dataSource = res;
+            LoadingSpinnerComponent.hide();
         });
     }
 
@@ -84,15 +92,19 @@ export class ZFoldComponent implements OnInit {
             };
 
             if (!this.isEdit) {
+                LoadingSpinnerComponent.show();
                 this.service.createData('zFolds', sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.zFoldForm.reset();
                     }
                 });
             } else {
+                LoadingSpinnerComponent.show();
                 this.service.updateData('zFolds', this.elementId, sendData).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.isEdit = false;
                         this.zFoldForm.reset();
@@ -132,8 +144,10 @@ export class ZFoldComponent implements OnInit {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
+                LoadingSpinnerComponent.show();
                 this.service.deleteData('zFolds', id).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         Swal.fire(
                             'Deleted!',
                             'The core entry has been deleted.',

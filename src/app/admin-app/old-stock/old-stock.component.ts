@@ -4,6 +4,7 @@ import {ApiService} from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import {saveAs} from "file-saver";
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 @Component({
     selector: 'app-old-stock',
@@ -37,8 +38,12 @@ export class OldStockComponent implements OnInit {
     }
 
     loadData() {
+        LoadingSpinnerComponent.show();
         this.service.getData('old-stock').subscribe((res) => {
-            this.dataSource = res;
+            if (res) {
+                LoadingSpinnerComponent.hide();
+                this.dataSource = res;
+            }
         });
     }
 
@@ -53,18 +58,22 @@ export class OldStockComponent implements OnInit {
             };
 
             if (!this.isEdit) {
+                LoadingSpinnerComponent.show();
                 this.service.createData('old-stock', sendData).subscribe((res) => {
                     if (res) {
                         this.loadData();
                         this.oldStockForm.reset();
+                        LoadingSpinnerComponent.hide();
                     }
                 });
             } else {
+                LoadingSpinnerComponent.show();
                 this.service.updateData('old-stock', this.elementId, sendData).subscribe((res) => {
                     if (res) {
                         this.loadData();
                         this.isEdit = false;
                         this.oldStockForm.reset();
+                        LoadingSpinnerComponent.hide();
                     }
                 });
             }
@@ -96,8 +105,10 @@ export class OldStockComponent implements OnInit {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
+                LoadingSpinnerComponent.show();
                 this.service.deleteData('old-stock', id).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         Swal.fire(
                             'Deleted!',
                             'The core entry has been deleted.',

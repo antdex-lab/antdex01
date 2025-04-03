@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 @Component({
     selector: 'app-raw-label',
@@ -25,7 +26,7 @@ export class RawInkComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.loadCores();
+        this.loadData();
         this.inkForm = this.fb.group({
             color: [''],
             sizeInKg: [''],
@@ -35,9 +36,11 @@ export class RawInkComponent implements OnInit {
         });
     }
 
-    loadCores() {
+    loadData() {
+        LoadingSpinnerComponent.show();
         this.service.getData('inks').subscribe((res) => {
             this.dataSource = res;
+            LoadingSpinnerComponent.hide();
         });
     }
 
@@ -52,16 +55,20 @@ export class RawInkComponent implements OnInit {
             };
 
             if (!this.isEdit) {
+                LoadingSpinnerComponent.show();
                 this.service.createData('inks', sendData).subscribe((res) => {
                     if (res) {
-                        this.loadCores();
+                        LoadingSpinnerComponent.hide();
+                        this.loadData();
                         this.inkForm.reset();
                     }
                 });
             } else {
+                LoadingSpinnerComponent.show();
                 this.service.updateData('inks', this.elementId, sendData).subscribe((res) => {
                     if (res) {
-                        this.loadCores();
+                        LoadingSpinnerComponent.hide();
+                        this.loadData();
                         this.isEdit = false;
                         this.inkForm.reset();
                     }
@@ -95,14 +102,16 @@ export class RawInkComponent implements OnInit {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
+                LoadingSpinnerComponent.show();
                 this.service.deleteData('inks', id).subscribe((res) => {
                     if (res) {
+                        LoadingSpinnerComponent.hide();
                         Swal.fire(
                             'Deleted!',
                             'The core entry has been deleted.',
                             'success'
                         );
-                        this.loadCores();
+                        this.loadData();
                     }
                 });
             }

@@ -60,6 +60,8 @@ import { MY_DATE_FORMATS } from "./common/pipe/DatePipe";
 import localeEnGb from '@angular/common/locales/en-GB';
 import { CustomizerSettingsComponent } from "./customizer-settings/customizer-settings.component";
 import {OldStockComponent} from "./admin-app/old-stock/old-stock.component";
+import {LoadingSpinnerComponent} from "./common/loading-spinner/loading-spinner.component";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 registerLocaleData(localeEnGb);
 
@@ -110,7 +112,9 @@ registerLocaleData(localeEnGb);
         CuttingPrintedComponent,
         PackingComponent,
         RollDisptachComponent,
-        OldStockComponent
+        OldStockComponent,
+        LoadingSpinnerComponent
+
     ],
     imports: [
         CommonModule,
@@ -127,7 +131,8 @@ registerLocaleData(localeEnGb);
         RouterOutlet,
         HttpClientModule,
         MaterialModule,
-        CustomizerSettingsComponent
+        CustomizerSettingsComponent,
+        MatProgressSpinnerModule,
     ],
     providers: [provideClientHydration(),
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
@@ -135,5 +140,6 @@ registerLocaleData(localeEnGb);
     ],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    exports : [LoadingSpinnerComponent]
 })
 export class AppModule { }

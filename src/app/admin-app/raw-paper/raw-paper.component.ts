@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from "../../../services/api.service";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {ApiService} from "../../../services/api.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
+import {saveAs} from 'file-saver';
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 @Component({
     selector: 'app-raw-label',
@@ -41,8 +42,12 @@ export class RawPaperComponent implements OnInit {
     }
 
     loadPapers() {
+        LoadingSpinnerComponent.show();
         this.service.getData('papers').subscribe((res) => {
-            this.dataSource = res;
+            if (res) {
+                this.dataSource = res;
+            }
+            LoadingSpinnerComponent.hide();
         })
     }
 
@@ -62,18 +67,22 @@ export class RawPaperComponent implements OnInit {
             }
 
             if (!this.isEdit) {
+                LoadingSpinnerComponent.show();
                 this.service.createData('papers', sendData).subscribe((res) => {
                     if (res) {
                         this.loadPapers();
                         this.rawPaperForm.reset();
+                        LoadingSpinnerComponent.hide();
                     }
                 })
             } else {
+                LoadingSpinnerComponent.show();
                 this.service.updateData('papers', this.elementId, sendData).subscribe((res) => {
                     if (res) {
                         this.loadPapers();
                         this.isEdit = false;
                         this.rawPaperForm.reset();
+                        LoadingSpinnerComponent.hide();
                     }
                 })
             }
