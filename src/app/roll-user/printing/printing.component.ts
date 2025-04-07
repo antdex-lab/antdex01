@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { ApiService } from "../../../services/api.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {ApiService} from "../../../services/api.service";
 import Swal from "sweetalert2";
-import { Dropdown, RollDropDown } from '../cutting-plain/cutting-plain.component';
+import {Dropdown, RollDropDown} from '../cutting-plain/cutting-plain.component';
 import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
+import {saveAs} from "file-saver";
 import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
 
 @Component({
@@ -21,6 +21,8 @@ export class PrintingComponent implements OnInit {
     isEdit: boolean = false;
     elementId: string = '';
 
+    printingSizeData : any = null;
+    inkColorData : any = null;
     dropdown: Dropdown;
     dropdown2: Dropdown;
 
@@ -36,7 +38,9 @@ export class PrintingComponent implements OnInit {
         this.loadDropdown();
         this.printingForm = this.fb.group({
             printingSizePerJumboRoll: [''],
+            printingSizeManual: [''],
             printingSize: [''],
+            inkColorManual: [''],
             inkColor: [''],
             inkUsed: [''],
             dateOfEntry: [new Date()]
@@ -78,8 +82,91 @@ export class PrintingComponent implements OnInit {
         });
     }
 
+    convertValues(data: any) {
+        let words = data.value.split(" ");
+        let formattedValue = words[0].toLowerCase() + words.slice(1).map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join("");
+        return {...data, value: formattedValue};
+    }
+
+    managePrintingSize() {
+        if (this.printingForm.value.printingSizeManual && this.printingForm.value.printingSizeManual !== ""){
+            if (this.printingSizeData !== null){
+                this.dropdown.options.pop();
+            }
+
+            const optionData = {
+                label: this.printingForm.value.printingSizeManual,
+                value: this.printingForm.value.printingSizeManual.toLowerCase().trim()
+            }
+
+            const newOption = this.convertValues(optionData);
+
+            const exists = this.dropdown.options.some(
+                (opt: any) => opt.value.toLowerCase().trim() === newOption.value
+            );
+
+            if (!exists){
+                this.printingSizeData = newOption;
+                this.dropdown.options.push(newOption);
+            }
+
+            this.printingForm.get('printingSize')?.setValue(newOption.value)
+        }else{
+            this.dropdown.options.pop();
+            this.printingForm.get('printingSize')?.setValue("")
+            this.printingSizeData = null;
+        }
+    }
+
+    manageInkColor() {
+        if (this.printingForm.value.inkColorManual && this.printingForm.value.inkColorManual !== ""){
+            if (this.inkColorData !== null){
+                this.dropdown2.options.pop();
+            }
+
+            const optionData = {
+                label: this.printingForm.value.inkColorManual,
+                value: this.printingForm.value.inkColorManual.toLowerCase().trim()
+            }
+
+            const newOption = this.convertValues(optionData);
+
+            const exists = this.dropdown2.options.some(
+                (opt: any) => opt.value.toLowerCase().trim() === newOption.value
+            );
+
+            if (!exists){
+                this.inkColorData = newOption;
+                this.dropdown2.options.push(newOption);
+            }
+
+            this.printingForm.get('inkColor')?.setValue(newOption.value)
+        }else{
+            this.dropdown2.options.pop();
+            this.printingForm.get('inkColor')?.setValue("")
+            this.inkColorData = null;
+        }
+    }
+
     submit() {
-        if (this.printingForm.valid) {
+        if (this.printingForm.valid && this.printingForm.value.printingSizePerJumboRoll && this.printingForm.value.printingSize && this.printingForm.value.inkUsed && this.printingForm.value.inkColor) {
+
+            if (this.printingSizeData !== null){
+                this.service.updateDropdown('dropdown/category', this.dropdown).subscribe(async (res) => {
+                    if (res && res.statusCode === 200) {
+                        console.log("DROPDOWN UPDATED")
+                    }
+                })
+            }
+
+            if (this.inkColorData !== null){
+                this.service.updateDropdown('dropdown/category', this.dropdown2).subscribe(async (res) => {
+                    if (res && res.statusCode === 200) {
+                        console.log("DROPDOWN UPDATED")
+                    }
+                })
+            }
+
             const sendData = {
                 printingSizePerJumboRoll: !this.isEdit ?  this.rollDropdown.filter((i) => i.value === this.printingForm.value.printingSizePerJumboRoll)[0].label : this.printingForm.value.printingSizePerJumboRoll,
                 id: this.printingForm.value.printingSizePerJumboRoll,
@@ -109,6 +196,17 @@ export class PrintingComponent implements OnInit {
                     }
                 });
             }
+        }else{
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text : "Please fill required details",
+                showCancelButton: false,
+                showConfirmButton: false,
+                toast : true,
+                position: 'top-right',
+                timer: 2000,
+            })
         }
     }
 

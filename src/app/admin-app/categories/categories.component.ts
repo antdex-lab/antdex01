@@ -116,7 +116,6 @@ export class CategoriesComponent implements OnInit, OnDestroy, AfterViewInit {
             options : this.convertValues(optionsData),
         };
 
-        console.log(data);
         if (this.isEditMode) {
             LoadingSpinnerComponent.show();
 
