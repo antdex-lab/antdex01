@@ -36,7 +36,7 @@
 <!--                </div>-->
 
                 <!-- Printing Size Per Jumbo Roll FORMATE( 900X55000 - 56 count )-->
-                <div class="col-sm-6" *ngIf="rollDropdown && !isEdit">
+                <div class="col-sm-4" *ngIf="rollDropdown && !isEdit">
                     <mat-form-field class="mb-25">
                         <mat-label>Jumbo Size + GSM Roll Entry</mat-label>
                         <mat-select formControlName="jumboEntry">
@@ -46,15 +46,22 @@
                     </mat-form-field>
                 </div>
 
-                <div class="col-sm-6" *ngIf="isEdit">
+                <div class="col-sm-4" *ngIf="isEdit">
                     <mat-form-field class="mb-25">
                         <mat-label>Jumbo Size + GSM Roll Entry</mat-label>
                         <input matInput formControlName="jumboEntry" />
                     </mat-form-field>
                 </div>
 
+                <div class="col-sm-4">
+                    <mat-form-field>
+                        <mat-label>Model Size (Manual)</mat-label>
+                        <input matInput formControlName="manualModelSize" (change)="manageModelSize()">
+                    </mat-form-field>
+                </div>
+
                 <!-- Model Size Selection -->
-                <div class="col-sm-6" *ngIf="modelSizeDropdown">
+                <div class="col-sm-4" *ngIf="modelSizeDropdown">
                     <mat-form-field class="mb-25">
                         <mat-label>Model Size</mat-label>
 

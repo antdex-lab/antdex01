@@ -48,7 +48,12 @@ export class PrintingComponent implements OnInit {
     }
 
     loadDropdown() {
+        this.loadPapers();
+        this.loadPrintingSize();
+        this.loadInkColor();
+    }
 
+    loadPapers(){
         LoadingSpinnerComponent.show();
         this.service.getData('dropdown/papers').subscribe((res) => {
             if (res.statusCode === 200) {
@@ -56,7 +61,9 @@ export class PrintingComponent implements OnInit {
                 LoadingSpinnerComponent.hide();
             }
         })
+    }
 
+    loadPrintingSize(){
         LoadingSpinnerComponent.show();
         this.service.getData('dropdown/category/Printing Size').subscribe((res) => {
             if (res.statusCode === 200) {
@@ -64,7 +71,9 @@ export class PrintingComponent implements OnInit {
                 LoadingSpinnerComponent.hide();
             }
         })
+    }
 
+    loadInkColor(){
         LoadingSpinnerComponent.show();
         this.service.getData('dropdown/category/Ink Color').subscribe((res) => {
             if (res.statusCode === 200) {

@@ -21,7 +21,7 @@ export class ZFoldComponent implements OnInit {
 
     actualPacketDropdown: Dropdown;
     modelSizeDropdown: Dropdown;
-
+    manualModelSizeData : any = null;
     rollDropdown: RollDropDown[];
 
     constructor(
@@ -35,6 +35,7 @@ export class ZFoldComponent implements OnInit {
         this.loadData();
         this.zFoldForm = this.fb.group({
             jumboEntry: [''],
+            manualModelSize: [''],
             modelSize: [''],
             actualPacketPerJumboRoll: [''],
             manufacturedPacketPerJumboRoll: [''],
@@ -163,6 +164,42 @@ export class ZFoldComponent implements OnInit {
     applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         // Implement the filtering logic if necessary.
+    }
+
+    convertValues(data: any) {
+        let words = data.value.split(" ");
+        let formattedValue = words[0].toLowerCase() + words.slice(1).map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join("");
+        return {...data, value: formattedValue};
+    }
+
+    manageModelSize() {
+        if (this.zFoldForm.value.manualModelSize && this.zFoldForm.value.manualModelSize !== ""){
+            if (this.manualModelSizeData !== null){
+                this.modelSizeDropdown.options.pop();
+            }
+
+            const optionData = {
+                label: this.zFoldForm.value.manualModelSize,
+                value: this.zFoldForm.value.manualModelSize.toLowerCase().trim()
+            }
+
+            const newOptionData = this.convertValues(optionData);
+
+            const exists = this.modelSizeDropdown.options.some(
+                (opt: any) => opt.value.toLowerCase().trim() === newOptionData.value
+            );
+
+            if (!exists){
+                this.manualModelSizeData = newOptionData;
+                this.modelSizeDropdown.options.push(newOptionData);
+            }
+
+            this.zFoldForm.get('modelSize')?.setValue(newOptionData.value)
+        }else{
+            this.modelSizeDropdown.options.pop();
+            this.zFoldForm.get('modelSize')?.setValue("")
+            this.manualModelSizeData = null;
+        }
     }
 
 }

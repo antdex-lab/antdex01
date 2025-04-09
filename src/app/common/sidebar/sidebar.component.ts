@@ -44,6 +44,10 @@ export class SidebarComponent implements OnInit {
             this.isUser2 = isUser2;
         });
 
+        console.log("Admin ",this.isAdminLogin);
+        console.log("User 1",this.isUser1);
+        console.log("User 2",this.isUser2);
+
         this.authService.checkAuthenticationForLogin();
     }
 
