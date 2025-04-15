@@ -1,11 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ApiService} from "../../../services/api.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
-import {Dropdown, RollDropDown} from '../cutting-plain/cutting-plain.component';
+import { Dropdown, RollDropDown } from '../cutting-plain/cutting-plain.component';
 import * as XLSX from "xlsx";
-import {saveAs} from "file-saver";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { saveAs } from "file-saver";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { map, Observable, of, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -14,19 +15,22 @@ import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spin
 })
 export class PrintingComponent implements OnInit {
 
-    displayedColumns: string[] = ['printingSizePerJumboRoll', 'printingSize','inkColor', 'inkUsed', 'dateOfEntry', 'action'];
+    displayedColumns: string[] = ['printingSizePerJumboRoll', 'printingSize', 'inkColor', 'inkUsed', 'dateOfEntry', 'action'];
     dataSource: any[] = [];
 
     printingForm: FormGroup;
+    printingSizeControl = new FormControl("");
     isEdit: boolean = false;
     elementId: string = '';
 
-    printingSizeData : any = null;
-    inkColorData : any = null;
+    printingSizeData: any = null;
+    inkColorData: any = null;
     dropdown: Dropdown;
     dropdown2: Dropdown;
 
     rollDropdown: RollDropDown[];
+
+    printingSizeFilteredOptions: Observable<any[]>;
 
     constructor(
         private service: ApiService,
@@ -38,7 +42,7 @@ export class PrintingComponent implements OnInit {
         this.loadDropdown();
         this.printingForm = this.fb.group({
             printingSizePerJumboRoll: [''],
-            printingSizeManual: [''],
+            printingSizeManual: this.printingSizeControl,
             printingSize: [''],
             inkColorManual: [''],
             inkColor: [''],
@@ -53,7 +57,7 @@ export class PrintingComponent implements OnInit {
         this.loadInkColor();
     }
 
-    loadPapers(){
+    loadPapers() {
         LoadingSpinnerComponent.show();
         this.service.getData('dropdown/papers').subscribe((res) => {
             if (res.statusCode === 200) {
@@ -63,17 +67,30 @@ export class PrintingComponent implements OnInit {
         })
     }
 
-    loadPrintingSize(){
+    loadPrintingSize() {
         LoadingSpinnerComponent.show();
         this.service.getData('dropdown/category/Printing Size').subscribe((res) => {
             if (res.statusCode === 200) {
                 this.dropdown = res.data;
                 LoadingSpinnerComponent.hide();
+
+                this.printingSizeFilteredOptions = this.printingSizeControl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || '')),
+                );
             }
         })
     }
 
-    loadInkColor(){
+    private _filter(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        if (filterValue === "") {
+            this.managePrintingSize();
+        }
+        return this.dropdown.options.filter((option: any) => option.label.toLowerCase().includes(filterValue));
+    }
+
+    loadInkColor() {
         LoadingSpinnerComponent.show();
         this.service.getData('dropdown/category/Ink Color').subscribe((res) => {
             if (res.statusCode === 200) {
@@ -94,18 +111,22 @@ export class PrintingComponent implements OnInit {
     convertValues(data: any) {
         let words = data.value.split(" ");
         let formattedValue = words[0].toLowerCase() + words.slice(1).map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join("");
-        return {...data, value: formattedValue};
+        return { ...data, value: formattedValue };
     }
 
     managePrintingSize() {
-        if (this.printingForm.value.printingSizeManual && this.printingForm.value.printingSizeManual !== ""){
-            if (this.printingSizeData !== null){
+        console.log(this.printingSizeControl.value)
+        console.log(this.printingSizeData)
+        if (this.printingSizeControl.value && this.printingSizeControl.value !== "") {
+            console.log("PRINTING SIZE")
+            if (this.printingSizeData !== null) {
                 this.dropdown.options.pop();
+                this.printingSizeFilteredOptions = of(this.dropdown.options)
             }
 
             const optionData = {
-                label: this.printingForm.value.printingSizeManual,
-                value: this.printingForm.value.printingSizeManual.toLowerCase().trim()
+                label: this.printingSizeControl.value,
+                value: this.printingSizeControl.value.toLowerCase().trim()
             }
 
             const newOption = this.convertValues(optionData);
@@ -114,22 +135,25 @@ export class PrintingComponent implements OnInit {
                 (opt: any) => opt.value.toLowerCase().trim() === newOption.value
             );
 
-            if (!exists){
+            if (!exists) {
                 this.printingSizeData = newOption;
                 this.dropdown.options.push(newOption);
             }
 
             this.printingForm.get('printingSize')?.setValue(newOption.value)
-        }else{
-            this.dropdown.options.pop();
+        } else {
+            if (this.printingSizeData !== null) {
+                this.dropdown.options.pop();
+                this.printingSizeFilteredOptions = of(this.dropdown.options)
+            }
             this.printingForm.get('printingSize')?.setValue("")
             this.printingSizeData = null;
         }
     }
 
     manageInkColor() {
-        if (this.printingForm.value.inkColorManual && this.printingForm.value.inkColorManual !== ""){
-            if (this.inkColorData !== null){
+        if (this.printingForm.value.inkColorManual && this.printingForm.value.inkColorManual !== "") {
+            if (this.inkColorData !== null) {
                 this.dropdown2.options.pop();
             }
 
@@ -144,13 +168,13 @@ export class PrintingComponent implements OnInit {
                 (opt: any) => opt.value.toLowerCase().trim() === newOption.value
             );
 
-            if (!exists){
+            if (!exists) {
                 this.inkColorData = newOption;
                 this.dropdown2.options.push(newOption);
             }
 
             this.printingForm.get('inkColor')?.setValue(newOption.value)
-        }else{
+        } else {
             this.dropdown2.options.pop();
             this.printingForm.get('inkColor')?.setValue("")
             this.inkColorData = null;
@@ -160,7 +184,7 @@ export class PrintingComponent implements OnInit {
     submit() {
         if (this.printingForm.valid && this.printingForm.value.printingSizePerJumboRoll && this.printingForm.value.printingSize && this.printingForm.value.inkUsed && this.printingForm.value.inkColor) {
 
-            if (this.printingSizeData !== null){
+            if (this.printingSizeData !== null) {
                 this.service.updateDropdown('dropdown/category', this.dropdown).subscribe(async (res) => {
                     if (res && res.statusCode === 200) {
                         console.log("DROPDOWN UPDATED")
@@ -168,7 +192,7 @@ export class PrintingComponent implements OnInit {
                 })
             }
 
-            if (this.inkColorData !== null){
+            if (this.inkColorData !== null) {
                 this.service.updateDropdown('dropdown/category', this.dropdown2).subscribe(async (res) => {
                     if (res && res.statusCode === 200) {
                         console.log("DROPDOWN UPDATED")
@@ -177,11 +201,11 @@ export class PrintingComponent implements OnInit {
             }
 
             const sendData = {
-                printingSizePerJumboRoll: !this.isEdit ?  this.rollDropdown.filter((i) => i.value === this.printingForm.value.printingSizePerJumboRoll)[0].label : this.printingForm.value.printingSizePerJumboRoll,
+                printingSizePerJumboRoll: !this.isEdit ? this.rollDropdown.filter((i) => i.value === this.printingForm.value.printingSizePerJumboRoll)[0].label : this.printingForm.value.printingSizePerJumboRoll,
                 id: this.printingForm.value.printingSizePerJumboRoll,
                 printingSize: this.printingForm.value.printingSize,
                 inkUsed: this.printingForm.value.inkUsed,
-                inkColor : this.printingForm.value.inkColor,
+                inkColor: this.printingForm.value.inkColor,
                 dateOfEntry: this.printingForm.value.dateOfEntry
             };
 
@@ -205,14 +229,14 @@ export class PrintingComponent implements OnInit {
                     }
                 });
             }
-        }else{
+        } else {
             Swal.fire({
                 icon: 'warning',
                 title: 'Warning',
-                text : "Please fill required details",
+                text: "Please fill required details",
                 showCancelButton: false,
                 showConfirmButton: false,
-                toast : true,
+                toast: true,
                 position: 'top-right',
                 timer: 2000,
             })
@@ -227,7 +251,7 @@ export class PrintingComponent implements OnInit {
         this.printingForm.patchValue({
             printingSizePerJumboRoll: data.printingSizePerJumboRoll,
             printingSize: data.printingSize,
-            inkColor : data.inkColor,
+            inkColor: data.inkColor,
             inkUsed: data.inkUsed,
             dateOfEntry: new Date(data.dateOfEntry)
         });

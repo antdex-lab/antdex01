@@ -34,19 +34,31 @@
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Paper Size of mm</mat-label>
-                        <input matInput placeholder="Ex. 50" formControlName="paperSizeMM" (change)="totalPrice()">
+                        <input matInput placeholder="Ex. 50" [formControl]="sizeControl" [matAutocomplete]="auto"
+                            (change)="totalPrice()" />
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
-                        <mat-label>Paper Size of Meter</mat-label>
+                        <mat-label>Paper Length</mat-label>
                         <input matInput placeholder="Ex. 6000" formControlName="paperSizeM" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>GSM of Paper</mat-label>
-                        <input matInput placeholder="Ex. 54" formControlName="gsmOfPaper">
+                        <input matInput placeholder="Ex. 54" [formControl]="gsmControl" formControlName="gsmOfPaper"
+                            [matAutocomplete]="gsmAuto">
+                        <mat-autocomplete #gsmAuto="matAutocomplete">
+                            <mat-option *ngFor="let option of gsmFilteredOptions | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 

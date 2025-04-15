@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService} from "../../../services/api.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from "../../../services/api.service";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from 'xlsx';
-import {saveAs} from 'file-saver';
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { saveAs } from 'file-saver';
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { map, Observable, of, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-raw-label',
@@ -12,6 +13,12 @@ import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spin
     styleUrl: './raw-paper.component.scss'
 })
 export class RawPaperComponent implements OnInit {
+
+    sizeMMOptions: string[] = [];
+    gsmOptions: string[] = [];
+
+    filteredOptions: Observable<string[]>;
+    gsmFilteredOptions: Observable<string[]>;
 
     constructor(
         private service: ApiService,
@@ -24,12 +31,14 @@ export class RawPaperComponent implements OnInit {
 
     papers: any[] = [];
     rawPaperForm: FormGroup;
+    sizeControl = new FormControl("");
+    gsmControl = new FormControl("");
 
     ngOnInit() {
         this.rawPaperForm = this.fb.group({
-            paperSizeMM: [''],
+            paperSizeMM: this.sizeControl,
             paperSizeM: [''],
-            gsmOfPaper: [''],
+            gsmOfPaper: this.gsmControl,
             count: [''],
             pricePerSQM: [''],
             paperKG: [''],
@@ -46,9 +55,39 @@ export class RawPaperComponent implements OnInit {
         this.service.getData('papers').subscribe((res) => {
             if (res) {
                 this.dataSource = res;
+                this.loadAutoCompleteDropdown(res);
             }
             LoadingSpinnerComponent.hide();
         })
+    }
+
+    loadAutoCompleteDropdown(data: any) {
+        console.log('data', data);
+        const sizeArr: string[] = Array.from(new Set(data.map((item: any) => item.sizeInMM.toString())));
+        const gsmArr: string[] = Array.from(new Set(data.map((item: any) => item.gsm)));
+
+        this.sizeMMOptions = sizeArr;
+        this.gsmOptions = gsmArr;
+
+        this.filteredOptions = this.sizeControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value || ''))
+        );
+
+        this.gsmFilteredOptions = this.gsmControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._gsmFilter(value || ''))
+        );
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.sizeMMOptions.filter(option => option.toLowerCase().includes(filterValue));
+    }
+
+    private _gsmFilter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.gsmOptions.filter(option => option.toLowerCase().includes(filterValue));
     }
 
     submitRawPaperEntry() {

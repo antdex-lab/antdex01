@@ -49,16 +49,19 @@
                 <div class="col-sm-4">
                     <mat-form-field>
                         <mat-label>Printing Size (Manual)</mat-label>
-                        <input matInput formControlName="printingSizeManual" (change)="managePrintingSize()">
+                        <input matInput [formControl]="printingSizeControl" (change)="managePrintingSize()"
+                            [matAutocomplete]="printingAutoComplete">
+                        <mat-autocomplete #printingAutoComplete="matAutocomplete">
+                            <mat-option *ngFor="let option of printingSizeFilteredOptions | async"
+                                [value]="option.label">
+                                {{ option.label }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
                 <!-- Printing Size DropDown-->
                 <div class="col-sm-4" *ngIf="dropdown">
-                    <!-- <mat-form-field class="mb-25">
-                        <mat-label>Printing Size</mat-label>
-                        <input matInput placeholder="Ex. A4" formControlName="printingSize">
-                    </mat-form-field> -->
                     <mat-form-field>
                         <mat-label>{{ dropdown.category }}</mat-label>
                         <mat-select formControlName="printingSize">

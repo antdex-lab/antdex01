@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-raw-core',
@@ -12,6 +13,11 @@ import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spin
     styleUrl: './raw-core.component.scss'
 })
 export class RawCoreComponent implements OnInit {
+
+    coreControl = new FormControl("");
+
+    coreOptions: string[] = [];
+    coreFilteredOptions: Observable<string[]>;
 
     displayedColumns: string[] = ['noOfCores', 'size', 'pricePerCore', 'totalPrice', 'dateOfEntry', 'action'];
     dataSource: any[] = [];
@@ -29,7 +35,7 @@ export class RawCoreComponent implements OnInit {
         this.loadCores();
         this.coreForm = this.fb.group({
             noOfCores: [''],
-            size: [''],
+            size: this.coreControl,
             pricePerCore: [''],
             totalPrice: [''],
             dateOfEntry: [new Date()]
@@ -40,8 +46,24 @@ export class RawCoreComponent implements OnInit {
         LoadingSpinnerComponent.show();
         this.service.getData('cores').subscribe((res) => {
             this.dataSource = res;
+            this.loadCoreDropdown(res);
             LoadingSpinnerComponent.hide();
         });
+    }
+
+    loadCoreDropdown(data: any) {
+        const coreSizeArr: string[] = Array.from(new Set(data.map((item: any) => item.size.toString())));
+        this.coreOptions = coreSizeArr;
+
+        this.coreFilteredOptions = this.coreControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value || '')),
+        );
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.coreOptions.filter(option => option.toLowerCase().includes(filterValue));
     }
 
     submitCoreEntry() {

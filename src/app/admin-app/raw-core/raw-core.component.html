@@ -34,13 +34,20 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Count</mat-label>
-                        <input matInput type="number" formControlName="noOfCores" placeholder="Ex. 501" (change)="totalPrice()">
+                        <input matInput type="number" formControlName="noOfCores" placeholder="Ex. 501"
+                            (change)="totalPrice()">
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size</mat-label>
-                        <input matInput type="number" formControlName="size" placeholder="Ex. 60" (change)="totalPrice()">
+                        <input matInput type="text" [formControl]="coreControl" [matAutocomplete]="coreAuto"
+                            placeholder="Ex. 60" (change)="totalPrice()">
+                        <mat-autocomplete #coreAuto="matAutocomplete">
+                            <mat-option *ngFor="let option of coreFilteredOptions | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">
@@ -65,12 +72,12 @@
                 </div>
             </div>
             <button mat-button type="submit">
-                 <span *ngIf="!isEdit">
+                <span *ngIf="!isEdit">
                     Submit
-                    </span>
+                </span>
                 <span *ngIf="isEdit">
                     Update
-                    </span>
+                </span>
             </button>
         </form>
     </mat-card-content>
@@ -78,10 +85,8 @@
 
 
 <!-- Raw Core -->
-<mat-card
-    class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
-    [class.rtl-enabled]="false"
->
+<mat-card class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
+    [class.rtl-enabled]="false">
     <mat-card-header>
         <mat-card-title>
             <div class="download-excel-btn" (click)="downloadExcel()">
@@ -96,7 +101,8 @@
                 <i class="material-symbols-outlined">
                     search
                 </i>
-                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..." (keyup)="applyFilter($event)" #input>
+                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..."
+                    (keyup)="applyFilter($event)" #input>
             </form>
         </mat-card-subtitle>
     </mat-card-header>
@@ -136,12 +142,14 @@
                         </th>
                         <td mat-cell *matCellDef="let element">
                             <div class="action-info">
-                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above" (click)="editData(element)">
+                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above"
+                                    (click)="editData(element)">
                                     <i class="material-symbols-outlined">
                                         edit
                                     </i>
                                 </button>
-                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above" (click)="deleteCore(element._id)">
+                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above"
+                                    (click)="deleteCore(element._id)">
                                     <i class="material-symbols-outlined">
                                         delete
                                     </i>
