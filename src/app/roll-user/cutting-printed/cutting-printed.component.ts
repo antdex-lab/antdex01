@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import { Dropdown } from '../cutting-plain/cutting-plain.component';
 import * as XLSX from "xlsx";
-import {saveAs} from "file-saver";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { saveAs } from "file-saver";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { map, Observable, of, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -22,6 +23,10 @@ export class CuttingPrintedComponent implements OnInit {
     elementId: string = '';
 
     dropdown: Dropdown;
+
+    ecgRollControl = new FormControl('');
+    printingSizeData: any = null;
+    printingSizeFilteredOptions: Observable<any[]>;
 
     constructor(
         private service: ApiService,
@@ -49,14 +54,63 @@ export class CuttingPrintedComponent implements OnInit {
 
     loadDropdown() {
         LoadingSpinnerComponent.show();
-        this.service.getData('dropdown/category/ECG Roll Size').subscribe((res) => {
+        this.service.getData('dropdown/category/Printing Size').subscribe((res) => {
             if (res.statusCode === 200) {
-                LoadingSpinnerComponent.hide();
                 this.dropdown = res.data;
+                LoadingSpinnerComponent.hide();
+
+                this.printingSizeFilteredOptions = this.ecgRollControl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || '')),
+                );
             }
         })
     }
 
+    private _filter(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        if (filterValue === "") {
+            this.managePrintingSize();
+        }
+        return this.dropdown.options.filter((option: any) => option.label.toLowerCase().includes(filterValue));
+    }
+
+    convertValues(data: any) {
+        let words = data.value.split(" ");
+        let formattedValue = words[0].toLowerCase() + words.slice(1).map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join("");
+        return { ...data, value: formattedValue };
+    }
+
+    managePrintingSize() {
+        if (this.ecgRollControl.value && this.ecgRollControl.value !== "") {
+            if (this.printingSizeData !== null) {
+                this.dropdown.options.pop();
+                this.printingSizeFilteredOptions = of(this.dropdown.options)
+            }
+
+            const optionData = {
+                label: this.ecgRollControl.value,
+                value: this.ecgRollControl.value.toLowerCase().trim()
+            }
+
+            const newOption = this.convertValues(optionData);
+
+            const exists = this.dropdown.options.some(
+                (opt: any) => opt.value.toLowerCase().trim() === newOption.value
+            );
+
+            if (!exists) {
+                this.printingSizeData = newOption;
+                this.dropdown.options.push(newOption);
+            }
+        } else {
+            if (this.printingSizeData !== null) {
+                this.dropdown.options.pop();
+                this.printingSizeFilteredOptions = of(this.dropdown.options)
+            }
+            this.printingSizeData = null;
+        }
+    }
 
     loadData() {
         LoadingSpinnerComponent.show();
@@ -71,8 +125,8 @@ export class CuttingPrintedComponent implements OnInit {
         const corePerRoll2 = Number(this.printingForm.get('corePerRoll2')?.value) || 0;
         const corePerRoll3 = Number(this.printingForm.get('corePerRoll3')?.value) || 0;
 
-        const total = corePerRoll1 + corePerRoll2 + corePerRoll3;
-        this.printingForm.get('totalRoll')?.setValue(total);
+        // const total = corePerRoll1 + corePerRoll2 + corePerRoll3;
+        // this.printingForm.get('totalRoll')?.setValue(total);
     }
 
     submit() {
@@ -87,7 +141,7 @@ export class CuttingPrintedComponent implements OnInit {
                 corePerRoll3: this.printingForm.value.corePerRoll3,
                 coreSize3: this.printingForm.value.coreSize3,
                 countForRoll: this.printingForm.value.countForRoll,
-                totalRoll : this.printingForm.value.totalRoll,
+                totalRoll: this.printingForm.value.totalRoll,
                 cuttingDateOfEntry: this.printingForm.value.cuttingDateOfEntry
             };
 

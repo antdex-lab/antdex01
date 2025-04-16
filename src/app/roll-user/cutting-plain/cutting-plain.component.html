@@ -56,7 +56,7 @@
                     <mat-form-field class="mb-25">
                         <mat-label>Core Per Roll 1</mat-label>
                         <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll1"
-                               (input)="calculateTotal()">
+                            (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
 
@@ -64,7 +64,10 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size 1</mat-label>
-                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize1">
+                        <!-- <input matInput placeholder="Ex. 5 cm" formControlName="coreSize1"> -->
+                        <mat-select formControlName="coreSize1">
+                            <mat-option *ngFor="let item of coreSizeDropdown" [value]="item">{{item}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
 
@@ -74,7 +77,7 @@
                     <mat-form-field class="mb-25">
                         <mat-label>Core Per Roll 2</mat-label>
                         <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll2"
-                               (input)="calculateTotal()">
+                            (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
 
@@ -82,7 +85,10 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size 2</mat-label>
-                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize2">
+                        <!-- <input matInput placeholder="Ex. 5 cm" formControlName="coreSize2"> -->
+                        <mat-select formControlName="coreSize2">
+                            <mat-option *ngFor="let item of coreSizeDropdown" [value]="item">{{item}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
 
@@ -92,7 +98,7 @@
                     <mat-form-field class="mb-25">
                         <mat-label>Core Per Roll 3</mat-label>
                         <input matInput placeholder="Ex. 1" type="number" formControlName="corePerRoll3"
-                               (input)="calculateTotal()">
+                            (input)="calculateTotal()">
                     </mat-form-field>
                 </div>
 
@@ -100,7 +106,10 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size 3</mat-label>
-                        <input matInput placeholder="Ex. 5 cm" formControlName="coreSize3">
+                        <!-- <input matInput placeholder="Ex. 5 cm" formControlName="coreSize3"> -->
+                        <mat-select formControlName="coreSize3">
+                            <mat-option *ngFor="let item of coreSizeDropdown" [value]="item">{{item}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
 

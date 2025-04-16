@@ -48,8 +48,8 @@
 
                 <div class="col-sm-4">
                     <mat-form-field>
-                        <mat-label>Printing Size (Manual)</mat-label>
-                        <input matInput [formControl]="printingSizeControl" (change)="managePrintingSize()"
+                        <mat-label>Printing Size</mat-label>
+                        <input matInput [formControl]="printingSizeControl" (blur)="managePrintingSize()"
                             [matAutocomplete]="printingAutoComplete">
                         <mat-autocomplete #printingAutoComplete="matAutocomplete">
                             <mat-option *ngFor="let option of printingSizeFilteredOptions | async"
@@ -61,29 +61,30 @@
                 </div>
 
                 <!-- Printing Size DropDown-->
-                <div class="col-sm-4" *ngIf="dropdown">
+                <!-- <div class="col-sm-4" *ngIf="dropdown">
                     <mat-form-field>
                         <mat-label>{{ dropdown.category }}</mat-label>
                         <mat-select formControlName="printingSize">
-                            <mat-option *ngFor="let item of dropdown.options" [value]="item.value">{{ item.label
-                                }}</mat-option>
+                            <mat-option *ngFor="let item of dropdown.options" [value]="item.value">{{ item.label }}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                </div>
+                </div> -->
 
                 <div class="col-sm-4">
                     <mat-form-field>
-                        <mat-label>Ink Color (Manual)</mat-label>
-                        <input matInput formControlName="inkColorManual" (change)="manageInkColor()">
+                        <mat-label>Ink Color</mat-label>
+                        <input matInput formControlName="inkColorManual" [formControl]="inkColorControl"
+                            (blur)="manageInkColor()" [matAutocomplete]="inkColorAutoComplete">
+                        <mat-autocomplete #inkColorAutoComplete="matAutocomplete">
+                            <mat-option *ngFor="let option of inkColorFilteredOptions | async" [value]="option.label">
+                                {{ option.label }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
                 <!-- Ink Color -->
-                <div class="col-sm-4" *ngIf="dropdown2">
-                    <!-- <mat-form-field class="mb-25">
-                        <mat-label>Ink Color</mat-label>
-                        <input matInput placeholder="Ex. 2 liters" formControlName="inkColor">
-                    </mat-form-field> -->
+                <!-- <div class="col-sm-4" *ngIf="dropdown2">
                     <mat-form-field>
                         <mat-label>{{ dropdown2.category }}</mat-label>
                         <mat-select formControlName="inkColor">
@@ -91,7 +92,7 @@
                                 }}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                </div>
+                </div> -->
 
                 <!-- Ink Used -->
                 <div class="col-sm-4">

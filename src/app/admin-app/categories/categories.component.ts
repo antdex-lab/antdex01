@@ -27,7 +27,7 @@ export interface SubCategory {
 @Component({
     selector: 'app-categories',
     standalone: true,
-    imports: [MatChipsModule, MatCardModule, MatMenuModule, MatChipsModule, MatIconModule, MatButtonModule, MatTableModule, RouterLink, FormsModule, MatPaginatorModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatTooltip, NgForOf],
+    imports: [MatChipsModule, MatCardModule, MatMenuModule, MatChipsModule, MatIconModule, MatButtonModule, MatTableModule, FormsModule, MatPaginatorModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatTooltip],
     templateUrl: './categories.component.html',
     styleUrl: './categories.component.scss'
 })

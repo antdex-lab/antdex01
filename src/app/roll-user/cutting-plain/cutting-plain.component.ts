@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
 
 export interface Dropdown {
     category: string;
@@ -26,7 +26,7 @@ export interface RollDropDown {
 })
 export class CuttingPlainComponent implements OnInit {
 
-    displayedColumns: string[] = ['cuttingSizeFromJumboRoll', 'inkUsed',  'countForRoll', 'totalRoll', 'cuttingDateOfEntry', 'action'];
+    displayedColumns: string[] = ['cuttingSizeFromJumboRoll', 'inkUsed', 'countForRoll', 'totalRoll', 'cuttingDateOfEntry', 'action'];
     dataSource: any[] = [];
 
     cuttingPlainForm: FormGroup;
@@ -34,6 +34,7 @@ export class CuttingPlainComponent implements OnInit {
     elementId: string = '';
 
     dropdown: Dropdown;
+    coreSizeDropdown: any[] = [];
     rollDropdown: RollDropDown;
 
     constructor(
@@ -45,16 +46,16 @@ export class CuttingPlainComponent implements OnInit {
         this.loadData();
         this.loadDropdown();
         this.cuttingPlainForm = this.fb.group({
-            cuttingSizeFromJumboRoll: [''],
-            countForRoll: [''],
+            cuttingSizeFromJumboRoll: ['', Validators.required],
+            countForRoll: ['', Validators.required],
             inkUsed: [''],
-            corePerRoll1: [''],
-            coreSize1: [''],
-            corePerRoll2: [''],
-            coreSize2: [''],
-            corePerRoll3: [''],
-            coreSize3: [''],
-            totalRoll: [''],
+            corePerRoll1: ['', Validators.required],
+            coreSize1: ['', Validators.required],
+            corePerRoll2: ['', Validators.required],
+            coreSize2: ['', Validators.required],
+            corePerRoll3: ['', Validators.required],
+            coreSize3: ['', Validators.required],
+            totalRoll: ['', Validators.required],
             cuttingDateOfEntry: [new Date()]
         });
     }
@@ -64,6 +65,16 @@ export class CuttingPlainComponent implements OnInit {
         this.service.getData('dropdown/category/ECG Roll Size').subscribe((res) => {
             if (res.statusCode === 200) {
                 this.dropdown = res.data;
+                LoadingSpinnerComponent.hide();
+            }
+        })
+
+        this.service.getData('dropdown/core-size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                const sizeArr = Array.from(new Set(res.data.map((item: any) => item.label.toString())));
+                console.log(sizeArr);
+                this.coreSizeDropdown = sizeArr;
+                // this.dropdown = res.data;
                 LoadingSpinnerComponent.hide();
             }
         })
@@ -78,6 +89,8 @@ export class CuttingPlainComponent implements OnInit {
     }
 
     submit() {
+        console.log(this.cuttingPlainForm.value);
+        console.log(this.cuttingPlainForm.valid);
         if (this.cuttingPlainForm.valid) {
             const sendData = {
                 cuttingSizeFromJumboRoll: this.cuttingPlainForm.value.cuttingSizeFromJumboRoll,
@@ -89,7 +102,7 @@ export class CuttingPlainComponent implements OnInit {
                 corePerRoll3: this.cuttingPlainForm.value.corePerRoll3,
                 coreSize3: this.cuttingPlainForm.value.coreSize3,
                 countForRoll: this.cuttingPlainForm.value.countForRoll,
-                totalRoll : this.cuttingPlainForm.value.totalRoll,
+                totalRoll: this.cuttingPlainForm.value.totalRoll,
                 cuttingDateOfEntry: this.cuttingPlainForm.value.cuttingDateOfEntry
             };
 
@@ -113,6 +126,17 @@ export class CuttingPlainComponent implements OnInit {
                     }
                 });
             }
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Please fill all the required fields!',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                toast: true,
+                position: 'top-end',
+            })
         }
     }
 
