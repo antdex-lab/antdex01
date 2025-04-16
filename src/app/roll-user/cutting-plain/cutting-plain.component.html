@@ -29,17 +29,17 @@
             <div class="row">
 
                 <!-- Cutting Size From Jumbo Roll -->
-                <div class="col-sm-6" *ngIf="dropdown">
-                    <!-- <mat-form-field class="mb-25">
-                        <mat-label>Cutting Size From Jumbo Roll</mat-label>
-                        <input matInput placeholder="Ex. 1000" formControlName="cuttingSizeFromJumboRoll">
-                    </mat-form-field> -->
+                <div class="col-sm-6">
                     <mat-form-field>
-                        <mat-label>{{ dropdown.category }}</mat-label>
-                        <mat-select formControlName="cuttingSizeFromJumboRoll">
-                            <mat-option *ngFor="let item of dropdown.options" [value]="item.value">{{ item.label
-                                }}</mat-option>
-                        </mat-select>
+                        <mat-label>ECG Roll Size</mat-label>
+                        <input matInput [formControl]="ecgRollControl" (blur)="managePrintingSize()"
+                            [matAutocomplete]="printingAutoComplete">
+                        <mat-autocomplete #printingAutoComplete="matAutocomplete">
+                            <mat-option *ngFor="let option of printingSizeFilteredOptions | async"
+                                [value]="option.label">
+                                {{ option.label }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
@@ -64,10 +64,12 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size 1</mat-label>
-                        <!-- <input matInput placeholder="Ex. 5 cm" formControlName="coreSize1"> -->
-                        <mat-select formControlName="coreSize1">
-                            <mat-option *ngFor="let item of coreSizeDropdown" [value]="item">{{item}}</mat-option>
-                        </mat-select>
+                        <input matInput [formControl]="coreSizeCtrl1" [matAutocomplete]="coreSizeAutocomplete1">
+                        <mat-autocomplete #coreSizeAutocomplete1="matAutocomplete">
+                            <mat-option *ngFor="let option of coreSizeFilteredOptions | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
@@ -85,10 +87,12 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size 2</mat-label>
-                        <!-- <input matInput placeholder="Ex. 5 cm" formControlName="coreSize2"> -->
-                        <mat-select formControlName="coreSize2">
-                            <mat-option *ngFor="let item of coreSizeDropdown" [value]="item">{{item}}</mat-option>
-                        </mat-select>
+                        <input matInput [formControl]="coreSizeCtrl2" [matAutocomplete]="coreSizeAutocomplete2">
+                        <mat-autocomplete #coreSizeAutocomplete2="matAutocomplete">
+                            <mat-option *ngFor="let option of coreSizeFilteredOptions2 | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
@@ -106,10 +110,12 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Core Size 3</mat-label>
-                        <!-- <input matInput placeholder="Ex. 5 cm" formControlName="coreSize3"> -->
-                        <mat-select formControlName="coreSize3">
-                            <mat-option *ngFor="let item of coreSizeDropdown" [value]="item">{{item}}</mat-option>
-                        </mat-select>
+                        <input matInput [formControl]="coreSizeCtrl3" [matAutocomplete]="coreSizeAutocomplete3">
+                        <mat-autocomplete #coreSizeAutocomplete3="matAutocomplete">
+                            <mat-option *ngFor="let option of coreSizeFilteredOptions3 | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
@@ -117,7 +123,7 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Actual Roll</mat-label>
-                        <input matInput placeholder="Ex. 1" formControlName="totalRoll" readonly>
+                        <input matInput placeholder="Ex. 1" formControlName="totalRoll">
                     </mat-form-field>
                 </div>
 

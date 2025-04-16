@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import { Dropdown } from '../cutting-plain/cutting-plain.component';
@@ -24,9 +24,19 @@ export class CuttingPrintedComponent implements OnInit {
 
     dropdown: Dropdown;
 
-    ecgRollControl = new FormControl('');
+    ecgRollControl = new FormControl('', Validators.required);
     printingSizeData: any = null;
     printingSizeFilteredOptions: Observable<any[]>;
+
+    coreSizeDropdown: any[] = [];
+
+    coreSizeCtrl1 = new FormControl('', Validators.required);
+    coreSizeCtrl2 = new FormControl('', Validators.required);
+    coreSizeCtrl3 = new FormControl('', Validators.required);
+
+    coreSizeFilteredOptions: Observable<any[]>;
+    coreSizeFilteredOptions2: Observable<any[]>;
+    coreSizeFilteredOptions3: Observable<any[]>;
 
     constructor(
         private service: ApiService,
@@ -37,16 +47,16 @@ export class CuttingPrintedComponent implements OnInit {
         this.loadData();
         this.loadDropdown();
         this.printingForm = this.fb.group({
-            printingSizeAsPerPrintingRoll: [''],
-            countForRoll: [''],
+            printingSizeAsPerPrintingRoll: this.ecgRollControl,
+            countForRoll: ['', Validators.required],
             inkUsed: [''],
-            corePerRoll1: [''],
-            coreSize1: [''],
-            corePerRoll2: [''],
-            coreSize2: [''],
-            corePerRoll3: [''],
-            coreSize3: [''],
-            totalRoll: [''],
+            corePerRoll1: ['', Validators.required],
+            coreSize1: this.coreSizeCtrl1,
+            corePerRoll2: ['', Validators.required],
+            coreSize2: this.coreSizeCtrl2,
+            corePerRoll3: ['', Validators.required],
+            coreSize3: this.coreSizeCtrl3,
+            totalRoll: ['', Validators.required],
             cuttingDateOfEntry: [new Date()]
         });
     }
@@ -65,6 +75,36 @@ export class CuttingPrintedComponent implements OnInit {
                 );
             }
         })
+
+        LoadingSpinnerComponent.show();
+        this.service.getData('dropdown/core-size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                const sizeArr = Array.from(new Set(res.data.map((item: any) => item.label.toString())));
+                this.coreSizeDropdown = sizeArr;
+
+                this.coreSizeFilteredOptions = this.coreSizeCtrl1.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filterSize(value || '')),
+                );
+
+                this.coreSizeFilteredOptions2 = this.coreSizeCtrl2.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filterSize(value || '')),
+                );
+
+                this.coreSizeFilteredOptions3 = this.coreSizeCtrl3.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filterSize(value || '')),
+                );
+
+                LoadingSpinnerComponent.hide();
+            }
+        })
+    }
+
+    private _filterSize(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        return this.coreSizeDropdown.filter((option: any) => option.toLowerCase().includes(filterValue));
     }
 
     private _filter(value: string): any[] {
@@ -131,6 +171,15 @@ export class CuttingPrintedComponent implements OnInit {
 
     submit() {
         if (this.printingForm.valid) {
+
+            if (this.printingSizeData !== null) {
+                this.service.updateDropdown('dropdown/category', this.dropdown).subscribe(async (res) => {
+                    if (res && res.statusCode === 200) {
+                        console.log("DROPDOWN UPDATED")
+                    }
+                })
+            }
+
             const sendData = {
                 printingSizeAsPerPrintingRoll: this.printingForm.value.printingSizeAsPerPrintingRoll,
                 inkUsed: this.printingForm.value.inkUsed,

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { map, Observable, of, startWith } from 'rxjs';
 
 export interface Dropdown {
     category: string;
@@ -34,8 +35,22 @@ export class CuttingPlainComponent implements OnInit {
     elementId: string = '';
 
     dropdown: Dropdown;
-    coreSizeDropdown: any[] = [];
+    printingDropdown: Dropdown;
     rollDropdown: RollDropDown;
+
+    ecgRollControl = new FormControl('', Validators.required);
+    printingSizeData: any = null;
+    printingSizeFilteredOptions: Observable<any[]>;
+
+    coreSizeDropdown: any[] = [];
+
+    coreSizeCtrl1 = new FormControl('', Validators.required);
+    coreSizeCtrl2 = new FormControl('', Validators.required);
+    coreSizeCtrl3 = new FormControl('', Validators.required);
+
+    coreSizeFilteredOptions: Observable<any[]>;
+    coreSizeFilteredOptions2: Observable<any[]>;
+    coreSizeFilteredOptions3: Observable<any[]>;
 
     constructor(
         private service: ApiService,
@@ -46,15 +61,15 @@ export class CuttingPlainComponent implements OnInit {
         this.loadData();
         this.loadDropdown();
         this.cuttingPlainForm = this.fb.group({
-            cuttingSizeFromJumboRoll: ['', Validators.required],
+            cuttingSizeFromJumboRoll: this.ecgRollControl,
             countForRoll: ['', Validators.required],
             inkUsed: [''],
             corePerRoll1: ['', Validators.required],
-            coreSize1: ['', Validators.required],
+            coreSize1: this.coreSizeCtrl1,
             corePerRoll2: ['', Validators.required],
-            coreSize2: ['', Validators.required],
+            coreSize2: this.coreSizeCtrl2,
             corePerRoll3: ['', Validators.required],
-            coreSize3: ['', Validators.required],
+            coreSize3: this.coreSizeCtrl3,
             totalRoll: ['', Validators.required],
             cuttingDateOfEntry: [new Date()]
         });
@@ -69,15 +84,93 @@ export class CuttingPlainComponent implements OnInit {
             }
         })
 
+        LoadingSpinnerComponent.show();
         this.service.getData('dropdown/core-size').subscribe((res) => {
             if (res.statusCode === 200) {
                 const sizeArr = Array.from(new Set(res.data.map((item: any) => item.label.toString())));
-                console.log(sizeArr);
                 this.coreSizeDropdown = sizeArr;
-                // this.dropdown = res.data;
+
+                this.coreSizeFilteredOptions = this.coreSizeCtrl1.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || '')),
+                );
+
+                this.coreSizeFilteredOptions2 = this.coreSizeCtrl2.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || '')),
+                );
+
+                this.coreSizeFilteredOptions3 = this.coreSizeCtrl3.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || '')),
+                );
+
                 LoadingSpinnerComponent.hide();
             }
         })
+
+        LoadingSpinnerComponent.show();
+        this.service.getData('dropdown/category/Printing Size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.printingDropdown = res.data;
+                LoadingSpinnerComponent.hide();
+
+                this.printingSizeFilteredOptions = this.ecgRollControl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filterSize(value || '')),
+                );
+            }
+        })
+    }
+
+    private _filterSize(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        if (filterValue === "") {
+            this.managePrintingSize();
+        }
+        return this.printingDropdown.options.filter((option: any) => option.label.toLowerCase().includes(filterValue));
+    }
+
+    private _filter(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        return this.coreSizeDropdown.filter((option: any) => option.toLowerCase().includes(filterValue));
+    }
+
+    convertValues(data: any) {
+        let words = data.value.split(" ");
+        let formattedValue = words[0].toLowerCase() + words.slice(1).map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join("");
+        return { ...data, value: formattedValue };
+    }
+
+    managePrintingSize() {
+        if (this.ecgRollControl.value && this.ecgRollControl.value !== "") {
+            if (this.printingSizeData !== null) {
+                this.printingDropdown.options.pop();
+                this.printingSizeFilteredOptions = of(this.printingDropdown.options)
+            }
+
+            const optionData = {
+                label: this.ecgRollControl.value,
+                value: this.ecgRollControl.value.toLowerCase().trim()
+            }
+
+            const newOption = this.convertValues(optionData);
+
+            const exists = this.printingDropdown.options.some(
+                (opt: any) => opt.value.toLowerCase().trim() === newOption.value
+            );
+
+            if (!exists) {
+                this.printingSizeData = newOption;
+                this.printingDropdown.options.push(newOption);
+            }
+        } else {
+            if (this.printingSizeData !== null) {
+                this.printingDropdown.options.pop();
+                this.printingSizeFilteredOptions = of(this.printingDropdown.options)
+            }
+            this.printingSizeData = null;
+        }
     }
 
     loadData() {
@@ -89,8 +182,6 @@ export class CuttingPlainComponent implements OnInit {
     }
 
     submit() {
-        console.log(this.cuttingPlainForm.value);
-        console.log(this.cuttingPlainForm.valid);
         if (this.cuttingPlainForm.valid) {
             const sendData = {
                 cuttingSizeFromJumboRoll: this.cuttingPlainForm.value.cuttingSizeFromJumboRoll,
@@ -143,6 +234,8 @@ export class CuttingPlainComponent implements OnInit {
     editData(data: any) {
         this.isEdit = true;
         this.elementId = data._id;
+
+        console.log(data);
 
         this.cuttingPlainForm.setValue({
             cuttingSizeFromJumboRoll: data.cuttingSizeFromJumboRoll,
@@ -197,8 +290,8 @@ export class CuttingPlainComponent implements OnInit {
         const corePerRoll2 = Number(this.cuttingPlainForm.get('corePerRoll2')?.value) || 0;
         const corePerRoll3 = Number(this.cuttingPlainForm.get('corePerRoll3')?.value) || 0;
 
-        const total = corePerRoll1 + corePerRoll2 + corePerRoll3;
-        this.cuttingPlainForm.get('totalRoll')?.setValue(total);
+        // const total = corePerRoll1 + corePerRoll2 + corePerRoll3;
+        // this.cuttingPlainForm.get('totalRoll')?.setValue(total);
     }
 
     downloadExcel() {
