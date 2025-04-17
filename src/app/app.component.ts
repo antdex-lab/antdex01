@@ -29,29 +29,29 @@ export class AppComponent {
         public themeService: CustomizerSettingsService,
         private authService: AuthService,
     ) {
+        this.authService.isAuthenticatedAdmin$.subscribe(isAdmin => {
+            this.isAdminLogin = isAdmin;
+        });
 
+        this.authService.isAuthenticatedUser1$.subscribe(isUser1 => {
+            this.isUser1 = isUser1;
+        });
+
+        this.authService.isAuthenticatedUser2$.subscribe(isUser2 => {
+            this.isUser2 = isUser2;
+        });
+
+        this.authService.checkAuthenticationForLogin();
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
                 console.log('Navigation End:', event.url);
                 // Scroll to the top after each navigation end
                 this.viewportScroller.scrollToPosition([0, 0]);
-                this.authService.isAuthenticatedAdmin$.subscribe(isAdmin => {
-                    this.isAdminLogin = isAdmin;
-                });
 
-                this.authService.isAuthenticatedUser1$.subscribe(isUser1 => {
-                    this.isUser1 = isUser1;
-                });
-
-                this.authService.isAuthenticatedUser2$.subscribe(isUser2 => {
-                    this.isUser2 = isUser2;
-                });
-
-                this.authService.checkAuthenticationForLogin();
 
                 if (event.url === "/") {
                     if (this.isAdminLogin) {
-                        this.router.navigate(['/']);
+                        this.router.navigate(['/crm']);
                     }
 
                     if (this.isUser1) {
