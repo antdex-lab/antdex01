@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
-import {Dropdown, RollDropDown} from '../../roll-user/cutting-plain/cutting-plain.component';
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { Dropdown, RollDropDown } from '../../roll-user/cutting-plain/cutting-plain.component';
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { map, Observable, of, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -21,8 +22,11 @@ export class ZFoldComponent implements OnInit {
 
     actualPacketDropdown: Dropdown;
     modelSizeDropdown: Dropdown;
-    manualModelSizeData : any = null;
+    manualModelSizeData: any = null;
     rollDropdown: RollDropDown[];
+
+    modalSizeControl = new FormControl("", Validators.required);
+    modalSizeFilteredOptions: Observable<any[]>;
 
     constructor(
         private service: ApiService,
@@ -34,12 +38,11 @@ export class ZFoldComponent implements OnInit {
         this.loadDropdown();
         this.loadData();
         this.zFoldForm = this.fb.group({
-            jumboEntry: [''],
-            manualModelSize: [''],
-            modelSize: [''],
-            actualPacketPerJumboRoll: [''],
-            manufacturedPacketPerJumboRoll: [''],
-            difference: [''],
+            jumboEntry: ['', Validators.required],
+            modelSize: this.modalSizeControl,
+            actualPacketPerJumboRoll: ['', Validators.required],
+            manufacturedPacketPerJumboRoll: ['', Validators.required],
+            difference: ['', Validators.required],
             DateOfEntry: [new Date()]
         });
     }
@@ -63,14 +66,71 @@ export class ZFoldComponent implements OnInit {
             }
         })
 
+        // LoadingSpinnerComponent.show();
+        // this.service.getData('dropdown/category/Model Size').subscribe((res) => {
+        //     if (res.statusCode === 200) {
+        //         LoadingSpinnerComponent.hide();
+        //         this.modelSizeDropdown = res.data;
+        //         console.log(this.modelSizeDropdown);
+        //     }
+        // })
+
+        this.loadModalSize();
+    }
+
+    loadModalSize() {
         LoadingSpinnerComponent.show();
         this.service.getData('dropdown/category/Model Size').subscribe((res) => {
             if (res.statusCode === 200) {
-                LoadingSpinnerComponent.hide();
                 this.modelSizeDropdown = res.data;
-                console.log(this.modelSizeDropdown);
+                LoadingSpinnerComponent.hide();
+
+                this.modalSizeFilteredOptions = this.modalSizeControl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || '')),
+                );
             }
         })
+    }
+
+    private _filter(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        if (filterValue === "") {
+            this.manageModalSize();
+        }
+        return this.modelSizeDropdown.options.filter((option: any) => option.label.toLowerCase().includes(filterValue));
+    }
+
+    manageModalSize() {
+        if (this.modalSizeControl.value && this.modalSizeControl.value !== "") {
+            if (this.manualModelSizeData !== null) {
+                this.modelSizeDropdown.options.pop();
+                this.modalSizeFilteredOptions = of(this.modelSizeDropdown.options)
+            }
+
+            const optionData = {
+                label: this.modalSizeControl.value,
+                value: this.modalSizeControl.value.toLowerCase().trim()
+            }
+
+            const newOption = this.convertValues(optionData);
+
+            const exists = this.modelSizeDropdown.options.some(
+                (opt: any) => opt.value.toLowerCase().trim() === newOption.value
+            );
+
+            if (!exists) {
+                this.manualModelSizeData = newOption;
+                this.modelSizeDropdown.options.push(newOption);
+            }
+
+        } else {
+            if (this.manualModelSizeData !== null) {
+                this.modelSizeDropdown.options.pop();
+                this.modalSizeFilteredOptions = of(this.modelSizeDropdown.options)
+            }
+            this.manualModelSizeData = null;
+        }
     }
 
     loadData() {
@@ -85,12 +145,21 @@ export class ZFoldComponent implements OnInit {
         if (this.zFoldForm.valid) {
             const sendData = {
                 jumboEntry: this.zFoldForm.value.jumboEntry,
-                modelSize: this.zFoldForm.value.modelSize,
+                modelSize: this.modalSizeControl.value,
                 actualPacketPerJumboRoll: this.zFoldForm.value.actualPacketPerJumboRoll,
                 manufacturedPacketPerJumboRoll: this.zFoldForm.value.manufacturedPacketPerJumboRoll,
                 difference: this.zFoldForm.value.difference,
                 DateOfEntry: this.zFoldForm.value.DateOfEntry
             };
+
+            if (this.manualModelSizeData !== null) {
+                this.service.updateDropdown('dropdown/category', this.modelSizeDropdown).subscribe(async (res) => {
+                    if (res && res.statusCode === 200) {
+                        console.log("DROPDOWN UPDATED")
+                        this.loadModalSize();
+                    }
+                })
+            }
 
             if (!this.isEdit) {
                 LoadingSpinnerComponent.show();
@@ -169,37 +238,12 @@ export class ZFoldComponent implements OnInit {
     convertValues(data: any) {
         let words = data.value.split(" ");
         let formattedValue = words[0].toLowerCase() + words.slice(1).map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join("");
-        return {...data, value: formattedValue};
+        return { ...data, value: formattedValue };
     }
 
-    manageModelSize() {
-        if (this.zFoldForm.value.manualModelSize && this.zFoldForm.value.manualModelSize !== ""){
-            if (this.manualModelSizeData !== null){
-                this.modelSizeDropdown.options.pop();
-            }
-
-            const optionData = {
-                label: this.zFoldForm.value.manualModelSize,
-                value: this.zFoldForm.value.manualModelSize.toLowerCase().trim()
-            }
-
-            const newOptionData = this.convertValues(optionData);
-
-            const exists = this.modelSizeDropdown.options.some(
-                (opt: any) => opt.value.toLowerCase().trim() === newOptionData.value
-            );
-
-            if (!exists){
-                this.manualModelSizeData = newOptionData;
-                this.modelSizeDropdown.options.push(newOptionData);
-            }
-
-            this.zFoldForm.get('modelSize')?.setValue(newOptionData.value)
-        }else{
-            this.modelSizeDropdown.options.pop();
-            this.zFoldForm.get('modelSize')?.setValue("")
-            this.manualModelSizeData = null;
+    calculateDifference() {
+        if (this.zFoldForm.value.actualPacketPerJumboRoll && this.zFoldForm.value.manufacturedPacketPerJumboRoll) {
+            this.zFoldForm.get('difference')?.setValue(Number(this.zFoldForm.value.actualPacketPerJumboRoll) - Number(this.zFoldForm.value.manufacturedPacketPerJumboRoll));
         }
     }
-
 }

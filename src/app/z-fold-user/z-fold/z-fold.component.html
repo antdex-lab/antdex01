@@ -28,12 +28,12 @@
             <div class="row">
 
                 <!-- Jumbo Size + GSM Roll Entry -->
-<!--                <div class="col-sm-6">-->
-<!--                    <mat-form-field class="mb-25">-->
-<!--                        <mat-label>Jumbo Size + GSM Roll Entry</mat-label>-->
-<!--                        <input matInput placeholder="Ex. 50" formControlName="jumboEntry">-->
-<!--                    </mat-form-field>-->
-<!--                </div>-->
+                <!--                <div class="col-sm-6">-->
+                <!--                    <mat-form-field class="mb-25">-->
+                <!--                        <mat-label>Jumbo Size + GSM Roll Entry</mat-label>-->
+                <!--                        <input matInput placeholder="Ex. 50" formControlName="jumboEntry">-->
+                <!--                    </mat-form-field>-->
+                <!--                </div>-->
 
                 <!-- Printing Size Per Jumbo Roll FORMATE( 900X55000 - 56 count )-->
                 <div class="col-sm-4" *ngIf="rollDropdown && !isEdit">
@@ -55,13 +55,19 @@
 
                 <div class="col-sm-4">
                     <mat-form-field>
-                        <mat-label>Model Size (Manual)</mat-label>
-                        <input matInput formControlName="manualModelSize" (change)="manageModelSize()">
+                        <mat-label>Model Size</mat-label>
+                        <input matInput [formControl]="modalSizeControl" (blur)="manageModalSize()"
+                            [matAutocomplete]="modalAutoComplete">
+                        <mat-autocomplete #modalAutoComplete="matAutocomplete">
+                            <mat-option *ngFor="let option of modalSizeFilteredOptions | async" [value]="option.label">
+                                {{ option.label }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
                 <!-- Model Size Selection -->
-                <div class="col-sm-4" *ngIf="modelSizeDropdown">
+                <!-- <div class="col-sm-4" *ngIf="modelSizeDropdown">
                     <mat-form-field class="mb-25">
                         <mat-label>Model Size</mat-label>
 
@@ -71,44 +77,37 @@
                                 }}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                </div>
+                </div> -->
 
                 <!-- Actual Packet / Jumbo Roll -->
-                <div class="col-sm-6" *ngIf="actualPacketDropdown">
+                <div class="col-sm-4" *ngIf="actualPacketDropdown">
                     <mat-form-field class="mb-25">
                         <mat-label>Actual Packet / Jumbo Roll</mat-label>
-                        <mat-select formControlName="actualPacketPerJumboRoll">
+                        <input matInput formControlName="actualPacketPerJumboRoll" (change)="calculateDifference()" />
+                        <!-- <mat-select formControlName="actualPacketPerJumboRoll">
                             <mat-option *ngFor="let item of actualPacketDropdown.options" [value]="item.value">{{
                                 item.label
                                 }}</mat-option>
-                        </mat-select>
+                        </mat-select> -->
                     </mat-form-field>
                 </div>
 
                 <!-- Manufactured Packet / Jumbo Roll -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Manufactured Packet / Jumbo Roll</mat-label>
                         <input matInput type="number" placeholder="Ex. 51"
-                            formControlName="manufacturedPacketPerJumboRoll">
+                            formControlName="manufacturedPacketPerJumboRoll" (change)="calculateDifference()">
                     </mat-form-field>
                 </div>
 
                 <!-- Difference -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Difference</mat-label>
                         <input matInput type="number" placeholder="Ex. 1" formControlName="difference">
                     </mat-form-field>
                 </div>
-
-
-                <!--                <div class="col-sm-6">-->
-                <!--                    <mat-form-field class="mb-25">-->
-                <!--                        <mat-label>No. Of Sheets Per Packet</mat-label>-->
-                <!--                        <input matInput type="number" placeholder="Ex. 100" formControlName="noOfSheetPerPacket">-->
-                <!--                    </mat-form-field>-->
-                <!--                </div>-->
 
                 <!-- Date/Time Picker -->
                 <div class="col-sm-6">
@@ -122,10 +121,9 @@
                 </div>
 
                 <!-- Submit Button -->
-                <div class="col-sm-12">
-                    <button mat-button class="btn" type="submit">
-                        <span *ngIf="!isEdit">Submit</span>
-                        <span *ngIf="isEdit">Update</span>
+                <div class="col-sm-12 d-flex justify-content-end">
+                    <button mat-flat-button class="daxa" type="submit">
+                        {{ isEdit ? 'Update' : 'Submit' }}
                     </button>
                 </div>
             </div>

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../../services/api.service";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
 
 @Component({
     selector: 'app-raw-label',
@@ -28,10 +28,11 @@ export class RawCardBoardComponent implements OnInit {
     ngOnInit() {
         this.loadData();
         this.cardBoardForm = this.fb.group({
-            cardboardSize: [''],
-            cardboardCount: [''],
-            pricePerCardboard: [''],
-            totalPrice: [''],
+            cardboardSize: ['', Validators.required],
+            printed: ['', Validators.required],
+            cardboardCount: ['', Validators.required],
+            pricePerCardboard: ['', Validators.required],
+            totalPrice: ['', Validators.required],
             dateOfEntry: [new Date()]
         });
     }
@@ -49,6 +50,7 @@ export class RawCardBoardComponent implements OnInit {
             const sendData = {
                 cardboardSize: this.cardBoardForm.value.cardboardSize,
                 cardboardCount: this.cardBoardForm.value.cardboardCount,
+                printed: this.cardBoardForm.value.printed,
                 pricePerCardboard: this.cardBoardForm.value.pricePerCardboard,
                 totalPrice: this.cardBoardForm.value.totalPrice,
                 dateOfEntry: this.cardBoardForm.value.dateOfEntry

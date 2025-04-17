@@ -19,7 +19,6 @@ export class PrintingComponent implements OnInit {
     dataSource: any[] = [];
 
     printingForm: FormGroup;
-    printingSizeControl = new FormControl("");
     inkColorControl = new FormControl("");
     isEdit: boolean = false;
     elementId: string = '';
@@ -31,6 +30,7 @@ export class PrintingComponent implements OnInit {
 
     rollDropdown: RollDropDown[];
 
+    printingSizeControl = new FormControl("");
     printingSizeData: any = null;
     printingSizeFilteredOptions: Observable<any[]>;
     inkColorFilteredOptions: Observable<any[]>;

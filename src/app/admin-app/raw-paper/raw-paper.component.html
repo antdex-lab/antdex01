@@ -81,13 +81,13 @@
                         <input matInput placeholder="Ex. 100" formControlName="paperKG" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Price per KG</mat-label>
                         <input matInput placeholder="Ex. 100" formControlName="pricePerKG" (change)="totalPrice()">
                     </mat-form-field>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Total Price</mat-label>
                         <input matInput placeholder="Ex. 10000" formControlName="totalPrice">
@@ -95,7 +95,7 @@
                 </div>
 
                 <!-- Make Auto select Today date but also make it selectable -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Entry date</mat-label>
                         <input matInput [matDatepicker]="picker" formControlName="entryDate"
@@ -105,14 +105,11 @@
                     </mat-form-field>
                 </div>
 
-                <button mat-button class="btn" type="submit">
-                    <span *ngIf="!isEdit">
-                        Submit
-                    </span>
-                    <span *ngIf="isEdit">
-                        Update
-                    </span>
-                </button>
+                <div class="col-sm-12 d-flex justify-content-end">
+                    <button mat-flat-button class="daxa" type="submit">
+                        {{ isEdit ? 'Update' : 'Submit' }}
+                    </button>
+                </div>
             </div>
         </form>
     </mat-card-content>

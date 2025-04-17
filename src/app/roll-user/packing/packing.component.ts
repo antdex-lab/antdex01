@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import { Dropdown } from '../cutting-plain/cutting-plain.component';
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { map, Observable, of, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -14,13 +15,22 @@ import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spin
 })
 export class PackingComponent implements OnInit {
 
-    displayedColumns: string[] = ['labelPerRoll', 'labelSize','withBox', 'totalRollPacked', 'dateOfEntry', 'action'];
+    displayedColumns: string[] = ['labelPerRoll', 'labelSize', 'withBox', 'totalRollPacked', 'dateOfEntry', 'action'];
     dataSource: any[] = [];
     packingForm: FormGroup;
     isEdit: boolean = false;
     elementId: string = '';
 
     dropdown: Dropdown;
+
+    labelSizeData: any = null;
+    labelSizeControl = new FormControl("");
+    filteredOptions: Observable<any[]>;
+
+    boxSizeData: any = null;
+    boxSizeControl = new FormControl("");
+    boxSizeDropdown: Dropdown;
+    boxFilteredOptions: Observable<any[]>;
 
     constructor(
         private service: ApiService,
@@ -30,6 +40,7 @@ export class PackingComponent implements OnInit {
     ngOnInit() {
         this.loadData();
         this.loadDropdown();
+        this.loadBoxDropdown();
         this.initializeForm();
         this.setupFormListeners();
     }
@@ -40,20 +51,126 @@ export class PackingComponent implements OnInit {
             if (res.statusCode === 200) {
                 this.dropdown = res.data;
                 LoadingSpinnerComponent.hide();
+
+                this.filteredOptions = this.labelSizeControl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || ''))
+                );
             }
         })
+    }
+
+    loadBoxDropdown() {
+        LoadingSpinnerComponent.show();
+        this.service.getData('dropdown/category/Box Size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.boxSizeDropdown = res.data;
+                LoadingSpinnerComponent.hide();
+
+                this.boxFilteredOptions = this.boxSizeControl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filterBox(value || ''))
+                );
+
+                this.boxSizeControl.disable();
+            }
+        })
+    }
+
+    private _filterBox(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        if (filterValue === "") {
+            this.manageLabelSize();
+        }
+        return this.boxSizeDropdown.options.filter(option => option.label.toLowerCase().includes(filterValue));
+    }
+
+    private _filter(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        if (filterValue === "") {
+            this.manageLabelSize();
+        }
+        return this.dropdown.options.filter(option => option.label.toLowerCase().includes(filterValue));
+    }
+
+    convertValues(data: any) {
+        let words = data.value.split(" ");
+        let formattedValue = words[0].toLowerCase() + words.slice(1).map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join("");
+        return { ...data, value: formattedValue };
+    }
+
+    manageLabelSize() {
+        if (this.labelSizeControl.value && this.labelSizeControl.value !== "") {
+            if (this.labelSizeData !== null) {
+                this.dropdown.options.pop();
+                this.filteredOptions = of(this.dropdown.options)
+            }
+
+            const optionData = {
+                label: this.labelSizeControl.value,
+                value: this.labelSizeControl.value.toLowerCase().trim()
+            }
+
+            const newOption = this.convertValues(optionData);
+
+            const exists = this.dropdown.options.some(
+                (opt: any) => opt.value.toLowerCase().trim() === newOption.value
+            );
+
+            if (!exists) {
+                this.labelSizeData = newOption;
+                this.dropdown.options.push(newOption);
+            }
+        } else {
+            if (this.labelSizeData !== null) {
+                this.dropdown.options.pop();
+                this.filteredOptions = of(this.dropdown.options)
+            }
+            this.labelSizeData = null;
+        }
+    }
+
+    manageBoxSize() {
+        if (this.boxSizeControl.value && this.boxSizeControl.value !== "") {
+            if (this.boxSizeData !== null) {
+                this.boxSizeDropdown.options.pop();
+                this.boxFilteredOptions = of(this.boxSizeDropdown.options)
+            }
+
+            const optionData = {
+                label: this.boxSizeControl.value,
+                value: this.boxSizeControl.value.toLowerCase().trim()
+            }
+
+            const newOption = this.convertValues(optionData);
+
+            const exists = this.boxSizeDropdown.options.some(
+                (opt: any) => opt.value.toLowerCase().trim() === newOption.value
+            );
+
+            if (!exists) {
+                this.boxSizeData = newOption;
+                this.boxSizeDropdown.options.push(newOption);
+            }
+        } else {
+            if (this.boxSizeData !== null) {
+                this.boxSizeDropdown.options.pop();
+                this.boxFilteredOptions = of(this.boxSizeDropdown.options)
+            }
+            this.boxSizeData = null;
+        }
     }
 
     initializeForm() {
         this.packingForm = this.fb.group({
             labelPerRoll: [''],
-            labelSize: [''],
+            labelSize: this.labelSizeControl,
             boxPacked: [''],
             boxPackedPerCartoon: [''],
             totalRollPacked: [''],
             withBox: [false],
             withoutBox: [false],
-            BoxSize: [{ value: '', disabled: true }],
+            BoxSize: this.boxSizeControl,
             dateOfEntry: [new Date()]
         });
     }
@@ -63,18 +180,23 @@ export class PackingComponent implements OnInit {
         this.packingForm.get('withBox')?.valueChanges.subscribe((withBoxSelected) => {
             if (withBoxSelected) {
                 this.packingForm.get('withoutBox')?.setValue(false);
-                this.packingForm.get('BoxSize')?.enable();
+                // this.packingForm.get('BoxSize')?.enable();
+                this.boxSizeControl.enable();
             } else {
-                this.packingForm.get('BoxSize')?.disable();
-                this.packingForm.get('BoxSize')?.setValue('');
+                this.boxSizeControl.disable();
+                this.boxSizeControl.setValue('');
+                // this.packingForm.get('BoxSize')?.disable();
+                // this.packingForm.get('BoxSize')?.setValue('');
             }
         });
 
         this.packingForm.get('withoutBox')?.valueChanges.subscribe((withoutBoxSelected) => {
             if (withoutBoxSelected) {
                 this.packingForm.get('withBox')?.setValue(false);
-                this.packingForm.get('BoxSize')?.disable();
-                this.packingForm.get('BoxSize')?.setValue('');
+                // this.packingForm.get('BoxSize')?.disable();
+                // this.packingForm.get('BoxSize')?.setValue('');
+                this.boxSizeControl.disable();
+                this.boxSizeControl.setValue('');
             }
         });
     }
@@ -100,6 +222,14 @@ export class PackingComponent implements OnInit {
                 BoxSize: this.packingForm.value.BoxSize,
                 dateOfEntry: this.packingForm.value.dateOfEntry
             };
+
+            if (this.labelSizeData !== null) {
+                this.service.updateDropdown('dropdown/category', this.dropdown).subscribe(async (res) => {
+                    if (res && res.statusCode === 200) {
+                        console.log("DROPDOWN UPDATED")
+                    }
+                })
+            }
 
             if (!this.isEdit) {
                 LoadingSpinnerComponent.show();

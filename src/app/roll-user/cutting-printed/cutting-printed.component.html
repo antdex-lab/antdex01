@@ -146,10 +146,9 @@
                 </div>
 
                 <!-- Submit Button -->
-                <div class="col-sm-12">
-                    <button mat-button type="submit">
-                        <span *ngIf="!isEdit">Submit</span>
-                        <span *ngIf="isEdit">Update</span>
+                <div class="col-sm-12 d-flex justify-content-end">
+                    <button mat-flat-button class="daxa" type="submit">
+                        {{ isEdit ? 'Update' : 'Submit' }}
                     </button>
                 </div>
             </div>

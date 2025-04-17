@@ -26,27 +26,41 @@
     <mat-card-content>
         <form [formGroup]="zFoldPackingForm" (ngSubmit)="submit()">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Cardboard Size</mat-label>
-                        <input matInput type="text" placeholder="Ex. 50" formControlName="cardBoardSize">
+                        <input matInput [formControl]="cardboardCtrl" [matAutocomplete]="autoCard">
+                        <mat-autocomplete #autoCard="matAutocomplete">
+                            <mat-option *ngFor="let option of cardboardFilteredOptions | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
-                        <mat-label>Printed</mat-label>
-                        <input matInput type="text" placeholder="Ex. 50" formControlName="printed">
-                    </mat-form-field>
-                </div>
-                <div class="col-sm-6">
-                    <mat-form-field class="mb-25">
-                        <mat-label>Non Printed</mat-label>
-                        <input matInput type="text" placeholder="Ex. 51" formControlName="nonPrinted">
+                        <mat-label>Modal Size</mat-label>
+                        <input matInput [formControl]="modalSizeCtrl" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Printed or Non Printed</mat-label>
+                        <mat-select formControlName="printed">
+                            <mat-option value="true">Printed</mat-option>
+                            <mat-option value="false">Non Printed</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>No. of Packet</mat-label>
                         <input matInput type="text" placeholder="Ex. 50" formControlName="noOfPacket">
@@ -54,20 +68,20 @@
                 </div>
 
                 <!-- Make Auto select Today date but also make it selectable -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Date/Time</mat-label>
-                        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="entryDate">
+                        <input matInput [matDatepicker]="picker" placeholder="Choose a date"
+                            formControlName="entryDate">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
 
 
-                <div class="col-sm-12">
-                    <button mat-button class="btn" type="submit">
-                        <span *ngIf="!isEdit">Submit</span>
-                        <span *ngIf="isEdit">Update</span>
+                <div class="col-sm-12 d-flex justify-content-end">
+                    <button mat-flat-button class="daxa" type="submit">
+                        {{ isEdit ? 'Update' : 'Submit' }}
                     </button>
                 </div>
             </div>
@@ -108,22 +122,21 @@
                     </ng-container>
 
                     <!-- Task Name Column -->
+                    <ng-container matColumnDef="modalSize">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Modal Size
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.modalSize}}
+                        </td>
+                    </ng-container>
+
                     <ng-container matColumnDef="printed">
                         <th mat-header-cell *matHeaderCellDef>
                             Printed
                         </th>
                         <td mat-cell *matCellDef="let element">
                             {{element.printed}}
-                        </td>
-                    </ng-container>
-
-                    <!-- Assigned To Column -->
-                    <ng-container matColumnDef="nonPrinted">
-                        <th mat-header-cell *matHeaderCellDef>
-                            Non Printed
-                        </th>
-                        <td mat-cell *matCellDef="let element" class="text-black">
-                            {{element.nonPrinted}}
                         </td>
                     </ng-container>
 
@@ -154,13 +167,13 @@
                         <td mat-cell *matCellDef="let element">
                             <div class="action-info">
                                 <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above"
-                                        (click)="editData(element)">
+                                    (click)="editData(element)">
                                     <i class="material-symbols-outlined">
                                         edit
                                     </i>
                                 </button>
                                 <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above"
-                                        (click)="deleteData(element._id)">
+                                    (click)="deleteData(element._id)">
                                     <i class="material-symbols-outlined">
                                         delete
                                     </i>

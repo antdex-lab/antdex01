@@ -1,40 +1,92 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ApiService} from "../../../services/api.service";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-cutting-plain',
     templateUrl: './z-fold-packing.component.html',
     styleUrl: './z-fold-packing.component.scss'
 })
-export class ZFoldPackingComponent implements OnInit{
+export class ZFoldPackingComponent implements OnInit {
 
-    displayedColumns: string[] = ['cardBoardSize', 'printed', 'nonPrinted', 'noOfPacket', 'entryDate','action'];
+    displayedColumns: string[] = ['cardBoardSize', 'modalSize', 'printed', 'noOfPacket', 'entryDate', 'action'];
     dataSource: any[] = [];
 
     zFoldPackingForm: FormGroup;
     isEdit: boolean = false;
     elementId: string = '';
 
+    dropdown: any[] = [];;
+    filteredOptions: Observable<any[]>;
+    modalSizeCtrl = new FormControl("", Validators.required);
+
+    cardboardDropdown: any[] = [];;
+    cardboardFilteredOptions: Observable<any[]>;
+    cardboardCtrl = new FormControl("", Validators.required);
+
     constructor(private service: ApiService,
-                private fb: FormBuilder) {
+        private fb: FormBuilder) {
     }
 
     ngOnInit() {
         this.loadData();
+        this.loadDropdown();
+        this.loadCardboardSize();
         this.zFoldPackingForm = this.fb.group({
-            cardBoardSize: [''],
-            printed: [''],
-            nonPrinted: [''],
-            noOfPacket: [''],
+            cardBoardSize: this.cardboardCtrl,
+            modalSize: this.modalSizeCtrl,
+            printed: ['', Validators.required],
+            noOfPacket: ['', Validators.required],
             entryDate: [new Date()]
         });
     }
 
+    loadDropdown() {
+        LoadingSpinnerComponent.show();
+        this.service.getData('dropdown/modal-size-with-count').subscribe((res) => {
+            if (res.statusCode === 200) {
+                const sizeArr = Array.from(new Set(res.data.map((item: any) => item.label.toString())));
+                this.dropdown = sizeArr;
+                LoadingSpinnerComponent.hide();
+
+                this.filteredOptions = this.modalSizeCtrl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || ''))
+                );
+            }
+        })
+    }
+
+    loadCardboardSize() {
+        LoadingSpinnerComponent.show();
+        this.service.getData('dropdown/cardboard-size-with-count').subscribe((res) => {
+            if (res.statusCode === 200) {
+                const sizeArr = Array.from(new Set(res.data.map((item: any) => item.label.toString())));
+                this.cardboardDropdown = sizeArr;
+                LoadingSpinnerComponent.hide();
+
+                this.cardboardFilteredOptions = this.cardboardCtrl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filterCardboard(value || ''))
+                );
+            }
+        })
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.dropdown.filter(option => option.toLowerCase().includes(filterValue));
+    }
+
+    private _filterCardboard(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.cardboardDropdown.filter(option => option.toLowerCase().includes(filterValue));
+    }
 
     loadData() {
         LoadingSpinnerComponent.show();
@@ -48,8 +100,8 @@ export class ZFoldPackingComponent implements OnInit{
         if (this.zFoldPackingForm.valid) {
             const sendData = {
                 cardBoardSize: this.zFoldPackingForm.value.cardBoardSize,
+                modalSize: this.zFoldPackingForm.value.modalSize,
                 printed: this.zFoldPackingForm.value.printed,
-                nonPrinted: this.zFoldPackingForm.value.nonPrinted,
                 noOfPacket: this.zFoldPackingForm.value.noOfPacket,
                 entryDate: this.zFoldPackingForm.value.entryDate
             };
@@ -84,8 +136,8 @@ export class ZFoldPackingComponent implements OnInit{
 
         this.zFoldPackingForm.patchValue({
             cardBoardSize: data.cardBoardSize,
-            printed: data.printed,
-            nonPrinted: data.nonPrinted,
+            modalSize: data.modalSize,
+            printed: String(data.printed),
             noOfPacket: data.noOfPacket,
             entryDate: new Date(data.entryDate)
         });

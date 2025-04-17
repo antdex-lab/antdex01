@@ -62,7 +62,6 @@ export class RawPaperComponent implements OnInit {
     }
 
     loadAutoCompleteDropdown(data: any) {
-        console.log('data', data);
         const sizeArr: string[] = Array.from(new Set(data.map((item: any) => item.sizeInMM.toString())));
         const gsmArr: string[] = Array.from(new Set(data.map((item: any) => item.gsm)));
 
@@ -92,7 +91,6 @@ export class RawPaperComponent implements OnInit {
 
     submitRawPaperEntry() {
         if (this.rawPaperForm.valid) {
-            console.log('Raw Paper Entry Submitted', this.rawPaperForm.value);
             const sendData = {
                 sizeInMM: this.rawPaperForm.value.paperSizeMM,
                 sizeInMeter: this.rawPaperForm.value.paperSizeM,

@@ -68,36 +68,6 @@
                     }
                 }
             }
-            &.rtl-enabled {
-                .mat-mdc-card-content {
-                    .to-do-list-table {
-                        .mat-mdc-table {
-                            .mat-mdc-header-cell {
-                                &:last-child {
-                                    text-align: left;
-                                }
-                                &:first-child {
-                                    padding: {
-                                        right: 20px;
-                                        left: 0;
-                                    };
-                                }
-                            }
-                            .mat-mdc-cell {
-                                &:last-child {
-                                    text-align: left;
-                                }
-                                &:first-child {
-                                    padding: {
-                                        right: 20px;
-                                        left: 0;
-                                    };
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -194,26 +164,7 @@
                 transform: none;
             }
         }
-        &.rtl-enabled {
-            .popup-dialog {
-                .daxa-card {
-                    .mat-mdc-card-content {
-                        .btn-box {
-                            text-align: left;
-    
-                            .mat-mdc-button {
-                                &:first-child {
-                                    margin: {
-                                        right: 0;
-                                        left: 10px;
-                                    };
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        
     }
 }
 
@@ -245,28 +196,7 @@
                         }
                     }
                 }
-                &.rtl-enabled {
-                    .mat-mdc-card-content {
-                        .to-do-list-table {
-                            .mat-mdc-table {
-                                .mat-mdc-header-cell {
-                                    &:first-child {
-                                        padding: {
-                                            right: 15px;
-                                        };
-                                    }
-                                }
-                                .mat-mdc-cell {
-                                    &:first-child {
-                                        padding: {
-                                            right: 15px;
-                                        };
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                
             }
         }
     }
@@ -344,28 +274,7 @@
                         right: -20px;
                     };
                 }
-                &.rtl-enabled {
-                    .mat-mdc-card-content {
-                        .to-do-list-table {
-                            .mat-mdc-table {
-                                .mat-mdc-header-cell {
-                                    &:first-child {
-                                        padding: {
-                                            right: 20px;
-                                        };
-                                    }
-                                }
-                                .mat-mdc-cell {
-                                    &:first-child {
-                                        padding: {
-                                            right: 20px;
-                                        };
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            
             }
         }
     }

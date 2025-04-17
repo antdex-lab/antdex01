@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -18,6 +19,10 @@ export class DisptachComponent implements OnInit {
     isEdit: boolean = false;
     elementId: string = '';
 
+    dropdown: any[] = [];;
+    filteredOptions: Observable<any[]>;
+    modalSizeCtrl = new FormControl("", Validators.required);
+
     constructor(
         private service: ApiService,
         private fb: FormBuilder
@@ -26,10 +31,11 @@ export class DisptachComponent implements OnInit {
 
     ngOnInit() {
         this.loadData();
+        this.loadDropdown();
         this.zFoldForm = this.fb.group({
-            packetModelPerSize: [''],
-            noOfpacket: [''],
-            orderBy: [''],
+            packetModelPerSize: this.modalSizeCtrl,
+            noOfpacket: ['', Validators.required],
+            orderBy: ['', Validators.required],
             bill: [''],
             billNumber: [''],
             dispatchVia: [''],
@@ -43,6 +49,27 @@ export class DisptachComponent implements OnInit {
             this.dataSource = res;
             LoadingSpinnerComponent.hide();
         });
+    }
+
+    loadDropdown() {
+        LoadingSpinnerComponent.show();
+        this.service.getData('dropdown/modal-size-with-no-of-packet').subscribe((res) => {
+            if (res.statusCode === 200) {
+                const sizeArr = Array.from(new Set(res.data.map((item: any) => item.label.toString())));
+                this.dropdown = sizeArr;
+                LoadingSpinnerComponent.hide();
+
+                this.filteredOptions = this.modalSizeCtrl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || ''))
+                );
+            }
+        })
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.dropdown.filter(option => option.toLowerCase().includes(filterValue));
     }
 
     submit() {

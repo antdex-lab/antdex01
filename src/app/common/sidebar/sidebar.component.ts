@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToggleService } from './toggle.service';
 import { CustomizerSettingsService } from '../../customizer-settings/customizer-settings.service';
 import { AuthService } from '../../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-sidebar',
@@ -20,7 +21,8 @@ export class SidebarComponent implements OnInit {
     constructor(
         private toggleService: ToggleService,
         public themeService: CustomizerSettingsService,
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ) {
         this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
             this.isSidebarToggled = isSidebarToggled;
@@ -44,9 +46,9 @@ export class SidebarComponent implements OnInit {
             this.isUser2 = isUser2;
         });
 
-        console.log("Admin ",this.isAdminLogin);
-        console.log("User 1",this.isUser1);
-        console.log("User 2",this.isUser2);
+        console.log("Admin ", this.isAdminLogin);
+        console.log("User 1", this.isUser1);
+        console.log("User 2", this.isUser2);
 
         this.authService.checkAuthenticationForLogin();
     }
@@ -57,5 +59,21 @@ export class SidebarComponent implements OnInit {
 
     onLogout() {
         this.authService.logout();
+    }
+
+    navigateTo() {
+
+        if (this.isAdminLogin) {
+            this.router.navigate(['/']);
+        }
+
+        if (this.isUser1) {
+            this.router.navigate(['/printing']);
+        }
+
+        if (this.isUser2) {
+            this.router.navigate(['/z-fold']);
+        }
+        // this.authService.navigateTo(route);
     }
 }

@@ -49,17 +49,15 @@
 
                 <!-- Label Size  DropDown-->
                 <div class="col-sm-6" *ngIf="labelSizeDropdown">
-                    <!-- <mat-form-field class="mb-25">
-                        <mat-label>Label Size</mat-label>
-                        <input matInput placeholder="Ex. 2x4" formControlName="labelSize">
-                    </mat-form-field> -->
                     <mat-form-field>
                         <mat-label>{{ labelSizeDropdown.category }}</mat-label>
-                        <mat-select formControlName="labelSize">
-                            <mat-option *ngFor="let item of labelSizeDropdown.options" [value]="item.value">{{
-                                item.label }}</mat-option>
-                        </mat-select>
-                        <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+                        <input matInput [formControl]="labelSizeControl" (blur)="manageLabelSize()"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.value">
+                                {{ option.label }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
@@ -91,10 +89,9 @@
                 </div>
 
                 <!-- Submit Button -->
-                <div class="col-sm-12">
-                    <button mat-button type="submit">
-                        <span *ngIf="!isEdit">Submit</span>
-                        <span *ngIf="isEdit">Update</span>
+                <div class="col-sm-12 d-flex justify-content-end">
+                    <button mat-flat-button class="daxa" type="submit">
+                        {{ isEdit ? 'Update' : 'Submit' }}
                     </button>
                 </div>
             </div>

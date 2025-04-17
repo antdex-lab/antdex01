@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../../services/api.service";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { Dropdown } from '../../roll-user/cutting-plain/cutting-plain.component';
+import { map, Observable, of, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-raw-label',
@@ -20,6 +22,11 @@ export class RawBoxComponent implements OnInit {
     isEdit: boolean = false;
     elementId: string = '';
 
+    boxSizeData: any = null;
+    boxSizeControl = new FormControl("");
+    boxSizeDropdown: Dropdown;
+    filteredOptions: Observable<any[]>;
+
     constructor(
         private service: ApiService,
         private fb: FormBuilder
@@ -27,8 +34,9 @@ export class RawBoxComponent implements OnInit {
 
     ngOnInit() {
         this.loadData();
+        this.loadDropdown();
         this.boxForm = this.fb.group({
-            boxSize: [''],
+            boxSize: this.boxSizeControl,
             boxCount: [''],
             pricePerBox: [''],
             totalPrice: [''],
@@ -44,6 +52,66 @@ export class RawBoxComponent implements OnInit {
         });
     }
 
+    loadDropdown() {
+        LoadingSpinnerComponent.show();
+        this.service.getData('dropdown/category/Box Size').subscribe((res) => {
+            if (res.statusCode === 200) {
+                LoadingSpinnerComponent.hide();
+                this.boxSizeDropdown = res.data;
+
+                this.filteredOptions = this.boxSizeControl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || ''))
+                );
+            }
+        })
+    }
+
+    private _filter(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        if (filterValue === "") {
+            this.manageBoxSize();
+        }
+        return this.boxSizeDropdown.options.filter(option => option.label.toLowerCase().includes(filterValue));
+    }
+
+    convertValues(data: any) {
+        let words = data.value.split(" ");
+        let formattedValue = words[0].toLowerCase() + words.slice(1).map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join("");
+        return { ...data, value: formattedValue };
+    }
+
+    manageBoxSize() {
+        if (this.boxSizeControl.value && this.boxSizeControl.value !== "") {
+            if (this.boxSizeData !== null) {
+                this.boxSizeDropdown.options.pop();
+                this.filteredOptions = of(this.boxSizeDropdown.options)
+            }
+
+            const optionData = {
+                label: this.boxSizeControl.value,
+                value: this.boxSizeControl.value.toLowerCase().trim()
+            }
+
+            const newOption = this.convertValues(optionData);
+
+            const exists = this.boxSizeDropdown.options.some(
+                (opt: any) => opt.value.toLowerCase().trim() === newOption.value
+            );
+
+            if (!exists) {
+                this.boxSizeData = newOption;
+                this.boxSizeDropdown.options.push(newOption);
+            }
+        } else {
+            if (this.boxSizeData !== null) {
+                this.boxSizeDropdown.options.pop();
+                this.filteredOptions = of(this.boxSizeDropdown.options)
+            }
+            this.boxSizeData = null;
+        }
+    }
+
     submit() {
         if (this.boxForm.valid) {
             const sendData = {
@@ -53,6 +121,14 @@ export class RawBoxComponent implements OnInit {
                 totalPrice: this.boxForm.value.totalPrice,
                 dateOfEntry: this.boxForm.value.dateOfEntry
             };
+
+            if (this.boxSizeData !== null) {
+                this.service.updateDropdown('dropdown/category', this.boxSizeDropdown).subscribe(async (res) => {
+                    if (res && res.statusCode === 200) {
+                        this.loadDropdown();
+                    }
+                })
+            }
 
             if (!this.isEdit) {
                 LoadingSpinnerComponent.show();

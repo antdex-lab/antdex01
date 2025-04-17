@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { Dropdown } from '../cutting-plain/cutting-plain.component';
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-cutting-plain',
@@ -13,12 +15,16 @@ import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spin
 })
 export class RollDisptachComponent implements OnInit {
 
-    displayedColumns: string[] = ['totalBoxDispatch', 'rollSizeWithLabel', 'orderBy', 'DateAndTime','dispatchVia', 'action'];
+    displayedColumns: string[] = ['totalBoxDispatch', 'rollSizeWithLabel', 'orderBy', 'DateAndTime', 'dispatchVia', 'action'];
     dataSource: any[] = [];
 
     rollDispatchForm: FormGroup;
     isEdit: boolean = false;
     elementId: string = '';
+
+    dropdown: any[] = [];;
+    filteredOptions: Observable<any[]>;
+    rollControl = new FormControl("");
 
     constructor(
         private service: ApiService,
@@ -27,9 +33,10 @@ export class RollDisptachComponent implements OnInit {
 
     ngOnInit() {
         this.loadData();
+        this.loadDropdown();
         this.rollDispatchForm = this.fb.group({
             totalBoxDispatch: [''],
-            rollSizeWithLabel: [''],
+            rollSizeWithLabel: this.rollControl,
             totalRolls: [''],
             orderBy: [''],
             bill: [''],
@@ -37,6 +44,27 @@ export class RollDisptachComponent implements OnInit {
             dispatchVia: [''],
             DateAndTime: [new Date()]
         });
+    }
+
+    loadDropdown() {
+        LoadingSpinnerComponent.show();
+        this.service.getData('dropdown/roll-size-with-label').subscribe((res) => {
+            if (res.statusCode === 200) {
+                const sizeArr = Array.from(new Set(res.data.map((item: any) => item.label.toString())));
+                this.dropdown = sizeArr;
+                LoadingSpinnerComponent.hide();
+
+                this.filteredOptions = this.rollControl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || ''))
+                );
+            }
+        })
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.dropdown.filter(option => option.toLowerCase().includes(filterValue));
     }
 
     loadData() {

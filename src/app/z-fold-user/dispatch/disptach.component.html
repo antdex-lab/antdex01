@@ -27,15 +27,20 @@
         <form [formGroup]="zFoldForm" (ngSubmit)="submit()">
             <div class="row">
                 <!-- Packet Model Size -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Packet Model Size</mat-label>
-                        <input matInput placeholder="Ex. 50" formControlName="packetModelPerSize">
+                        <input matInput [formControl]="modalSizeCtrl" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
                 <!-- No. of Packet -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>No. of Packet</mat-label>
                         <input matInput type="number" placeholder="Ex. 50" formControlName="noOfpacket">
@@ -43,7 +48,7 @@
                 </div>
 
                 <!-- Bill or WithoutBill -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Bill or WithoutBill</mat-label>
                         <mat-select formControlName="bill">
@@ -54,14 +59,14 @@
                 </div>
 
                 <!-- Bill Number -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Bill Number</mat-label>
                         <input matInput type="number" placeholder="Ex. 6000" formControlName="billNumber">
                     </mat-form-field>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Dispatch Via</mat-label>
                         <input matInput type="text" placeholder="Ex. 6000" formControlName="dispatchVia">
@@ -69,7 +74,7 @@
                 </div>
 
                 <!-- Z-Fold Dispatch Date/Time -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Z-Fold-Dispatch Date/Time</mat-label>
                         <input matInput [matDatepicker]="picker" formControlName="DateAndTime"
@@ -80,21 +85,18 @@
                 </div>
 
                 <!-- Order by (Checkboxes) -->
-                <div class="col-sm-6">
-                    <div>
-                        <h5>Order by:</h5>
-                        <mat-radio-group formControlName="orderBy">
-                            <mat-radio-button value="Ukshit">Ukshit</mat-radio-button>
-                            <mat-radio-button value="Animesh">Animesh</mat-radio-button>
-                        </mat-radio-group>
-                    </div>
+                <div class="col-sm-4">
+                    <h5>Order by:</h5>
+                    <mat-radio-group formControlName="orderBy">
+                        <mat-radio-button value="Ukshit">Ukshit</mat-radio-button>
+                        <mat-radio-button value="Animesh">Animesh</mat-radio-button>
+                    </mat-radio-group>
                 </div>
 
                 <!-- Submit Button -->
-                <div class="col-sm-12">
-                    <button mat-button class="btn" type="submit">
-                        <span *ngIf="!isEdit">Submit</span>
-                        <span *ngIf="isEdit">Update</span>
+                <div class="col-sm-12 d-flex justify-content-end">
+                    <button mat-flat-button class="daxa" type="submit">
+                        {{ isEdit ? 'Update' : 'Submit' }}
                     </button>
                 </div>
             </div>

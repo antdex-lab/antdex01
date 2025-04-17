@@ -1,7 +1,7 @@
 <!-- Breadcrumb -->
 <div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between">
     <h5 class="mb-0">
-        Roll-Roll-Dispatch
+        Rolls-Dispatch
     </h5>
     <ol class="breadcrumb list-unstyled mt-0 mb-0 pl-0">
         <li class="breadcrumb-item position-relative">
@@ -39,15 +39,21 @@
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
                         <mat-label>Roll Size With Lable</mat-label>
-                        <input matInput placeholder="Ex. 50" formControlName="rollSizeWithLabel">
+                        <!-- <input matInput placeholder="Ex. 50" formControlName="rollSizeWithLabel"> -->
                         <!-- <input matInput placeholder="Ex. lable name" formControlName="rollSize"> -->
+                        <input matInput [formControl]="rollControl" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
                 <!-- No. Of Rolls -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
-                        <mat-label>Total Rolls</mat-label>
+                        <mat-label>Roll Dispatch</mat-label>
                         <input matInput type="number" placeholder="Ex. 6000" formControlName="totalRolls">
                     </mat-form-field>
                 </div>
@@ -101,10 +107,9 @@
                 </div>
 
                 <!-- Submit Button -->
-                <div class="col-sm-12">
-                    <button mat-button class="btn" type="submit">
-                        <span *ngIf="!isEdit">Submit</span>
-                        <span *ngIf="isEdit">Update</span>
+                <div class="col-sm-12 d-flex justify-content-end">
+                    <button mat-flat-button class="daxa" type="submit">
+                        {{ isEdit ? 'Update' : 'Submit' }}
                     </button>
                 </div>
             </div>

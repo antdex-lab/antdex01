@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../../services/api.service";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
+import { map, Observable, of, startWith } from 'rxjs';
 
 interface LabelSizeDropdown {
     category: string;
@@ -28,7 +29,10 @@ export class RawLabelComponent implements OnInit {
     isEdit: boolean = false;
     elementId: string = '';
 
+    labelSizeData: any = null;
+    labelSizeControl = new FormControl("");
     labelSizeDropdown: LabelSizeDropdown;
+    filteredOptions: Observable<any[]>;
 
     constructor(
         private service: ApiService,
@@ -41,7 +45,7 @@ export class RawLabelComponent implements OnInit {
         this.labelForm = this.fb.group({
             rawMaterial: [''],
             price: [''],
-            labelSize: [''],
+            labelSize: this.labelSizeControl,
             labelCount: [''],
             pricePerLabel: [''],
             dateOfEntry: [new Date()]
@@ -54,9 +58,21 @@ export class RawLabelComponent implements OnInit {
             if (res.statusCode === 200) {
                 LoadingSpinnerComponent.hide();
                 this.labelSizeDropdown = res.data;
-                console.log(this.labelSizeDropdown);
+
+                this.filteredOptions = this.labelSizeControl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filter(value || ''))
+                );
             }
         })
+    }
+
+    private _filter(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        if (filterValue === "") {
+            this.manageLabelSize();
+        }
+        return this.labelSizeDropdown.options.filter(option => option.label.toLowerCase().includes(filterValue));
     }
 
     loadData() {
@@ -65,6 +81,43 @@ export class RawLabelComponent implements OnInit {
             LoadingSpinnerComponent.hide();
             this.dataSource = res;
         });
+    }
+
+    convertValues(data: any) {
+        let words = data.value.split(" ");
+        let formattedValue = words[0].toLowerCase() + words.slice(1).map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join("");
+        return { ...data, value: formattedValue };
+    }
+
+    manageLabelSize() {
+        if (this.labelSizeControl.value && this.labelSizeControl.value !== "") {
+            if (this.labelSizeData !== null) {
+                this.labelSizeDropdown.options.pop();
+                this.filteredOptions = of(this.labelSizeDropdown.options)
+            }
+
+            const optionData = {
+                label: this.labelSizeControl.value,
+                value: this.labelSizeControl.value.toLowerCase().trim()
+            }
+
+            const newOption = this.convertValues(optionData);
+
+            const exists = this.labelSizeDropdown.options.some(
+                (opt: any) => opt.value.toLowerCase().trim() === newOption.value
+            );
+
+            if (!exists) {
+                this.labelSizeData = newOption;
+                this.labelSizeDropdown.options.push(newOption);
+            }
+        } else {
+            if (this.labelSizeData !== null) {
+                this.labelSizeDropdown.options.pop();
+                this.filteredOptions = of(this.labelSizeDropdown.options)
+            }
+            this.labelSizeData = null;
+        }
     }
 
     submit() {
@@ -77,6 +130,14 @@ export class RawLabelComponent implements OnInit {
                 pricePerLabel: this.labelForm.value.pricePerLabel,
                 dateOfEntry: this.labelForm.value.dateOfEntry
             };
+
+            if (this.labelSizeData !== null) {
+                this.service.updateDropdown('dropdown/category', this.labelSizeDropdown).subscribe(async (res) => {
+                    if (res && res.statusCode === 200) {
+                        console.log("DROPDOWN UPDATED")
+                    }
+                })
+            }
 
             if (!this.isEdit) {
                 LoadingSpinnerComponent.show();

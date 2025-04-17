@@ -34,31 +34,43 @@
             <div class="row">
 
                 <!-- Cardboard Size -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Cardboard Size</mat-label>
                         <input matInput placeholder="Ex. Large" formControlName="cardboardSize">
                     </mat-form-field>
                 </div>
 
+                <div class="col-sm-4">
+                    <mat-form-field class="mb-25">
+                        <mat-label>Printed or Non Printed</mat-label>
+                        <mat-select formControlName="printed">
+                            <mat-option value="true">Printed</mat-option>
+                            <mat-option value="false">Non Printed</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
                 <!-- Cardboard Count -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Cardboard Count</mat-label>
-                        <input matInput type="number" placeholder="Ex. 50" formControlName="cardboardCount" (change)="totalPrice()">
+                        <input matInput type="number" placeholder="Ex. 50" formControlName="cardboardCount"
+                            (change)="totalPrice()">
                     </mat-form-field>
                 </div>
 
                 <!-- Price per Cardboard -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Price per Cardboard</mat-label>
-                        <input matInput type="number" placeholder="Ex. 100" formControlName="pricePerCardboard" (change)="totalPrice()">
+                        <input matInput type="number" placeholder="Ex. 100" formControlName="pricePerCardboard"
+                            (change)="totalPrice()">
                     </mat-form-field>
                 </div>
 
                 <!-- Total Price -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Total Price</mat-label>
                         <input matInput type="number" placeholder="Ex. 5000" formControlName="totalPrice">
@@ -66,20 +78,20 @@
                 </div>
 
                 <!-- Entry Date (auto-select today but also selectable) -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Entry date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="dateOfEntry" placeholder="Choose a date">
+                        <input matInput [matDatepicker]="picker" formControlName="dateOfEntry"
+                            placeholder="Choose a date">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
 
                 <!-- Submit Button -->
-                <div class="col-sm-12">
-                    <button mat-button type="submit">
-                        <span *ngIf="!isEdit">Submit</span>
-                        <span *ngIf="isEdit">Update</span>
+                <div class="col-sm-12 d-flex justify-content-end">
+                    <button mat-flat-button class="daxa" type="submit">
+                        {{ isEdit ? 'Update' : 'Submit' }}
                     </button>
                 </div>
             </div>
@@ -89,10 +101,8 @@
 </mat-card>
 
 <!-- Raw Cardboard -->
-<mat-card
-    class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
-    [class.rtl-enabled]="false"
->
+<mat-card class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
+    [class.rtl-enabled]="false">
     <mat-card-header>
         <mat-card-title>
             <div class="download-excel-btn" (click)="downloadExcel()">
@@ -107,7 +117,8 @@
                 <i class="material-symbols-outlined">
                     search
                 </i>
-                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..." (keyup)="applyFilter($event)" #input>
+                <input type="text" class="input-search d-block w-100 border-none outline-0" placeholder="Search here..."
+                    (keyup)="applyFilter($event)" #input>
             </form>
         </mat-card-subtitle>
     </mat-card-header>
@@ -147,12 +158,14 @@
                         </th>
                         <td mat-cell *matCellDef="let element">
                             <div class="action-info">
-                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above" (click)="editData(element)">
+                                <button type="button" mat-button matTooltip="Edit" matTooltipPosition="above"
+                                    (click)="editData(element)">
                                     <i class="material-symbols-outlined">
                                         edit
                                     </i>
                                 </button>
-                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above" (click)="deleteData(element._id)">
+                                <button type="button" mat-button matTooltip="Delete" matTooltipPosition="above"
+                                    (click)="deleteData(element._id)">
                                     <i class="material-symbols-outlined">
                                         delete
                                     </i>

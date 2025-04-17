@@ -29,7 +29,7 @@
             <div class="row">
 
                 <!-- Total Rolls  by defoult 1 from backend task -->
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Roll with label</mat-label>
                         <input matInput type="number" placeholder="Ex. 50" formControlName="labelPerRoll">
@@ -37,13 +37,16 @@
                 </div>
 
                 <!-- Label Size DropDown -->
-                <div class="col-sm-6" *ngIf="dropdown">
+                <div class="col-sm-4" *ngIf="dropdown">
                     <mat-form-field>
                         <mat-label>{{ dropdown.category }}</mat-label>
-                        <mat-select formControlName="labelSize">
-                            <mat-option *ngFor="let item of dropdown.options" [value]="item.value">{{ item.label
-                                }}</mat-option>
-                        </mat-select>
+                        <input matInput [formControl]="labelSizeControl" (blur)="manageLabelSize()"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.value">
+                                {{ option.label }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
@@ -71,7 +74,8 @@
                     <div>
                         <h5>Select Packing Type:</h5>
                         <mat-checkbox formControlName="withBox" (click)="setupFormListeners()">With Box</mat-checkbox>
-                        <mat-checkbox formControlName="withoutBox" (click)="setupFormListeners()">Without Box</mat-checkbox>
+                        <mat-checkbox formControlName="withoutBox" (click)="setupFormListeners()">Without
+                            Box</mat-checkbox>
                     </div>
                 </div>
 
@@ -79,7 +83,14 @@
                 <div class="col-sm-4">
                     <mat-form-field class="mb-25">
                         <mat-label>Box Size</mat-label>
-                        <input matInput type="text" placeholder="Ex. 6000" formControlName="BoxSize">
+                        <!-- <input matInput type="text" placeholder="Ex. 6000" formControlName="BoxSize"> -->
+                        <input matInput [formControl]="boxSizeControl" (blur)="manageBoxSize()"
+                            [matAutocomplete]="boxAuto">
+                        <mat-autocomplete #boxAuto="matAutocomplete">
+                            <mat-option *ngFor="let option of boxFilteredOptions | async" [value]="option.value">
+                                {{ option.label }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
@@ -119,10 +130,9 @@
                 </div>
 
                 <!-- Submit Button -->
-                <div class="col-sm-12">
-                    <button mat-button class="btn" type="submit">
-                        <span *ngIf="!isEdit">Submit</span>
-                        <span *ngIf="isEdit">Update</span>
+                <div class="col-sm-12 d-flex justify-content-end">
+                    <button mat-flat-button class="daxa" type="submit">
+                        {{ isEdit ? 'Update' : 'Submit' }}
                     </button>
                 </div>
             </div>
