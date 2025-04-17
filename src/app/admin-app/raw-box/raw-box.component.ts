@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../../services/api.service";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -23,7 +23,7 @@ export class RawBoxComponent implements OnInit {
     elementId: string = '';
 
     boxSizeData: any = null;
-    boxSizeControl = new FormControl("");
+    boxSizeControl = new FormControl("", Validators.required);
     boxSizeDropdown: Dropdown;
     filteredOptions: Observable<any[]>;
 
@@ -37,9 +37,9 @@ export class RawBoxComponent implements OnInit {
         this.loadDropdown();
         this.boxForm = this.fb.group({
             boxSize: this.boxSizeControl,
-            boxCount: [''],
-            pricePerBox: [''],
-            totalPrice: [''],
+            boxCount: ['', Validators.required],
+            pricePerBox: ['', Validators.required],
+            totalPrice: ['', Validators.required],
             dateOfEntry: [new Date()]
         });
     }

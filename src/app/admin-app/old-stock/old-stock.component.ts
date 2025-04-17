@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ApiService} from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
@@ -29,10 +29,10 @@ export class OldStockComponent implements OnInit {
     ngOnInit() {
         this.loadData();
         this.oldStockForm = this.fb.group({
-            noOfRolls: [''],
-            rollsWithSizeLabel: [''],
-            noOfPacket: [''],
-            packetModelSize: [''],
+            noOfRolls: ['', Validators.required],
+            rollsWithSizeLabel: ['', Validators.required],
+            noOfPacket: ['', Validators.required],
+            packetModelSize: ['', Validators.required],
             dateOfEntry: [new Date()]
         });
     }

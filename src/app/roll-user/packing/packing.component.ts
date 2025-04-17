@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import { Dropdown } from '../cutting-plain/cutting-plain.component';
@@ -24,7 +24,7 @@ export class PackingComponent implements OnInit {
     dropdown: Dropdown;
 
     labelSizeData: any = null;
-    labelSizeControl = new FormControl("");
+    labelSizeControl = new FormControl("", Validators.required);
     filteredOptions: Observable<any[]>;
 
     boxSizeData: any = null;
@@ -163,11 +163,11 @@ export class PackingComponent implements OnInit {
 
     initializeForm() {
         this.packingForm = this.fb.group({
-            labelPerRoll: [''],
+            labelPerRoll: ['', Validators.required],
             labelSize: this.labelSizeControl,
             boxPacked: [''],
             boxPackedPerCartoon: [''],
-            totalRollPacked: [''],
+            totalRollPacked: ['', Validators.required],
             withBox: [false],
             withoutBox: [false],
             BoxSize: this.boxSizeControl,

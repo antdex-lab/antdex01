@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
@@ -22,9 +22,9 @@ export class RollDisptachComponent implements OnInit {
     isEdit: boolean = false;
     elementId: string = '';
 
-    dropdown: any[] = [];;
+    dropdown: any[] = [];
     filteredOptions: Observable<any[]>;
-    rollControl = new FormControl("");
+    rollControl = new FormControl("", Validators.required);
 
     constructor(
         private service: ApiService,
@@ -35,9 +35,9 @@ export class RollDisptachComponent implements OnInit {
         this.loadData();
         this.loadDropdown();
         this.rollDispatchForm = this.fb.group({
-            totalBoxDispatch: [''],
+            totalBoxDispatch: ['', Validators.required],
             rollSizeWithLabel: this.rollControl,
-            totalRolls: [''],
+            totalRolls: ['', Validators.required],
             orderBy: [''],
             bill: [''],
             billNumber: [''],

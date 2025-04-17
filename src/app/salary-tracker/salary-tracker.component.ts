@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { ApiService } from "../../services/api.service";
 import Swal from "sweetalert2";
 
@@ -25,11 +25,11 @@ export class SalaryTrackerComponent implements OnInit {
     ngOnInit() {
         this.loadData();
         this.cardBoardForm = this.fb.group({
-            name: [''],
-            salary: [''],
-            contact: [''],
+            name: ['', Validators.required],
+            salary: ['', Validators.required],
+            contact: ['', Validators.required],
             address: [''],
-            department: [''],
+            department: ['', Validators.required],
             dateOfJoining: [new Date()]
         });
     }

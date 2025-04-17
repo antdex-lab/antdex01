@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../../services/api.service";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -30,7 +30,7 @@ export class RawLabelComponent implements OnInit {
     elementId: string = '';
 
     labelSizeData: any = null;
-    labelSizeControl = new FormControl("");
+    labelSizeControl = new FormControl("", Validators.required);
     labelSizeDropdown: LabelSizeDropdown;
     filteredOptions: Observable<any[]>;
 
@@ -43,11 +43,10 @@ export class RawLabelComponent implements OnInit {
         this.loadDropdown();
         this.loadData();
         this.labelForm = this.fb.group({
-            rawMaterial: [''],
-            price: [''],
+            price: ['', Validators.required],
             labelSize: this.labelSizeControl,
-            labelCount: [''],
-            pricePerLabel: [''],
+            labelCount: ['', Validators.required],
+            pricePerLabel: ['', Validators.required],
             dateOfEntry: [new Date()]
         });
     }
@@ -123,7 +122,6 @@ export class RawLabelComponent implements OnInit {
     submit() {
         if (this.labelForm.valid) {
             const sendData = {
-                rawMaterial: this.labelForm.value.rawMaterial,
                 price: this.labelForm.value.price,
                 labelSize: this.labelForm.value.labelSize,
                 labelCount: this.labelForm.value.labelCount,
@@ -169,7 +167,6 @@ export class RawLabelComponent implements OnInit {
         console.log(data);
 
         this.labelForm.patchValue({
-            rawMaterial: data.rawMaterial,
             price: data.price,
             labelSize: data.labelSize,
             labelCount: data.labelCount,

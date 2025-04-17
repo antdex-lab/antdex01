@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import { Dropdown, RollDropDown } from '../cutting-plain/cutting-plain.component';
@@ -30,7 +30,7 @@ export class PrintingComponent implements OnInit {
 
     rollDropdown: RollDropDown[];
 
-    printingSizeControl = new FormControl("");
+    printingSizeControl = new FormControl("", Validators.required);
     printingSizeData: any = null;
     printingSizeFilteredOptions: Observable<any[]>;
     inkColorFilteredOptions: Observable<any[]>;
@@ -44,11 +44,9 @@ export class PrintingComponent implements OnInit {
         this.loadData();
         this.loadDropdown();
         this.printingForm = this.fb.group({
-            printingSizePerJumboRoll: [''],
-            printingSizeManual: this.printingSizeControl,
-            printingSize: [''],
-            inkColorManual: this.inkColorControl,
-            inkColor: [''],
+            printingSizePerJumboRoll: ['', Validators.required],
+            printingSize: this.printingSizeControl,
+            inkColor: this.inkColorControl,
             inkUsed: [''],
             dateOfEntry: [new Date()]
         });
@@ -154,15 +152,11 @@ export class PrintingComponent implements OnInit {
                 this.dropdown.options.push(newOption);
             }
 
-            console.log(newOption)
-
-            this.printingForm.get('printingSize')?.setValue(newOption.value)
         } else {
             if (this.printingSizeData !== null) {
                 this.dropdown.options.pop();
                 this.printingSizeFilteredOptions = of(this.dropdown.options)
             }
-            this.printingForm.get('printingSize')?.setValue("")
             this.printingSizeData = null;
         }
     }
@@ -190,19 +184,17 @@ export class PrintingComponent implements OnInit {
                 this.dropdown2.options.push(newOption);
             }
 
-            this.printingForm.get('inkColor')?.setValue(newOption.value)
         } else {
             if (this.inkColorData !== null) {
                 this.dropdown2.options.pop();
                 this.inkColorFilteredOptions = of(this.dropdown2.options)
             }
-            this.printingForm.get('inkColor')?.setValue("")
             this.inkColorData = null;
         }
     }
 
     submit() {
-        if (this.printingForm.valid && this.printingForm.value.printingSizePerJumboRoll && this.printingForm.value.printingSize && this.printingForm.value.inkColor) {
+        if (this.printingForm.valid) {
 
             if (this.printingSizeData !== null) {
                 this.service.updateDropdown('dropdown/category', this.dropdown).subscribe(async (res) => {

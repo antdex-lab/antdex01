@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../../services/api.service";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -28,10 +28,10 @@ export class RawInkComponent implements OnInit {
     ngOnInit() {
         this.loadData();
         this.inkForm = this.fb.group({
-            color: [''],
-            sizeInKg: [''],
-            pricePerKg: [''],
-            totalPrice: [''],
+            color: ['', Validators.required],
+            sizeInKg: ['', Validators.required],
+            pricePerKg: ['', Validators.required],
+            totalPrice: ['', Validators.required],
             dateOfEntry: [new Date()]
         });
     }

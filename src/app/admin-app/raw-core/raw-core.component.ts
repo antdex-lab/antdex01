@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
@@ -14,7 +14,7 @@ import { map, Observable, startWith } from 'rxjs';
 })
 export class RawCoreComponent implements OnInit {
 
-    coreControl = new FormControl("");
+    coreControl = new FormControl("", Validators.required);
 
     coreOptions: string[] = [];
     coreFilteredOptions: Observable<string[]>;
@@ -34,10 +34,10 @@ export class RawCoreComponent implements OnInit {
     ngOnInit() {
         this.loadCores();
         this.coreForm = this.fb.group({
-            noOfCores: [''],
+            noOfCores: ['', Validators.required],
             size: this.coreControl,
-            pricePerCore: [''],
-            totalPrice: [''],
+            pricePerCore: ['', Validators.required],
+            totalPrice: ['', Validators.required],
             dateOfEntry: [new Date()]
         });
     }

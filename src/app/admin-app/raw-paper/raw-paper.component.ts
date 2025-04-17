@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../../services/api.service";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -31,19 +31,19 @@ export class RawPaperComponent implements OnInit {
 
     papers: any[] = [];
     rawPaperForm: FormGroup;
-    sizeControl = new FormControl("");
-    gsmControl = new FormControl("");
+    sizeControl = new FormControl("", Validators.required);
+    gsmControl = new FormControl("", Validators.required);
 
     ngOnInit() {
         this.rawPaperForm = this.fb.group({
             paperSizeMM: this.sizeControl,
-            paperSizeM: [''],
+            paperSizeM: ['', Validators.required],
             gsmOfPaper: this.gsmControl,
-            count: [''],
-            pricePerSQM: [''],
+            count: ['', Validators.required],
+            pricePerSQM: ['', Validators.required],
             paperKG: [''],
             pricePerKG: [''],
-            totalPrice: [''],
+            totalPrice: ['', Validators.required],
             entryDate: [new Date()]
         });
 
