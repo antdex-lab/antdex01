@@ -39,28 +39,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Label Size  DropDown-->
-                <div class="col-sm-6" *ngIf="labelSizeDropdown">
-                    <mat-form-field>
-                        <mat-label>{{ labelSizeDropdown.category }}</mat-label>
-                        <input matInput [formControl]="labelSizeControl" (blur)="manageLabelSize()"
-                            [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.value">
-                                {{ option.label }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-
-                <!-- Label Count -->
-                <div class="col-sm-6">
-                    <mat-form-field class="mb-25">
-                        <mat-label>No. Of Label</mat-label>
-                        <input matInput type="number" placeholder="Ex. 500" formControlName="labelCount">
-                    </mat-form-field>
-                </div>
-
                 <!-- Price per Label -->
                 <div class="col-sm-6">
                     <mat-form-field class="mb-25">
@@ -68,6 +46,97 @@
                         <input matInput type="number" placeholder="Ex. 0.2" formControlName="pricePerLabel">
                     </mat-form-field>
                 </div>
+
+                <!-- Label Size  DropDown-->
+                <!--                <div class="col-sm-6" *ngIf="labelSizeDropdown">-->
+                <!--                    <mat-form-field>-->
+                <!--                        <mat-label>{{ labelSizeDropdown.category }}</mat-label>-->
+                <!--                        <input matInput [formControl]="labelSizeControl" (blur)="manageLabelSize()"-->
+                <!--                            [matAutocomplete]="auto">-->
+                <!--                        <mat-autocomplete #auto="matAutocomplete">-->
+                <!--                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.value">-->
+                <!--                                {{ option.label }}-->
+                <!--                            </mat-option>-->
+                <!--                        </mat-autocomplete>-->
+                <!--                    </mat-form-field>-->
+                <!--                </div>-->
+
+                <!--                <div class="col-sm-6">-->
+                <!--                    <mat-form-field class="mb-25">-->
+                <!--                        <mat-label>No. Of Label</mat-label>-->
+                <!--                        <input matInput type="number" placeholder="Ex. 500" formControlName="labelCount">-->
+                <!--                    </mat-form-field>-->
+                <!--                </div>-->
+
+                <div formArrayName="labels" class="col-sm-12">
+                    <div
+                        class="row mb-15 align-items-center"
+                        *ngFor="let group of labelsArray.controls; let i = index"
+                        [formGroupName]="i"
+                    >
+                        <!-- Label Size Dropdown -->
+                        <div class="col-sm-5" *ngIf="labelSizeDropdown">
+                            <mat-form-field class="w-100">
+                                <mat-label>{{ labelSizeDropdown.category }}</mat-label>
+                                <input
+                                    matInput
+                                    formControlName="labelSize"
+                                    [matAutocomplete]="auto"
+                                    (blur)="manageLabelSize(i)"
+                                />
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option
+                                        *ngFor="let option of filteredOptions | async"
+                                        [value]="option.value"
+                                    >
+                                        {{ option.label }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Label Count -->
+                        <div class="col-sm-5">
+                            <mat-form-field class="w-100">
+                                <mat-label>No. of Labels</mat-label>
+                                <input
+                                    matInput
+                                    type="number"
+                                    placeholder="Ex. 500"
+                                    formControlName="labelCount"
+                                />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Remove Button -->
+                        <div class="col-sm-2 text-end">
+                            <button
+                                mat-icon-button
+                                type="button"
+                                color="warn"
+                                (click)="removeLabel(i)"
+                                *ngIf="labelsArray.length > 1"
+                            >
+                                <mat-icon>remove_circle</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Add Label Button -->
+                    <div class="col-sm-12 text-end mb-15">
+                        <button
+                            mat-stroked-button
+                            color="primary"
+                            type="button"
+                            (click)="addLabel()"
+                            [disabled]="labelsArray.length >= 8"
+                        >
+                            <mat-icon>add_circle</mat-icon>
+                            Add Label
+                        </button>
+                    </div>
+                </div>
+
 
                 <!-- Entry Date (auto-select today but also selectable) -->
                 <div class="col-sm-6">

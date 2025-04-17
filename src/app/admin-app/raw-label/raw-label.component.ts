@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../../services/api.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -29,7 +29,7 @@ export class RawLabelComponent implements OnInit {
     isEdit: boolean = false;
     elementId: string = '';
 
-    labelSizeData: any = null;
+    labelSizeData: any[] = [];
     labelSizeControl = new FormControl("", Validators.required);
     labelSizeDropdown: LabelSizeDropdown;
     filteredOptions: Observable<any[]>;
@@ -44,12 +44,35 @@ export class RawLabelComponent implements OnInit {
         this.loadData();
         this.labelForm = this.fb.group({
             price: ['', Validators.required],
-            labelSize: this.labelSizeControl,
-            labelCount: ['', Validators.required],
+            labels: this.fb.array([this.createLabelGroup()]),
             pricePerLabel: ['', Validators.required],
             dateOfEntry: [new Date()]
         });
     }
+
+    get labelsArray(): FormArray {
+        return this.labelForm.get('labels') as FormArray;
+    }
+
+    createLabelGroup(): FormGroup {
+        return this.fb.group({
+            labelSize: this.labelSizeControl,
+            labelCount: ['', Validators.required]
+        });
+    }
+
+    addLabel() {
+        if (this.labelsArray.length < 8) {
+            this.labelsArray.push(this.createLabelGroup());
+        } else {
+            Swal.fire('Limit Reached', 'You can only add up to 8 labels.', 'warning');
+        }
+    }
+
+    removeLabel(index: number) {
+        this.labelsArray.removeAt(index);
+    }
+
 
     loadDropdown() {
         LoadingSpinnerComponent.show();
@@ -68,9 +91,6 @@ export class RawLabelComponent implements OnInit {
 
     private _filter(value: string): any[] {
         const filterValue = value.toLowerCase();
-        if (filterValue === "") {
-            this.manageLabelSize();
-        }
         return this.labelSizeDropdown.options.filter(option => option.label.toLowerCase().includes(filterValue));
     }
 
@@ -88,16 +108,14 @@ export class RawLabelComponent implements OnInit {
         return { ...data, value: formattedValue };
     }
 
-    manageLabelSize() {
-        if (this.labelSizeControl.value && this.labelSizeControl.value !== "") {
-            if (this.labelSizeData !== null) {
-                this.labelSizeDropdown.options.pop();
-                this.filteredOptions = of(this.labelSizeDropdown.options)
-            }
+    manageLabelSize(index : number) {
+
+        console.log(this.labelsArray.value[index].labelSize)
+        if (this.labelsArray.value[index].labelSize && this.labelsArray.value[index].labelSize !== "") {
 
             const optionData = {
                 label: this.labelSizeControl.value,
-                value: this.labelSizeControl.value.toLowerCase().trim()
+                value: this.labelsArray.value[index].labelSize.toLowerCase().trim()
             }
 
             const newOption = this.convertValues(optionData);
@@ -107,24 +125,40 @@ export class RawLabelComponent implements OnInit {
             );
 
             if (!exists) {
-                this.labelSizeData = newOption;
+                this.labelSizeData.push(newOption);
                 this.labelSizeDropdown.options.push(newOption);
             }
-        } else {
-            if (this.labelSizeData !== null) {
-                this.labelSizeDropdown.options.pop();
-                this.filteredOptions = of(this.labelSizeDropdown.options)
-            }
-            this.labelSizeData = null;
         }
+
+        if (this.labelSizeData.length > 0) {
+            this.labelSizeData.map((option : any) => {
+                console.log(option);
+                const findIndex = this.labelsArray.value.findIndex((item :any) => item.labelSize.toLowerCase().trim() === option.label.toLowerCase());
+                console.log('findIndex', findIndex);
+                if(findIndex === -1){
+                    const findLabelDropdownIndex = this.labelSizeDropdown.options.findIndex((item : any) => item.value.toLowerCase() === option.value.toLowerCase());
+                    console.log("findLabelDropdownIndex", findLabelDropdownIndex);
+                    if (findLabelDropdownIndex !== -1) {
+                        this.labelSizeDropdown.options.splice(findLabelDropdownIndex, 1);
+                        this.filteredOptions = this.labelSizeControl.valueChanges.pipe(
+                            startWith(''),
+                            map(value => this._filter(value || ''))
+                        );
+                    }
+                }
+            })
+        }
+
     }
 
     submit() {
         if (this.labelForm.valid) {
+
+            const formValue = this.labelForm.value;
+
             const sendData = {
                 price: this.labelForm.value.price,
-                labelSize: this.labelForm.value.labelSize,
-                labelCount: this.labelForm.value.labelCount,
+                labels: formValue.labels,
                 pricePerLabel: this.labelForm.value.pricePerLabel,
                 dateOfEntry: this.labelForm.value.dateOfEntry
             };
@@ -132,7 +166,7 @@ export class RawLabelComponent implements OnInit {
             if (this.labelSizeData !== null) {
                 this.service.updateDropdown('dropdown/category', this.labelSizeDropdown).subscribe(async (res) => {
                     if (res && res.statusCode === 200) {
-                        console.log("DROPDOWN UPDATED")
+                        this.loadDropdown();
                     }
                 })
             }
@@ -144,6 +178,7 @@ export class RawLabelComponent implements OnInit {
                         LoadingSpinnerComponent.hide();
                         this.loadData();
                         this.labelForm.reset();
+                        this.labelForm.setControl('labels', this.fb.array([this.createLabelGroup()]));
                     }
                 });
             } else {
@@ -154,6 +189,7 @@ export class RawLabelComponent implements OnInit {
                         this.loadData();
                         this.isEdit = false;
                         this.labelForm.reset();
+                        this.labelForm.setControl('labels', this.fb.array([this.createLabelGroup()]));
                     }
                 });
             }
@@ -164,15 +200,27 @@ export class RawLabelComponent implements OnInit {
         this.isEdit = true;
         this.elementId = data._id;
 
-        console.log(data);
+        console.log("edit",data)
+
+        // const labelGroups = data.labels.map((label : any) => this.fb.group({
+        //     labelSize: [label.labelSize, Validators.required],
+        //     labelCount: [label.labelCount, Validators.required]
+        // }));
+
+        const labelGroups = data.labels.map((label: any) => {
+            return this.fb.group({
+                labelSize: [label.labelSize, Validators.required],
+                labelCount: [label.labelCount, Validators.required]
+            });
+        });
 
         this.labelForm.patchValue({
             price: data.price,
-            labelSize: data.labelSize,
-            labelCount: data.labelCount,
             pricePerLabel: data.pricePerLabel,
             dateOfEntry: new Date(data.dateOfEntry)
         });
+
+        this.labelForm.setControl('labels', this.fb.array(labelGroups));
     }
 
     deleteData(id: string) {

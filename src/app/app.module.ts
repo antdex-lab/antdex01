@@ -62,6 +62,7 @@ import { CustomizerSettingsComponent } from "./customizer-settings/customizer-se
 import {OldStockComponent} from "./admin-app/old-stock/old-stock.component";
 import {LoadingSpinnerComponent} from "./common/loading-spinner/loading-spinner.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatIcon} from "@angular/material/icon";
 
 registerLocaleData(localeEnGb);
 
@@ -133,6 +134,7 @@ registerLocaleData(localeEnGb);
         MaterialModule,
         CustomizerSettingsComponent,
         MatProgressSpinnerModule,
+        MatIcon,
     ],
     providers: [provideClientHydration(),
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
