@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from "../../../services/api.service";
 import Swal from "sweetalert2";
-import { Dropdown } from '../cutting-plain/cutting-plain.component';
+import { Dropdown, RollDropDown } from '../cutting-plain/cutting-plain.component';
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
@@ -32,6 +32,10 @@ export class PackingComponent implements OnInit {
     boxSizeDropdown: Dropdown;
     boxFilteredOptions: Observable<any[]>;
 
+    printedRollsControl = new FormControl("", Validators.required);
+    printedRollsFilteredOptions: Observable<any[]>;
+    printedRollsDropdown: RollDropDown[];
+
     constructor(
         private service: ApiService,
         private fb: FormBuilder
@@ -39,10 +43,26 @@ export class PackingComponent implements OnInit {
 
     ngOnInit() {
         this.loadData();
+        this.loadRollsDropdown();
         this.loadDropdown();
         this.loadBoxDropdown();
         this.initializeForm();
         this.setupFormListeners();
+    }
+
+    loadRollsDropdown() {
+        LoadingSpinnerComponent.show();
+        this.service.getData('dropdown/cutting-printed-rolls').subscribe((res) => {
+            if (res.statusCode === 200) {
+                this.printedRollsDropdown = res.data;
+                LoadingSpinnerComponent.hide();
+
+                this.printedRollsFilteredOptions = this.printedRollsControl.valueChanges.pipe(
+                    startWith(''),
+                    map(value => this._filterRolls(value || ''))
+                );
+            }
+        })
     }
 
     loadDropdown() {
@@ -77,10 +97,19 @@ export class PackingComponent implements OnInit {
         })
     }
 
+    private _filterRolls(value: string): any[] {
+        const filterValue = value.toLowerCase();
+        // if (filterValue === "") {
+        //     this.printedRollsFilteredOptions = of(this.printedRollsDropdown.options)
+        //     console.log(this.printedRollsDropdown);
+        // }
+        return this.printedRollsDropdown.filter(option => option.label.toLowerCase().includes(filterValue));
+    }
+
     private _filterBox(value: string): any[] {
         const filterValue = value.toLowerCase();
         if (filterValue === "") {
-            this.manageLabelSize();
+            this.manageBoxSize();
         }
         return this.boxSizeDropdown.options.filter(option => option.label.toLowerCase().includes(filterValue));
     }
@@ -163,7 +192,7 @@ export class PackingComponent implements OnInit {
 
     initializeForm() {
         this.packingForm = this.fb.group({
-            labelPerRoll: ['', Validators.required],
+            labelPerRoll: this.printedRollsControl,
             labelSize: this.labelSizeControl,
             boxPacked: [''],
             boxPackedPerCartoon: [''],

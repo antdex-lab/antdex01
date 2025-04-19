@@ -66,9 +66,6 @@ export class AuthService {
         const isUser1 = localStorage.getItem('isAuthenticatedUser1') === 'true';
         const isUser2 = localStorage.getItem('isAuthenticatedUser2') === 'true';
 
-
-
-
         this.isAuthenticatedAdmin.next(isAdmin);
         this.isAuthenticatedUser1.next(isUser1);
         this.isAuthenticatedUser2.next(isUser2);

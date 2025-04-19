@@ -44,9 +44,9 @@ export class CuttingPlainComponent implements OnInit {
 
     coreSizeDropdown: any[] = [];
 
-    coreSizeCtrl1 = new FormControl('', Validators.required);
-    coreSizeCtrl2 = new FormControl('', Validators.required);
-    coreSizeCtrl3 = new FormControl('', Validators.required);
+    coreSizeCtrl1 = new FormControl('');
+    coreSizeCtrl2 = new FormControl('');
+    coreSizeCtrl3 = new FormControl('');
 
     coreSizeFilteredOptions: Observable<any[]>;
     coreSizeFilteredOptions2: Observable<any[]>;
@@ -62,15 +62,15 @@ export class CuttingPlainComponent implements OnInit {
         this.loadDropdown();
         this.cuttingPlainForm = this.fb.group({
             cuttingSizeFromJumboRoll: this.ecgRollControl,
-            countForRoll: ['', Validators.required],
+            countForRoll: [''],
             inkUsed: [''],
-            corePerRoll1: ['', Validators.required],
+            corePerRoll1: [''],
             coreSize1: this.coreSizeCtrl1,
-            corePerRoll2: ['', Validators.required],
+            corePerRoll2: [''],
             coreSize2: this.coreSizeCtrl2,
-            corePerRoll3: ['', Validators.required],
+            corePerRoll3: [''],
             coreSize3: this.coreSizeCtrl3,
-            totalRoll: ['', Validators.required],
+            totalRoll: [''],
             cuttingDateOfEntry: [new Date()]
         });
     }
