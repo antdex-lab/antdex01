@@ -73,6 +73,7 @@
                         class="row mb-15 align-items-center"
                         *ngFor="let group of labelsArray.controls; let i = index"
                         [formGroupName]="i"
+
                     >
                         <!-- Label Size Dropdown -->
                         <div class="col-sm-5" *ngIf="labelSizeDropdown">
@@ -104,6 +105,7 @@
                                     type="number"
                                     placeholder="Ex. 500"
                                     formControlName="labelCount"
+                                    (change)="calculatePricePerLabel()"
                                 />
                             </mat-form-field>
                         </div>

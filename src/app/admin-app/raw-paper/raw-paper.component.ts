@@ -191,15 +191,11 @@ export class RawPaperComponent implements OnInit {
     }
 
     totalPrice() {
-        const { paperSizeMM, paperSizeM, pricePerSQM, paperKG, pricePerKG } = this.rawPaperForm.value;
+        const { paperSizeMM, paperSizeM, pricePerSQM, paperKG, pricePerKG, count } = this.rawPaperForm.value;
 
-        // if (paperSizeMM) {
-        //     this.rawPaperForm.patchValue({ paperSizeM: (Number(paperSizeMM) / 1000).toFixed(2) });
-        // }
-
-        if (paperSizeMM && paperSizeM && pricePerSQM) {
-            const total = (Number(paperSizeMM) / 1000) * Number(paperSizeM) * Number(pricePerSQM);
-            // const total = (Number(paperSizeMM) / 1000) * Number(paperSizeM) * Number(count) * Number(pricePerSQM);
+        if (paperSizeMM && paperSizeM && pricePerSQM && count) {
+            // const total = Number(paperSizeMM) * Number(paperSizeM) / 1000 * Number(count) * Number(pricePerSQM);
+            const total = (Number(paperSizeMM) / 1000) * Number(paperSizeM) * Number(count) * Number(pricePerSQM);
             this.rawPaperForm.patchValue({ totalPrice: total.toFixed(2) });
         }
 

@@ -200,6 +200,7 @@ export class CuttingPrintedComponent implements OnInit {
                     if (res) {
                         LoadingSpinnerComponent.hide();
                         this.loadData();
+                        this.loadDropdown();
                         this.printingForm.reset();
                     }
                 });
@@ -209,6 +210,7 @@ export class CuttingPrintedComponent implements OnInit {
                     if (res) {
                         LoadingSpinnerComponent.hide();
                         this.loadData();
+                        this.loadDropdown();
                         this.isEdit = false;
                         this.printingForm.reset();
                     }

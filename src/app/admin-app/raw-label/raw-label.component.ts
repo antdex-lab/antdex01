@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from "../../../services/api.service";
+import {Component, OnInit} from '@angular/core';
+import {ApiService} from "../../../services/api.service";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
-import { LoadingSpinnerComponent } from "../../common/loading-spinner/loading-spinner.component";
-import { map, Observable, of, startWith } from 'rxjs';
+import {saveAs} from "file-saver";
+import {LoadingSpinnerComponent} from "../../common/loading-spinner/loading-spinner.component";
+import {map, Observable, startWith} from 'rxjs';
 
 interface LabelSizeDropdown {
     category: string;
@@ -110,7 +110,6 @@ export class RawLabelComponent implements OnInit {
 
     manageLabelSize(index : number) {
 
-        console.log(this.labelsArray.value[index].labelSize)
         if (this.labelsArray.value[index].labelSize && this.labelsArray.value[index].labelSize !== "") {
 
             const optionData = {
@@ -265,5 +264,19 @@ export class RawLabelComponent implements OnInit {
         const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
         const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
         saveAs(data, 'Raw_Label_Data.xlsx');
+    }
+
+    calculatePricePerLabel() {
+        const {price, labels} = this.labelForm.value;
+
+        let count = 0;
+        labels.forEach((label: any) => {
+            count += Number(label.labelCount);
+        })
+
+        if (price){
+            this.labelForm.patchValue({pricePerLabel: Number(price)/ Number(count)});
+        }
+
     }
 }
