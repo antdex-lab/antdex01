@@ -203,6 +203,7 @@ export class CuttingPlainComponent implements OnInit {
                     if (res) {
                         LoadingSpinnerComponent.hide();
                         this.loadData();
+                        this.loadDropdown();
                         this.cuttingPlainForm.reset();
                     }
                 });
@@ -212,6 +213,7 @@ export class CuttingPlainComponent implements OnInit {
                     if (res) {
                         LoadingSpinnerComponent.hide();
                         this.loadData();
+                        this.loadDropdown();
                         this.isEdit = false;
                         this.cuttingPlainForm.reset();
                     }
