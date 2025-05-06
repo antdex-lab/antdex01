@@ -195,12 +195,30 @@
 
                     <ng-container matColumnDef="labelSize">
                         <th mat-header-cell *matHeaderCellDef> Label Size </th>
-                        <td mat-cell *matCellDef="let element"> {{element.labelSize}} </td>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.labels.length > 0">
+                                <span *ngFor="let label of element.labels; let i = index;">{{ label.labelSize }} <span *ngIf="i !== element.labels.length - 1">, &nbsp;</span>  </span>
+                            </div>
+
+                            <div *ngIf="element.labels.length === 0">
+                                {{ element.labelSize }}
+                            </div>
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="labelCount">
                         <th mat-header-cell *matHeaderCellDef> Label Count </th>
-                        <td mat-cell *matCellDef="let element"> {{element.labelCount}} </td>
+                        <td mat-cell *matCellDef="let element">
+
+                            <div *ngIf="element.labels.length > 0">
+                                <span *ngFor="let label of element.labels; let i = index;">{{ label.labelCount }} <span *ngIf="i !== element.labels.length - 1">, &nbsp;</span> </span>
+                            </div>
+
+                            <div *ngIf="element.labels.length === 0">
+                                {{ element.labelCount }}
+                            </div>
+
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="pricePerLabel">
